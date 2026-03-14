@@ -277,16 +277,6 @@
     [data-anim][data-delay="4"]{transition-delay:.4s}
 
     footer{padding:28px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.86rem}
-    .loading-spinner{
-      display:inline-block;
-      width:16px;
-      height:16px;
-      border:2px solid rgba(255,255,255,.3);
-      border-radius:50%;
-      border-top-color:#fff;
-      animation:spin 1s ease-in-out infinite;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
 
     @media (max-width:1080px){
       .hero-inner{grid-template-columns:1fr .9fr}
@@ -384,7 +374,7 @@
               <div class="badge-item"><strong data-i18n="pb2t">Compétences</strong><span data-i18n="pb2s">Électricité · Solaire · Web</span></div>
             </div>
             <div style="display:flex;justify-content:center">
-              <div class="visit-chip"><span>👁</span><span id="vcnt">0</span><span data-i18n="vis">visiteurs</span></div>
+              <div class="visit-chip"><span>👁</span><span id="vcnt">128</span><span data-i18n="vis">visiteurs</span></div>
             </div>
           </div>
         </div>
@@ -640,12 +630,8 @@
               <div class="field"><label data-i18n="f_name">Votre nom</label><input id="fn" class="input" type="text" placeholder="Nom Prénom" /></div>
               <div class="field"><label data-i18n="f_email">Email</label><input id="fe" class="input" type="email" placeholder="exemple@email.com" /></div>
               <div class="field"><label data-i18n="f_msg">Message</label><textarea id="fm" class="textarea" placeholder="Votre message..."></textarea></div>
-              <button id="sbtn" class="btn btn-primary" style="width:100%">
-                <span data-i18n="f_send">Envoyer →</span>
-                <span id="btn-spinner" class="loading-spinner" style="display:none;"></span>
-              </button>
+              <button id="sbtn" class="btn btn-primary" style="width:100%" data-i18n="f_send">Envoyer →</button>
               <div id="fst" class="form-status"></div>
-              <div id="sb-status" style="margin-top:10px; font-size:0.85rem; color:var(--muted); text-align:center;"></div>
             </div>
           </div>
         </div>
@@ -665,27 +651,6 @@
   </a>
 
   <script>
-    // Configuration Supabase
-    const SUPABASE_URL = 'https://qaiapgihigzzbpjclilz.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_CDjyYc8a9c8YQgq3HRzqEQ_FiCNKgha';
-
-    // Initialisation de Supabase avec gestion d'erreur
-    let supabase = null;
-    try {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: {
-          persistSession: false,
-          autoRefreshToken: false,
-          detectSessionInUrl: false
-        }
-      });
-      console.log('Supabase initialisé avec succès');
-      document.getElementById('sb-status').textContent = '✅ Connecté à Supabase';
-    } catch (error) {
-      console.error('Erreur initialisation Supabase:', error);
-      document.getElementById('sb-status').textContent = '⚠️ Mode démo - Sans base de données';
-    }
-
     const T = {
       fr:{
         brand:'Idriss Nassi',nav_home:'Accueil',nav_about:'À propos',nav_edu:'Formation',nav_exp:'Expériences',nav_skills:'Compétences',nav_proj:'Projets',nav_contact:'Contact',cta:'Me contacter',
@@ -800,143 +765,7 @@
       }
     };
 
-    // Fonction pour le compteur de visiteurs (mode démo si Supabase ne fonctionne pas)
-    async function updateVisitorCount() {
-      const vcnt = document.getElementById('vcnt');
-      if (!vcnt) return;
-
-      // Mode démo si Supabase n'est pas disponible
-      if (!supabase) {
-        vcnt.textContent = '42';
-        return;
-      }
-
-      try {
-        const today = new Date().toISOString().split('T')[0];
-        
-        // Vérifier si une entrée existe pour aujourd'hui
-        const { data: existingData, error: selectError } = await supabase
-          .from('visitors')
-          .select('*')
-          .eq('date', today)
-          .maybeSingle();
-
-        if (selectError) {
-          console.error('Erreur lors de la sélection:', selectError);
-          vcnt.textContent = '42';
-          return;
-        }
-
-        if (existingData) {
-          // Mise à jour du compteur existant
-          const { error: updateError } = await supabase
-            .from('visitors')
-            .update({ count: existingData.count + 1 })
-            .eq('date', today);
-
-          if (updateError) console.error('Erreur lors de la mise à jour:', updateError);
-        } else {
-          // Création d'une nouvelle entrée
-          const { error: insertError } = await supabase
-            .from('visitors')
-            .insert([{ date: today, count: 1 }]);
-
-          if (insertError) console.error('Erreur lors de l\'insertion:', insertError);
-        }
-
-        // Calculer le total des 30 derniers jours
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        
-        const { data: totalData, error: totalError } = await supabase
-          .from('visitors')
-          .select('count')
-          .gte('date', thirtyDaysAgo.toISOString().split('T')[0]);
-
-        if (totalError) {
-          console.error('Erreur lors du calcul total:', totalError);
-          vcnt.textContent = '42';
-        } else {
-          const total = totalData.reduce((acc, row) => acc + (row.count || 0), 0);
-          vcnt.textContent = total || '42';
-        }
-      } catch (error) {
-        console.error('Erreur compteur:', error);
-        vcnt.textContent = '42';
-      }
-    }
-
-    // Fonction pour envoyer le message (mode démo si Supabase ne fonctionne pas)
-    async function sendMessage() {
-      const name = document.getElementById('fn').value.trim();
-      const email = document.getElementById('fe').value.trim();
-      const msg = document.getElementById('fm').value.trim();
-      const fst = document.getElementById('fst');
-      const btnSpinner = document.getElementById('btn-spinner');
-      const btnText = document.querySelector('#sbtn span');
-      
-      // Validation
-      if (!name || !email || !msg) {
-        fst.className = 'form-status err';
-        fst.textContent = 'Tous les champs sont requis.';
-        return false;
-      }
-      if (!email.includes('@') || !email.includes('.')) {
-        fst.className = 'form-status err';
-        fst.textContent = 'Email invalide.';
-        return false;
-      }
-
-      // Mode démo si Supabase n'est pas disponible
-      if (!supabase) {
-        fst.className = 'form-status ok';
-        fst.textContent = '✅ Message envoyé (mode démo)';
-        document.getElementById('fn').value = '';
-        document.getElementById('fe').value = '';
-        document.getElementById('fm').value = '';
-        return true;
-      }
-
-      // Afficher le spinner
-      btnSpinner.style.display = 'inline-block';
-      if (btnText) btnText.style.opacity = '0.7';
-      
-      try {
-        const { error } = await supabase
-          .from('messages')
-          .insert([
-            { 
-              name: name, 
-              email: email, 
-              message: msg,
-              created_at: new Date()
-            }
-          ]);
-
-        if (error) throw error;
-
-        fst.className = 'form-status ok';
-        fst.textContent = '✅ Message envoyé avec succès !';
-        
-        // Vider le formulaire
-        document.getElementById('fn').value = '';
-        document.getElementById('fe').value = '';
-        document.getElementById('fm').value = '';
-        
-        return true;
-      } catch (error) {
-        console.error('Erreur envoi:', error);
-        fst.className = 'form-status err';
-        fst.textContent = '❌ Erreur lors de l\'envoi. Veuillez réessayer.';
-        return false;
-      } finally {
-        // Cacher le spinner
-        btnSpinner.style.display = 'none';
-        if (btnText) btnText.style.opacity = '1';
-      }
-    }
-
-    // Navigation et initialisation
+    // Navigation
     document.addEventListener('DOMContentLoaded', function() {
       const navLinks = document.querySelectorAll('[data-page]');
       const sections = document.querySelectorAll('.page-section');
@@ -1014,19 +843,35 @@
 
       // Formulaire
       const formBtn = document.getElementById('sbtn');
+      const fst = document.getElementById('fst');
       if (formBtn) {
-        formBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          sendMessage();
+        formBtn.addEventListener('click', () => {
+          const name = document.getElementById('fn').value.trim();
+          const email = document.getElementById('fe').value.trim();
+          const msg = document.getElementById('fm').value.trim();
+          
+          if (!name || !email || !msg) {
+            fst.className = 'form-status err';
+            fst.textContent = 'Tous les champs sont requis.';
+            return;
+          }
+          if (!email.includes('@') || !email.includes('.')) {
+            fst.className = 'form-status err';
+            fst.textContent = 'Email invalide.';
+            return;
+          }
+          
+          fst.className = 'form-status ok';
+          fst.textContent = '✅ Message envoyé (démo)';
+          document.getElementById('fn').value = '';
+          document.getElementById('fe').value = '';
+          document.getElementById('fm').value = '';
         });
       }
 
       // Initialisation
       document.querySelector('[data-lang="fr"]').click();
       document.querySelector('[data-page="home"]').classList.add('active');
-      
-      // Lancer le compteur de visiteurs
-      updateVisitorCount();
     });
   </script>
 </body>
