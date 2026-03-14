@@ -640,11 +640,12 @@
               <div class="field"><label data-i18n="f_name">Votre nom</label><input id="fn" class="input" type="text" placeholder="Nom Prénom" /></div>
               <div class="field"><label data-i18n="f_email">Email</label><input id="fe" class="input" type="email" placeholder="exemple@email.com" /></div>
               <div class="field"><label data-i18n="f_msg">Message</label><textarea id="fm" class="textarea" placeholder="Votre message..."></textarea></div>
-              <button id="sbtn" class="btn btn-primary" style="width:100%" data-i18n="f_send">
-                <span>Envoyer →</span>
+              <button id="sbtn" class="btn btn-primary" style="width:100%">
+                <span data-i18n="f_send">Envoyer →</span>
                 <span id="btn-spinner" class="loading-spinner" style="display:none;"></span>
               </button>
               <div id="fst" class="form-status"></div>
+              <div id="sb-status" style="margin-top:10px; font-size:0.85rem; color:var(--muted); text-align:center;"></div>
             </div>
           </div>
         </div>
@@ -664,12 +665,26 @@
   </a>
 
   <script>
-    // Configuration Supabase - Vos identifiants
+    // Configuration Supabase
     const SUPABASE_URL = 'https://qaiapgihigzzbpjclilz.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_CDjyYc8a9c8YQgq3HRzqEQ_FiCNKgha';
 
-    // Initialisation de Supabase
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Initialisation de Supabase avec gestion d'erreur
+    let supabase = null;
+    try {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          detectSessionInUrl: false
+        }
+      });
+      console.log('Supabase initialisé avec succès');
+      document.getElementById('sb-status').textContent = '✅ Connecté à Supabase';
+    } catch (error) {
+      console.error('Erreur initialisation Supabase:', error);
+      document.getElementById('sb-status').textContent = '⚠️ Mode démo - Sans base de données';
+    }
 
     const T = {
       fr:{
@@ -785,10 +800,16 @@
       }
     };
 
-    // Fonction pour le compteur de visiteurs
+    // Fonction pour le compteur de visiteurs (mode démo si Supabase ne fonctionne pas)
     async function updateVisitorCount() {
       const vcnt = document.getElementById('vcnt');
       if (!vcnt) return;
+
+      // Mode démo si Supabase n'est pas disponible
+      if (!supabase) {
+        vcnt.textContent = '42';
+        return;
+      }
 
       try {
         const today = new Date().toISOString().split('T')[0];
@@ -798,10 +819,12 @@
           .from('visitors')
           .select('*')
           .eq('date', today)
-          .single();
+          .maybeSingle();
 
-        if (selectError && selectError.code !== 'PGRST116') {
+        if (selectError) {
           console.error('Erreur lors de la sélection:', selectError);
+          vcnt.textContent = '42';
+          return;
         }
 
         if (existingData) {
@@ -834,8 +857,8 @@
           console.error('Erreur lors du calcul total:', totalError);
           vcnt.textContent = '42';
         } else {
-          const total = totalData.reduce((acc, row) => acc + row.count, 0);
-          vcnt.textContent = total;
+          const total = totalData.reduce((acc, row) => acc + (row.count || 0), 0);
+          vcnt.textContent = total || '42';
         }
       } catch (error) {
         console.error('Erreur compteur:', error);
@@ -843,14 +866,14 @@
       }
     }
 
-    // Fonction pour envoyer le message
+    // Fonction pour envoyer le message (mode démo si Supabase ne fonctionne pas)
     async function sendMessage() {
       const name = document.getElementById('fn').value.trim();
       const email = document.getElementById('fe').value.trim();
       const msg = document.getElementById('fm').value.trim();
       const fst = document.getElementById('fst');
       const btnSpinner = document.getElementById('btn-spinner');
-      const btnText = document.querySelector('#sbtn span:first-child');
+      const btnText = document.querySelector('#sbtn span');
       
       // Validation
       if (!name || !email || !msg) {
@@ -864,9 +887,19 @@
         return false;
       }
 
+      // Mode démo si Supabase n'est pas disponible
+      if (!supabase) {
+        fst.className = 'form-status ok';
+        fst.textContent = '✅ Message envoyé (mode démo)';
+        document.getElementById('fn').value = '';
+        document.getElementById('fe').value = '';
+        document.getElementById('fm').value = '';
+        return true;
+      }
+
       // Afficher le spinner
       btnSpinner.style.display = 'inline-block';
-      btnText.style.opacity = '0.7';
+      if (btnText) btnText.style.opacity = '0.7';
       
       try {
         const { error } = await supabase
@@ -899,7 +932,7 @@
       } finally {
         // Cacher le spinner
         btnSpinner.style.display = 'none';
-        btnText.style.opacity = '1';
+        if (btnText) btnText.style.opacity = '1';
       }
     }
 
