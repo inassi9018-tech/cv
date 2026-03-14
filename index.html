@@ -4,248 +4,333 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Idriss Nassi — Portfolio Professionnel</title>
-  <meta name="description" content="Portfolio professionnel de Idriss Nassi — Énergie, matériaux, électricité, solaire et développement web." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Portfolio professionnel d'Idriss Nassi — énergie, électricité, solaire, matériaux et développement web au Maroc." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root{
-      --bg:#07111f;
-      --bg2:#0b1830;
-      --card:#12264a;
-      --line:rgba(255,255,255,.09);
-      --text:#eef4ff;
-      --muted:#a9b8d6;
-      --primary:#00c2ff;
-      --secondary:#7c3aed;
-      --accent:#10b981;
-      --whatsapp:#25D366;
-      --shadow:0 20px 50px rgba(0,0,0,.35);
-      --radius:24px;
-      --container:1220px;
+      --bg:#06101f;
+      --bg-2:#0c1830;
+      --panel:rgba(255,255,255,.05);
+      --panel-2:rgba(255,255,255,.08);
+      --text:#eaf2ff;
+      --muted:#8ea0c2;
+      --line:rgba(255,255,255,.1);
+      --cyan:#00d4ff;
+      --violet:#8b5cf6;
+      --emerald:#10e8a0;
+      --amber:#f59e0b;
+      --rose:#f43f5e;
+      --shadow:0 24px 70px rgba(0,0,0,.35);
+      --grad-1:linear-gradient(135deg,var(--cyan),var(--violet));
+      --grad-2:linear-gradient(135deg,var(--emerald),var(--cyan));
+      --grad-3:linear-gradient(135deg,var(--violet),var(--rose));
+      --radius:20px;
+      --max:1280px;
+      --ff:'Syne',sans-serif;
+      --mono:'Space Mono',monospace;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
+    *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{
-      font-family:'Inter',sans-serif;
-      color:var(--text);
+      font-family:var(--ff);
       background:
-        radial-gradient(circle at top left, rgba(0,194,255,.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(124,58,237,.14), transparent 24%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 45%, #081324 100%);
-      line-height:1.65;
-      overflow-x:hidden;
+        radial-gradient(circle at top left, rgba(0,212,255,.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(139,92,246,.10), transparent 28%),
+        linear-gradient(180deg, #07111f 0%, #040914 100%);
+      color:var(--text);
       min-height:100vh;
-      display:flex;
-      flex-direction:column;
+      overflow-x:hidden;
     }
-    body.lang-ar{font-family:'Cairo',sans-serif}
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
-    button{font:inherit}
-    .container{width:min(var(--container), calc(100% - 32px));margin:auto}
+    body.lang-ar{font-family:'Cairo',sans-serif;direction:rtl}
+    a{text-decoration:none;color:inherit;cursor:pointer}
+    img{display:block;max-width:100%}
+    button,input,textarea{font-family:inherit}
+    ::selection{background:rgba(0,212,255,.22);color:#fff}
 
-    .topbar{
-      position:sticky;top:0;z-index:100;
-      background:rgba(7,17,31,.9);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--line);
+    #bg-grid{
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image:radial-gradient(circle at center, black 35%, transparent 88%);
     }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:16px 0;gap:16px;flex-wrap:wrap;
+
+    .blob,.blob-2{
+      position:fixed;filter:blur(60px);border-radius:50%;pointer-events:none;z-index:0;opacity:.35;
+      animation:floatBlob 16s ease-in-out infinite;
     }
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.4px}
+    .blob{width:260px;height:260px;background:rgba(0,212,255,.14);left:-60px;top:80px}
+    .blob-2{width:300px;height:300px;background:rgba(139,92,246,.13);right:-80px;bottom:30px;animation-delay:-6s}
+    @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-25px) scale(1.05)}}
+
+    .container{width:min(var(--max), calc(100% - 40px));margin:auto;position:relative;z-index:2}
+    .glass{background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(16px);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+    .topbar{position:fixed;inset:0 0 auto 0;z-index:600;transition:all .3s ease}
+    .topbar.scrolled{background:rgba(6,16,31,.84);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;flex-wrap:wrap}
+    .brand,.nav-link{cursor:pointer}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
     .logo{
-      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      box-shadow:0 14px 30px rgba(0,194,255,.22);
-      font-family:'Orbitron',sans-serif;font-weight:800;
-      animation:float 4s ease-in-out infinite;
+      width:44px;height:44px;border-radius:14px;background:var(--grad-1);
+      display:grid;place-items:center;font-family:var(--mono);font-size:.85rem;
+      box-shadow:0 0 26px rgba(0,212,255,.28);animation:pulseLogo 4.5s ease-in-out infinite;
     }
-    .nav-links{display:flex;gap:20px;flex-wrap:wrap;color:var(--muted)}
-    .nav-links a{position:relative;transition:.25s ease;cursor:pointer}
-    .nav-links a:hover,.nav-links a.active-link{color:#fff}
-    .nav-links a.active-link::after{
-      content:'';position:absolute;left:0;bottom:-8px;width:100%;height:2px;
-      background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:999px;
+    @keyframes pulseLogo{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(3deg)}}
+    .brand span{font-size:1rem}
+    .nav-links{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+    .nav-links a,.lang-btn{
+      font-size:.88rem;font-weight:600;color:var(--muted);transition:.25s;position:relative
     }
-    .nav-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-    .lang-switch{display:flex;gap:8px;flex-wrap:wrap}
+    .nav-links a::after{
+      content:'';position:absolute;left:0;bottom:-5px;width:0;height:2px;border-radius:999px;background:var(--grad-1);transition:width .25s ease
+    }
+    .nav-links a:hover,.nav-links a.active{color:#fff}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .lang-switch{display:flex;gap:6px}
     .lang-btn{
-      padding:10px 14px;border-radius:999px;border:1px solid var(--line);
-      background:rgba(255,255,255,.05);color:#fff;cursor:pointer;transition:.25s ease;
+      border:1px solid var(--line);background:transparent;padding:9px 11px;border-radius:10px;color:var(--muted)
     }
-    .lang-btn.active,.lang-btn:hover{background:linear-gradient(135deg,var(--primary),var(--secondary));border-color:transparent}
+    .lang-btn.active,.lang-btn:hover{background:var(--grad-1);border-color:transparent;color:#fff}
 
     .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:10px;
-      padding:13px 18px;border-radius:999px;border:none;cursor:pointer;
-      font-weight:700;transition:.25s ease;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;
+      border:none;border-radius:999px;font-weight:700;font-size:.92rem;cursor:pointer;
+      transition:transform .22s ease, box-shadow .22s ease, background .22s ease;position:relative;overflow:hidden
     }
-    .btn:hover{transform:translateY(-3px) scale(1.01)}
-    .btn-primary{
-      background:linear-gradient(135deg,var(--primary),var(--secondary));
-      color:#fff;box-shadow:0 14px 34px rgba(0,194,255,.22);
-    }
-    .btn-outline{background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--line)}
-    .btn-whatsapp{background:linear-gradient(135deg,var(--whatsapp),#1faa52);color:#fff;box-shadow:0 14px 34px rgba(37,211,102,.25)}
+    .btn:hover{transform:translateY(-3px)}
+    .btn-primary{background:var(--grad-1);color:#fff;box-shadow:0 12px 30px rgba(0,212,255,.22)}
+    .btn-primary:hover{box-shadow:0 18px 38px rgba(0,212,255,.34)}
+    .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:#fff}
+    .btn-wa{background:linear-gradient(135deg,#25D366,#19aa52);color:#fff;box-shadow:0 12px 30px rgba(37,211,102,.25)}
+    .btn-small{padding:9px 15px;font-size:.82rem}
 
-    main{flex:1}
-    .page-section{display:none;animation:fadeIn .55s ease}
-    .page-section.active{display:block}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-    @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 rgba(0,194,255,0)}50%{box-shadow:0 0 25px rgba(0,194,255,.28)}}
-    @keyframes shine{0%{background-position:-200% center}100%{background-position:200% center}}
+    .page-section{display:none;min-height:100vh}
+    .page-section.active{display:block;animation:pageIn .55s cubic-bezier(.22,1,.36,1)}
+    @keyframes pageIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
-    .hero{padding:72px 0 34px}
-    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:28px;align-items:center}
+    .hero{padding:130px 0 72px}
+    .hero-inner{display:grid;grid-template-columns:1.08fr .82fr;gap:36px;align-items:center}
     .eyebrow{
-      display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;
-      background:rgba(255,255,255,.05);border:1px solid var(--line);color:#d9e5ff;font-size:.95rem;margin-bottom:18px;
-      animation:pulseGlow 3.5s infinite;
+      display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;
+      border:1px solid rgba(0,212,255,.18);background:rgba(0,212,255,.06);color:var(--cyan);
+      font-size:.8rem;font-family:var(--mono);margin-bottom:20px
     }
-    h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.4rem,4.6vw,4.8rem);line-height:1.02;margin-bottom:18px}
-    body.lang-ar h1, body.lang-ar .section-title h2, body.lang-ar .contact-card h2{font-family:'Cairo',sans-serif}
-    .gradient{
-      background:linear-gradient(135deg,#fff 0%, #8be9ff 45%, #b794f4 100%);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
+    .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--emerald);animation:blink 1.5s infinite}
+    @keyframes blink{50%{opacity:.2}}
+    .hero-title{font-size:clamp(2.8rem, 5vw, 5.4rem);line-height:.95;letter-spacing:-.04em;margin-bottom:18px}
+    .hero-title .line-name{display:block;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-desc{max-width:640px;color:var(--muted);font-size:1.03rem;line-height:1.8;margin-bottom:28px}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+    .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .stat{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);position:relative;overflow:hidden}
+    .stat::before{content:'';position:absolute;left:0;top:0;width:100%;height:2px;background:var(--grad-1);opacity:0;transition:.3s}
+    .stat:hover::before{opacity:1}
+    .stat:hover{transform:translateY(-3px)}
+    .stat strong{display:block;font-size:1.35rem;font-family:var(--mono);color:var(--cyan)}
+    .stat span{font-size:.83rem;color:var(--muted)}
+
+    .profile-card{padding:20px;position:relative;overflow:hidden}
+    .profile-card::before,.profile-card::after{content:'';position:absolute;border-radius:50%;filter:blur(20px);opacity:.25}
+    .profile-card::before{width:160px;height:160px;background:rgba(0,212,255,.22);top:-50px;right:-40px}
+    .profile-card::after{width:150px;height:150px;background:rgba(139,92,246,.20);left:-40px;bottom:-40px}
+    .profile-media{position:relative;border-radius:18px;overflow:hidden;margin-bottom:14px}
+    .profile-media img{width:100%;height:470px;object-fit:cover;transition:transform .6s ease, filter .4s ease;filter:saturate(.9)}
+    .profile-card:hover .profile-media img{transform:scale(1.04);filter:saturate(1.06)}
+    .profile-overlay{position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(to top, rgba(5,13,26,.96), transparent)}
+    .profile-overlay .title{font-weight:800;font-size:1.1rem}
+    .profile-overlay .sub{font-size:.84rem;color:var(--muted)}
+    .avatar-container{
+      display:flex;
+      justify-content:center;
+      margin-top:10px;
+      margin-bottom:15px;
     }
-    .hero p{color:var(--muted);font-size:1.05rem;max-width:720px;margin-bottom:26px}
-    .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
-    .quick-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .stat{
-      background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:20px;padding:18px;
-      transition:.3s ease;transform:translateY(0)
+    .avatar{
+      width:100px;
+      height:100px;
+      border-radius:50%;
+      border:3px solid var(--cyan);
+      object-fit:cover;
+      box-shadow:0 0 20px rgba(0,212,255,.3);
     }
-    .stat:hover{transform:translateY(-6px);border-color:rgba(0,194,255,.35)}
-    .stat strong{display:block;font-size:1.45rem}
-    .stat span{color:var(--muted);font-size:.95rem}
-
-    .hero-card{
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      border:1px solid var(--line);border-radius:32px;padding:20px;box-shadow:var(--shadow);
-      transition:.35s ease;
-    }
-    .hero-card:hover{transform:translateY(-6px)}
-    .hero-card img{width:100%;height:560px;object-fit:cover;border-radius:24px}
-    .badge-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-    .badge{
-      background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:18px;padding:14px;
-      transition:.25s ease;
-    }
-    .badge:hover{border-color:rgba(124,58,237,.4)}
-    .badge strong{display:block;margin-bottom:4px}
-    .badge span{color:var(--muted);font-size:.93rem}
-
-    section{padding:34px 0}
-    .section-title{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
-    .section-title h2{font-size:2rem;font-family:'Orbitron',sans-serif}
-    .section-title p{color:var(--muted);max-width:700px}
-
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:0 14px 28px rgba(0,0,0,.15);
-      transition:.3s ease;
-    }
-    .card:hover{transform:translateY(-6px);border-color:rgba(0,194,255,.25)}
-    .card h3{font-size:1.25rem;margin-bottom:14px}
-    .card p{color:var(--muted)}
-
-    .timeline{display:grid;gap:16px}
-    .timeline-item{
-      position:relative;padding:18px 18px 18px 22px;border-left:3px solid rgba(0,194,255,.45);
-      background:rgba(255,255,255,.04);border-radius:0 18px 18px 0;transition:.25s ease;
-    }
-    .timeline-item:hover{transform:translateX(4px);border-left-color:#00c2ff}
-    .timeline-item strong{display:block;font-size:1.06rem;margin-bottom:5px}
-    .timeline-item small{display:block;color:#85dfff;margin-bottom:8px}
-    .timeline-item p{color:var(--muted);font-size:.97rem}
-
-    .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .skill-box{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:22px;padding:22px;transition:.3s ease}
-    .skill-box:hover{transform:translateY(-6px)}
-    .skill-box h3{margin-bottom:14px}
-    .skill-list{display:grid;gap:10px}
-    .skill{padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.04);color:#e9f1ff;border:1px solid rgba(255,255,255,.05)}
-
-    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .project{
-      overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);transition:.3s ease;
-    }
-    .project:hover{transform:translateY(-8px) scale(1.01)}
-    .project img{width:100%;height:220px;object-fit:cover;transition:transform .45s ease}
-    .project:hover img{transform:scale(1.06)}
-    .project-body{padding:20px}
-    .project-body h3{margin-bottom:10px}
-    .project-body p{color:var(--muted);margin-bottom:14px}
-    .tag-row{display:flex;flex-wrap:wrap;gap:8px}
-    .tag{font-size:.84rem;padding:8px 11px;border-radius:999px;background:rgba(0,194,255,.12);border:1px solid rgba(0,194,255,.20)}
-
-    .about-points{display:grid;gap:12px;margin-top:12px}
-    .point{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px}
-    .point b{color:#fff}
-    .point span{color:var(--muted)}
-
-    .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
-    .contact-card{
-      background:linear-gradient(135deg, rgba(0,194,255,.14), rgba(124,58,237,.14));
-      border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:var(--shadow);
-    }
-    .contact-list{display:grid;gap:14px;margin-top:18px}
-    .contact-item{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
-    .contact-item strong{display:block;margin-bottom:4px}
-    .contact-item span{color:#dfe8ff}
-
-    .cta-bar{
-      margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;
+    .badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .badge-item{padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .badge-item strong{display:block;font-size:.82rem;color:var(--cyan);margin-bottom:4px}
+    .badge-item span{font-size:.79rem;color:var(--muted)}
+    .visit-chip{
+      display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
+      background:rgba(16,232,160,.08);border:1px solid rgba(16,232,160,.18);color:var(--emerald);font-family:var(--mono)
     }
 
-    .floating-whatsapp{
-      position:fixed;right:18px;bottom:18px;z-index:120;
-      width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--whatsapp),#1faa52);color:#fff;font-size:1.7rem;
-      box-shadow:0 18px 30px rgba(37,211,102,.35);animation:float 3s ease-in-out infinite;
+    .section-wrap{padding:62px 0}
+    .section-head{margin-bottom:30px}
+    .section-label{font-size:.76rem;font-family:var(--mono);letter-spacing:.14em;color:var(--cyan);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .section-label::before{content:'//';opacity:.5}
+    .section-title{font-size:clamp(1.85rem, 3vw, 2.9rem);line-height:1.08;letter-spacing:-.03em}
+    .section-sub{max-width:720px;color:var(--muted);line-height:1.75;margin-top:9px}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{padding:24px}
+
+    .value-list{display:grid;gap:10px}
+    .value-item{display:flex;gap:14px;padding:15px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .value-icon{font-size:1.35rem;flex-shrink:0;margin-top:2px}
+    .value-item h4{margin-bottom:4px}
+    .value-item p{color:var(--muted);font-size:.89rem;line-height:1.65}
+
+    .photo-gallery{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:20px}
+    .gallery-main,.gallery-col .gallery-sm{border-radius:18px;overflow:hidden;position:relative}
+    .gallery-col{display:grid;gap:12px}
+    .photo-gallery img{width:100%;height:100%;object-fit:cover;filter:saturate(.85);transition:transform .55s ease, filter .35s ease}
+    .gallery-main{min-height:360px}
+    .gallery-sm{min-height:174px}
+    .gallery-main:hover img,.gallery-sm:hover img{transform:scale(1.05);filter:saturate(1.08)}
+    .gallery-overlay{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;background:linear-gradient(to top, rgba(4,9,20,.95), transparent);font-size:.8rem;font-weight:700}
+
+    .timeline{display:grid;gap:8px}
+    .timeline-item{display:grid;grid-template-columns:74px 1fr;gap:16px;align-items:start}
+    .timeline-left{text-align:center;padding-top:4px}
+    .timeline-year{display:inline-block;padding:4px 8px;border-radius:8px;font-family:var(--mono);font-size:.76rem;color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);margin-bottom:8px}
+    .timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--grad-1);margin:0 auto;box-shadow:0 0 15px rgba(0,212,255,.7)}
+    .timeline-line{width:1px;height:calc(100% - 30px);margin:8px auto 0;background:linear-gradient(to bottom, rgba(0,212,255,.28), transparent)}
+    .timeline-box{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:.25s}
+    .timeline-box:hover{transform:translateX(4px);border-color:rgba(0,212,255,.18)}
+    .timeline-box h3{margin-bottom:6px;font-size:1.02rem}
+    .mini-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:.74rem;font-family:var(--mono);margin-bottom:8px}
+    .tag-cyan{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);color:var(--cyan)}
+    .tag-violet{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.18);color:#bfacff}
+    .timeline-box p{color:var(--muted);line-height:1.68;font-size:.9rem}
+
+    .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .exp-card{overflow:hidden;transition:.28s}
+    .exp-card:hover{transform:translateY(-6px)}
+    .exp-media{position:relative;overflow:hidden}
+    .exp-media img{width:100%;height:180px;object-fit:cover;filter:saturate(.82) brightness(.95);transition:.55s}
+    .exp-card:hover .exp-media img{transform:scale(1.06);filter:saturate(1.05) brightness(1.02)}
+    .exp-media::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(5,13,26,.82), transparent)}
+    .exp-body{padding:18px}
+    .exp-body h3{margin-bottom:6px;font-size:1rem}
+    .exp-body p{color:var(--muted);font-size:.88rem;line-height:1.66}
+
+    .skill-card{padding:22px}
+    .skill-icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;margin-bottom:14px}
+    .skill-card h3{margin-bottom:12px}
+    .skill-points{display:grid;gap:8px}
+    .skill-point{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.84rem;display:flex;align-items:center;gap:8px}
+    .skill-point::before{content:'▸';color:var(--cyan);font-size:.72rem}
+    .lang-item{margin-bottom:14px}
+    .lang-meta{display:flex;justify-content:space-between;margin-bottom:5px;font-size:.87rem}
+    .lang-bar{height:5px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+    .lang-fill{height:100%;width:0;border-radius:999px;background:var(--grad-1);transition:width 1.15s cubic-bezier(.22,1,.36,1)}
+
+    .project-card{overflow:hidden;transition:.3s}
+    .project-card:hover{transform:translateY(-8px) scale(1.01)}
+    .project-media{position:relative;overflow:hidden}
+    .project-media img{width:100%;height:220px;object-fit:cover;transition:.55s;filter:saturate(.8)}
+    .project-card:hover .project-media img{transform:scale(1.08);filter:saturate(1.08)}
+    .project-media::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(5,13,26,.8), transparent)}
+    .project-body{padding:18px}
+    .project-body h3{margin-bottom:8px;font-size:1rem}
+    .project-body p{color:var(--muted);font-size:.88rem;line-height:1.65;margin-bottom:12px}
+    .tags{display:flex;flex-wrap:wrap;gap:7px}
+    .tag{padding:4px 9px;border-radius:999px;font-size:.75rem;font-family:var(--mono);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);color:var(--cyan)}
+
+    .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+    .contact-list{display:grid;gap:11px;margin-top:18px}
+    .contact-item{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .contact-icon{width:36px;height:36px;border-radius:11px;background:var(--grad-1);display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 20px rgba(0,212,255,.18)}
+    .contact-item .label{font-size:.79rem;color:var(--muted)}
+    .contact-item .value{font-weight:700;font-size:.93rem}
+
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:.83rem;color:var(--muted);margin-bottom:6px}
+    .input,.textarea{
+      width:100%;padding:13px 15px;border-radius:12px;color:#fff;background:rgba(255,255,255,.05);
+      border:1px solid var(--line);outline:none;transition:border-color .2s, box-shadow .2s
     }
+    .textarea{min-height:120px;resize:vertical}
+    .input:focus,.textarea:focus{border-color:rgba(0,212,255,.35);box-shadow:0 0 0 3px rgba(0,212,255,.08)}
+    .form-status{display:none;padding:12px 14px;border-radius:12px;font-size:.88rem;margin-top:10px}
+    .form-status.ok{display:block;background:rgba(16,232,160,.09);border:1px solid rgba(16,232,160,.22);color:var(--emerald)}
+    .form-status.err{display:block;background:rgba(244,63,94,.09);border:1px solid rgba(244,63,94,.22);color:#ff8aa0}
 
-    footer{padding:30px 0 40px;color:var(--muted);text-align:center}
+    .fab{
+      position:fixed;right:22px;bottom:22px;z-index:700;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(135deg,#25D366,#19aa52);box-shadow:0 12px 32px rgba(37,211,102,.35);animation:fabFloat 4s ease-in-out infinite
+    }
+    .fab:hover{transform:scale(1.1)}
+    @keyframes fabFloat{50%{transform:translateY(-5px)}}
 
-    [data-animate]{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
-    [data-animate].visible{opacity:1;transform:translateY(0)}
+    [data-anim]{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1)}
+    [data-anim].in{opacity:1;transform:none}
+    [data-anim][data-delay="1"]{transition-delay:.1s}
+    [data-anim][data-delay="2"]{transition-delay:.2s}
+    [data-anim][data-delay="3"]{transition-delay:.3s}
+    [data-anim][data-delay="4"]{transition-delay:.4s}
+
+    footer{padding:28px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.86rem}
+    .loading-spinner{
+      display:inline-block;
+      width:16px;
+      height:16px;
+      border:2px solid rgba(255,255,255,.3);
+      border-radius:50%;
+      border-top-color:#fff;
+      animation:spin 1s ease-in-out infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
 
     @media (max-width:1080px){
-      .hero-grid,.grid-2,.contact,.skills,.projects{grid-template-columns:1fr 1fr}
-      .hero-card img{height:460px}
+      .hero-inner{grid-template-columns:1fr .9fr}
+      .grid-3{grid-template-columns:1fr 1fr}
     }
-    @media (max-width:760px){
+    @media (max-width:860px){
+      #cur-d,#cur-r{display:none}
       .nav-links{display:none}
-      .hero-grid,.grid-2,.skills,.projects,.contact,.quick-stats,.badge-row{grid-template-columns:1fr}
-      .hero-card img{height:340px}
-      .section-title{flex-direction:column;align-items:start}
-      .lang-switch{width:100%}
+      .hero-inner,.grid-2,.exp-grid,.contact-grid,.photo-gallery{grid-template-columns:1fr}
+      .gallery-col{grid-template-columns:1fr 1fr;display:grid}
+      .grid-3{grid-template-columns:1fr}
+      .hero-stats{grid-template-columns:1fr 1fr}
+      .badge-grid{grid-template-columns:1fr}
+      .profile-media img{height:380px}
+    }
+    @media (max-width:520px){
+      .container{width:min(var(--max), calc(100% - 24px))}
+      .hero{padding-top:118px}
+      .hero-title{font-size:2.45rem}
+      .hero-stats{grid-template-columns:1fr 1fr}
+      .gallery-col{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
+  <div id="bg-grid"></div>
+  <div class="blob"></div>
+  <div class="blob-2"></div>
+
+  <header class="topbar" id="topbar">
     <div class="container nav">
-      <a href="#accueil" class="brand nav-trigger active-link" data-page="accueil">
-        <span class="logo">IN</span>
+      <div class="brand" data-page="home">
+        <div class="logo">IN</div>
         <span data-i18n="brand">Idriss Nassi</span>
-      </a>
+      </div>
 
       <nav class="nav-links">
-        <a class="nav-trigger active-link" data-page="accueil" data-i18n="nav_home">Accueil</a>
-        <a class="nav-trigger" data-page="apropos" data-i18n="nav_about">À propos</a>
-        <a class="nav-trigger" data-page="formation" data-i18n="nav_education">Formation</a>
-        <a class="nav-trigger" data-page="experience" data-i18n="nav_experience">Expériences</a>
-        <a class="nav-trigger" data-page="competences" data-i18n="nav_skills">Compétences</a>
-        <a class="nav-trigger" data-page="projets" data-i18n="nav_projects">Projets</a>
-        <a class="nav-trigger" data-page="contact" data-i18n="nav_contact">Contact</a>
+        <a class="nav-link active" data-page="home" data-i18n="nav_home">Accueil</a>
+        <a class="nav-link" data-page="about" data-i18n="nav_about">À propos</a>
+        <a class="nav-link" data-page="education" data-i18n="nav_edu">Formation</a>
+        <a class="nav-link" data-page="experience" data-i18n="nav_exp">Expériences</a>
+        <a class="nav-link" data-page="skills" data-i18n="nav_skills">Compétences</a>
+        <a class="nav-link" data-page="projects" data-i18n="nav_proj">Projets</a>
+        <a class="nav-link" data-page="contact" data-i18n="nav_contact">Contact</a>
       </nav>
 
       <div class="nav-right">
@@ -254,46 +339,100 @@
           <button class="lang-btn" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="ar">AR</button>
         </div>
-        <button class="btn btn-primary nav-trigger" data-page="contact" data-i18n="contact_me">Me contacter</button>
+        <button class="btn btn-primary btn-small" data-page="contact" data-i18n="cta">Me contacter</button>
       </div>
     </div>
   </header>
 
   <main>
-    <section id="accueil" class="page-section active">
+    <section id="home" class="page-section active">
       <div class="container hero">
-        <div class="hero-grid">
-          <div data-animate>
-            <div class="eyebrow" data-i18n="eyebrow">⚡ Portfolio professionnel • Énergie • Électricité • Solaire • Web</div>
-            <h1><span data-i18n="hello">Bonjour, je suis</span> <span class="gradient" data-i18n="name">Idriss Nassi</span></h1>
-            <p data-i18n="hero_text">
-              Étudiant en physique, en énergie et en matériaux, passionné par les systèmes électriques,
-              l’énergie solaire, les travaux pratiques en laboratoire et le développement web autodidacte.
-              Je construis mon parcours autour d’une vision moderne : relier la science, la technique et le numérique
-              dans des projets utiles et concrets.
-            </p>
-            <div class="hero-cta">
-              <button class="btn btn-primary nav-trigger" data-page="projets" data-i18n="see_projects">Voir mes projets</button>
-              <button class="btn btn-outline nav-trigger" data-page="experience" data-i18n="discover_journey">Découvrir mon parcours</button>
-              <a class="btn btn-whatsapp" href="https://wa.me/212606614127" target="_blank" rel="noopener" data-i18n="whatsapp_btn">WhatsApp</a>
+        <div class="hero-inner">
+          <div>
+            <div class="eyebrow" data-anim><span data-i18n="eyebrow">Portfolio professionnel • Énergie • Électricité • Solaire • Web</span></div>
+            <h1 class="hero-title" data-anim data-delay="1">
+              <span data-i18n="hello">Bonjour, je suis</span>
+              <span class="line-name">Idriss Nassi</span>
+            </h1>
+            <p class="hero-desc" data-anim data-delay="2" data-i18n="hdesc">Étudiant en physique, énergie et matériaux. Passionné par les systèmes électriques, l'énergie solaire et le développement web. Je relie la science, la technique et le numérique dans des projets concrets et utiles.</p>
+            <div class="hero-actions" data-anim data-delay="3">
+              <button class="btn btn-primary" data-page="projects" data-i18n="b_proj">Voir mes projets</button>
+              <button class="btn btn-ghost" data-page="experience" data-i18n="b_exp">Mon parcours</button>
+              <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener">WhatsApp</a>
             </div>
-            <div class="quick-stats">
-              <div class="stat" data-animate><strong>2023</strong><span data-i18n="stat1">Baccalauréat STE</span></div>
-              <div class="stat" data-animate><strong>2026</strong><span data-i18n="stat2">DEUG Physique</span></div>
-              <div class="stat" data-animate><strong>2026</strong><span data-i18n="stat3">Licence Énergie et Matériaux</span></div>
+            <div class="hero-stats" data-anim data-delay="4">
+              <div class="stat"><strong>3</strong><span data-i18n="s1">Années d'études</span></div>
+              <div class="stat"><strong>4</strong><span data-i18n="s2">Domaines d'expertise</span></div>
+              <div class="stat"><strong>+5</strong><span data-i18n="s3">Projets réalisés</span></div>
+              <div class="stat"><strong>3</strong><span data-i18n="s4">Langues</span></div>
             </div>
           </div>
 
-          <div class="hero-card" data-animate>
-            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80" alt="Ingénierie, technologie et énergie" />
-            <div class="badge-row">
-              <div class="badge">
-                <strong data-i18n="main_domain">Domaine principal</strong>
-                <span data-i18n="main_domain_text">Électricité, énergie solaire et systèmes énergétiques</span>
+          <div class="profile-card glass" data-anim data-delay="2">
+            <div class="profile-media">
+              <img src="https://images.unsplash.com/photo-1581092921461-39b9d08a9b2a?auto=format&fit=crop&w=1200&q=85" alt="Profil d'ingénierie énergétique" loading="lazy" />
+              <div class="profile-overlay">
+                <div class="title" data-i18n="ov1">Ingénierie & Énergie</div>
+                <div class="sub" data-i18n="ov2">Maroc · Youssoufia · Disponible</div>
               </div>
-              <div class="badge">
-                <strong data-i18n="secondary_strength">Atout complémentaire</strong>
-                <span data-i18n="secondary_strength_text">Développement web autodidacte et maîtrise des outils informatiques</span>
+            </div>
+            <div class="avatar-container">
+              <img src="https://ui-avatars.com/api/?name=Idriss+Nassi&size=100&background=00d4ff&color=fff&length=2&bold=true&font-size=0.50" alt="Avatar Idriss Nassi" class="avatar" />
+            </div>
+            <div class="badge-grid">
+              <div class="badge-item"><strong data-i18n="pb1t">Formation</strong><span data-i18n="pb1s">Physique · Énergie · Matériaux</span></div>
+              <div class="badge-item"><strong data-i18n="pb2t">Compétences</strong><span data-i18n="pb2s">Électricité · Solaire · Web</span></div>
+            </div>
+            <div style="display:flex;justify-content:center">
+              <div class="visit-chip"><span>👁</span><span id="vcnt">0</span><span data-i18n="vis">visiteurs</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="page-section">
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="ab_lbl">À propos</div>
+          <h2 class="section-title" data-i18n="ab_title">Qui suis-je ?</h2>
+          <p class="section-sub" data-i18n="ab_sub">Un profil polyvalent alliant base scientifique solide et forte capacité d'apprentissage.</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:24px">
+          <div data-anim data-delay="1">
+            <div class="glass card" style="margin-bottom:14px">
+              <h3 style="margin-bottom:10px" data-i18n="pr_title">Mon profil</h3>
+              <p style="color:var(--muted);line-height:1.8" data-i18n="pr_text">Je suis un jeune profil orienté vers les métiers de l'énergie, de l'électricité et des matériaux. Actuellement en formation, je développe des compétences solides dans les systèmes électriques et les énergies renouvelables.</p>
+            </div>
+            <div class="glass card">
+              <h3 style="margin-bottom:10px" data-i18n="go_title">Objectif professionnel</h3>
+              <p style="color:var(--muted);line-height:1.8" data-i18n="go_text">Rejoindre une structure professionnelle dans les domaines de l'électricité ou de l'énergie afin de valoriser mes acquis académiques et contribuer à des projets techniques.</p>
+            </div>
+          </div>
+          <div class="value-list" data-anim data-delay="2">
+            <div class="value-item"><div class="value-icon">⚡</div><div><h4 data-i18n="v1t">Électricité</h4><p data-i18n="v1p">Bases solides en circuits et installations électriques.</p></div></div>
+            <div class="value-item"><div class="value-icon">☀️</div><div><h4 data-i18n="v2t">Énergie solaire</h4><p data-i18n="v2p">Analyse des systèmes PV et solutions solaires durables.</p></div></div>
+            <div class="value-item"><div class="value-icon">🔬</div><div><h4 data-i18n="v3t">Physique & Matériaux</h4><p data-i18n="v3p">Travaux pratiques en laboratoire et analyse de matériaux.</p></div></div>
+            <div class="value-item"><div class="value-icon">💻</div><div><h4 data-i18n="v4t">Développement web</h4><p data-i18n="v4p">Création de sites modernes et portfolios professionnels.</p></div></div>
+          </div>
+        </div>
+
+        <div data-anim data-delay="3">
+          <div class="section-label" style="margin-bottom:14px" data-i18n="pg_lbl">Galerie — Domaines de compétence</div>
+          <div class="photo-gallery">
+            <div class="gallery-main glass">
+              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=85" alt="Énergie solaire" loading="lazy" />
+              <div class="gallery-overlay" data-i18n="pg1">Énergie Solaire — Systèmes PV</div>
+            </div>
+            <div class="gallery-col">
+              <div class="gallery-sm glass">
+                <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=85" alt="Électricité industrielle" loading="lazy" />
+                <div class="gallery-overlay" data-i18n="pg2">Électricité Industrielle</div>
+              </div>
+              <div class="gallery-sm glass">
+                <img src="https://images.unsplash.com/photo-1532187643603-ba119ca4109e?auto=format&fit=crop&w=900&q=85" alt="Laboratoire physique" loading="lazy" />
+                <div class="gallery-overlay" data-i18n="pg3">Laboratoire — Physique</div>
               </div>
             </div>
           </div>
@@ -301,269 +440,561 @@
       </div>
     </section>
 
-    <section id="apropos" class="page-section">
-      <div class="container">
-        <section>
-          <div class="section-title" data-animate>
-            <div>
-              <h2 data-i18n="about_title">À propos de moi</h2>
-              <p data-i18n="about_sub">Un profil polyvalent qui combine une base scientifique, une expérience de terrain, un fort intérêt pour l’énergie et une capacité d’apprentissage autonome.</p>
-            </div>
-          </div>
-          <div class="grid-2">
-            <div class="card" data-animate>
-              <h3 data-i18n="profile_title">Profil</h3>
-              <p data-i18n="profile_text">Je suis un jeune profil orienté vers les métiers de l’énergie, de l’électricité et des matériaux. Mon objectif est de développer une carrière solide dans les secteurs techniques et industriels, notamment dans les systèmes électriques, l’efficacité énergétique et les énergies renouvelables.</p>
-            </div>
-            <div class="card" data-animate>
-              <h3 data-i18n="goal_title">Objectif professionnel</h3>
-              <p data-i18n="goal_text">Rejoindre une structure professionnelle dans les domaines de l’électricité, de l’énergie ou de l’industrie afin de mettre en valeur mes acquis académiques, renforcer mes compétences de terrain et participer à des projets techniques à fort impact.</p>
-            </div>
-          </div>
-        </section>
-      </div>
-    </section>
+    <section id="education" class="page-section">
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="ed_lbl">Parcours académique</div>
+          <h2 class="section-title" data-i18n="ed_title">Formation</h2>
+          <p class="section-sub" data-i18n="ed_sub">Un parcours orienté vers la science, l'électricité et l'énergie.</p>
+        </div>
 
-    <section id="formation" class="page-section">
-      <div class="container">
-        <section>
-          <div class="section-title" data-animate>
-            <div>
-              <h2 data-i18n="education_title">Formation</h2>
-              <p data-i18n="education_sub">Un parcours orienté vers la science, l’électricité, l’énergie et les matériaux.</p>
+        <div class="timeline">
+          <div class="timeline-item" data-anim>
+            <div class="timeline-left"><div class="timeline-year">2023</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-box">
+              <div class="mini-tag tag-cyan">⚡ <span data-i18n="e1tag">Baccalauréat</span></div>
+              <h3 data-i18n="e1t">Baccalauréat Sciences et Technologies Électriques</h3>
+              <p data-i18n="e1p">Formation initiale en électricité et technologie.</p>
             </div>
           </div>
-          <div class="timeline">
-            <div class="timeline-item" data-animate><strong data-i18n="edu1_title">Baccalauréat Science et Technologie Électrique</strong><small>2023</small><p data-i18n="edu1_text">Formation initiale qui a consolidé mes bases en électricité, en technologie et en raisonnement technique.</p></div>
-            <div class="timeline-item" data-animate><strong data-i18n="edu2_title">DEUG en Physique</strong><small>2026</small><p data-i18n="edu2_text">Approfondissement des bases scientifiques : physique générale, thermodynamique, mécanique, électricité et méthodes de calcul.</p></div>
-            <div class="timeline-item" data-animate><strong data-i18n="edu3_title">Licence en Énergie et Matériaux</strong><small>2026</small><p data-i18n="edu3_text">Spécialisation dans les systèmes énergétiques, les matériaux, la conversion d’énergie et les applications liées au secteur industriel.</p></div>
+          <div class="timeline-item" data-anim data-delay="1">
+            <div class="timeline-left"><div class="timeline-year">2024-2026</div><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+            <div class="timeline-box">
+              <div class="mini-tag tag-violet">🔭 <span data-i18n="e2tag">DEUG</span></div>
+              <h3 data-i18n="e2t">DEUG en Physique</h3>
+              <p data-i18n="e2p">Études fondamentales en physique, thermodynamique et électricité.</p>
+            </div>
           </div>
-        </section>
+          <div class="timeline-item" data-anim data-delay="2">
+            <div class="timeline-left"><div class="timeline-year">2026</div><div class="timeline-dot"></div></div>
+            <div class="timeline-box">
+              <div class="mini-tag tag-cyan">🔋 <span data-i18n="e3tag">Licence</span></div>
+              <h3 data-i18n="e3t">Licence en Énergie et Matériaux</h3>
+              <p data-i18n="e3p">Spécialisation en cours dans les systèmes énergétiques et matériaux.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="experience" class="page-section">
-      <div class="container">
-        <section>
-          <div class="section-title" data-animate>
-            <div>
-              <h2 data-i18n="exp_title">Expériences professionnelles</h2>
-              <p data-i18n="exp_sub">Des expériences d’observation et de terrain qui renforcent ma compréhension des environnements techniques, industriels et énergétiques.</p>
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="ex_lbl">Terrain</div>
+          <h2 class="section-title" data-i18n="ex_title">Expériences</h2>
+          <p class="section-sub" data-i18n="ex_sub">Expériences d'observation et projets pratiques.</p>
+        </div>
+
+        <div class="exp-grid">
+          <article class="exp-card glass" data-anim>
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=1000&q=85" alt="Électricité bâtiment" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-cyan">🏗️ <span data-i18n="x1tag">Stage d'observation</span></div>
+              <h3 data-i18n="x1t">Électricien des bâtiments</h3>
+              <p data-i18n="x1p">Observation d'installations électriques et maintenance.</p>
             </div>
-          </div>
-          <div class="timeline">
-            <div class="timeline-item" data-animate><strong data-i18n="exp1_title">Stage chez un électricien des bâtiments</strong><small data-i18n="field_exp">Expérience terrain</small><p data-i18n="exp1_text">Découverte des installations électriques, des raccordements, de la maintenance et des bonnes pratiques liées à l’électricité des bâtiments.</p></div>
-            <div class="timeline-item" data-animate><strong data-i18n="exp2_title">Stage d’observation chez OCP SA — Service électrique</strong><small data-i18n="industrial_env">Milieu industriel</small><p data-i18n="exp2_text">Observation des équipements, des procédures et du rôle de l’électricité dans le fonctionnement des installations industrielles.</p></div>
-            <div class="timeline-item" data-animate><strong data-i18n="exp3_title">Stage d’observation chez OCP SA — Service énergétique</strong><small data-i18n="energy_perf">Énergie et performance</small><p data-i18n="exp3_text">Découverte des systèmes énergétiques, de l’organisation des services et de l’importance de la gestion de l’énergie en entreprise.</p></div>
-            <div class="timeline-item" data-animate><strong data-i18n="exp4_title">Stage d’observation à la centrale thermique de Safi</strong><small data-i18n="power_prod">Production d’énergie</small><p data-i18n="exp4_text">Observation du fonctionnement global d’une centrale thermique, de la chaîne énergétique et des enjeux liés à la production électrique.</p></div>
-          </div>
-        </section>
+          </article>
+
+          <article class="exp-card glass" data-anim data-delay="1">
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1000&q=85" alt="Milieu industriel" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-violet">🏭 <span data-i18n="x2tag">Visite industrielle</span></div>
+              <h3 data-i18n="x2t">OCP SA Youssoufia — Service électrique</h3>
+              <p data-i18n="x2p">Découverte des équipements électriques industriels.</p>
+            </div>
+          </article>
+
+          <article class="exp-card glass" data-anim data-delay="2">
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1000&q=85" alt="Systèmes énergétiques" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-cyan">⚡ <span data-i18n="x3tag">Projet académique</span></div>
+              <h3 data-i18n="x3t">Étude de systèmes PV</h3>
+              <p data-i18n="x3p">Analyse de panneaux solaires et rendement énergétique.</p>
+            </div>
+          </article>
+
+          <article class="exp-card glass" data-anim data-delay="3">
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1526958097520-c34fe8c3c2a1?auto=format&fit=crop&w=1000&q=85" alt="Centrale thermique Safi" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-violet">🔥 <span data-i18n="x4tag">Visite</span></div>
+              <h3 data-i18n="x4t">Centrale thermique — Safi</h3>
+              <p data-i18n="x4p">Découverte du fonctionnement d'une centrale thermique.</p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section id="competences" class="page-section">
-      <div class="container">
-        <section>
-          <div class="section-title" data-animate>
-            <div>
-              <h2 data-i18n="skills_title">Compétences</h2>
-              <p data-i18n="skills_sub">Un ensemble de compétences techniques, linguistiques et numériques adapté à un profil moderne dans les métiers de l’énergie.</p>
+    <section id="skills" class="page-section">
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="sk_lbl">Maîtrise</div>
+          <h2 class="section-title" data-i18n="sk_title">Compétences</h2>
+          <p class="section-sub" data-i18n="sk_sub">Compétences techniques et linguistiques.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="skill-card glass" data-anim>
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(0,212,255,.16),rgba(0,212,255,.05))">⚡</div>
+            <h3 data-i18n="sk1h">Techniques</h3>
+            <div class="skill-points">
+              <div class="skill-point" data-i18n="sk1a">Électricité générale</div>
+              <div class="skill-point" data-i18n="sk1b">Énergie solaire</div>
+              <div class="skill-point" data-i18n="sk1c">Thermodynamique</div>
+              <div class="skill-point" data-i18n="sk1d">Travaux pratiques</div>
             </div>
           </div>
-          <div class="skills">
-            <div class="skill-box" data-animate>
-              <h3 data-i18n="tech_skills">Compétences techniques</h3>
-              <div class="skill-list">
-                <div class="skill" data-i18n="skill1">Maîtrise du domaine électrique</div>
-                <div class="skill" data-i18n="skill2">Maîtrise du domaine de l’énergie solaire</div>
-                <div class="skill" data-i18n="skill3">Connaissances en systèmes énergétiques</div>
-                <div class="skill" data-i18n="skill4">Travaux pratiques et manipulations en laboratoire</div>
-              </div>
-            </div>
-            <div class="skill-box" data-animate>
-              <h3 data-i18n="digital_skills">Compétences numériques</h3>
-              <div class="skill-list">
-                <div class="skill" data-i18n="skill5">Maîtrise des outils informatiques</div>
-                <div class="skill" data-i18n="skill6">Développement web autodidacte</div>
-                <div class="skill" data-i18n="skill7">Création de sites vitrines et de portfolios</div>
-                <div class="skill" data-i18n="skill8">Apprentissage autonome rapide</div>
-              </div>
-            </div>
-            <div class="skill-box" data-animate>
-              <h3 data-i18n="lang_other">Langues et autres</h3>
-              <div class="skill-list">
-                <div class="skill" data-i18n="skill9">Français — C2</div>
-                <div class="skill" data-i18n="skill10">Arabe — Courant</div>
-                <div class="skill" data-i18n="skill11">Anglais — B1</div>
-                <div class="skill" data-i18n="skill12">Permis de conduire B</div>
-              </div>
+
+          <div class="skill-card glass" data-anim data-delay="1">
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(139,92,246,.05))">💻</div>
+            <h3 data-i18n="sk2h">Numérique</h3>
+            <div class="skill-points">
+              <div class="skill-point" data-i18n="sk2a">Outils bureautiques</div>
+              <div class="skill-point" data-i18n="sk2b">HTML/CSS</div>
+              <div class="skill-point" data-i18n="sk2c">JavaScript</div>
+              <div class="skill-point" data-i18n="sk2d">Autonomie</div>
             </div>
           </div>
-        </section>
+
+          <div class="skill-card glass" data-anim data-delay="2">
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(16,232,160,.16),rgba(16,232,160,.05))">🌐</div>
+            <h3 data-i18n="sk3h">Langues</h3>
+            <div class="lang-item"><div class="lang-meta"><span>Français</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="96"></div></div></div>
+            <div class="lang-item"><div class="lang-meta"><span data-i18n="lar">Arabe</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="98"></div></div></div>
+            <div class="lang-item"><div class="lang-meta"><span>English</span><span style="color:var(--cyan);font-family:var(--mono)">B1</span></div><div class="lang-bar"><div class="lang-fill" data-width="60"></div></div></div>
+            <div class="skill-point" style="margin-top:12px" data-i18n="sk3d">🚗 Permis B</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="projets" class="page-section">
-      <div class="container">
-        <section>
-          <div class="section-title" data-animate>
-            <div>
-              <h2 data-i18n="projects_title">Projets</h2>
-              <p data-i18n="projects_sub">Des projets académiques et techniques qui valorisent mon profil dans l’énergie, l’électricité et le web.</p>
+    <section id="projects" class="page-section">
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="pj_lbl">Réalisations</div>
+          <h2 class="section-title" data-i18n="pj_title">Projets</h2>
+          <p class="section-sub" data-i18n="pj_sub">Projets académiques et personnels.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="project-card glass" data-anim>
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?auto=format&fit=crop&w=1000&q=85" alt="Projet photovoltaïque" loading="lazy" /></div>
+            <div class="project-body">
+              <h3 data-i18n="p1t">Étude photovoltaïque</h3>
+              <p data-i18n="p1p">Analyse du potentiel solaire pour une installation résidentielle.</p>
+              <div class="tags"><span class="tag">Solaire</span><span class="tag">PV</span></div>
             </div>
-          </div>
-          <div class="projects">
-            <article class="project" data-animate>
-              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1200&q=80" alt="Projet énergie solaire" />
-              <div class="project-body">
-                <h3 data-i18n="project1_title">Étude d’un système solaire photovoltaïque</h3>
-                <p data-i18n="project1_text">Analyse du potentiel solaire, du fonctionnement des panneaux et de l’intégration d’une solution énergétique durable.</p>
-                <div class="tag-row"><span class="tag">Solaire</span><span class="tag">Énergie</span><span class="tag">PV</span></div>
-              </div>
-            </article>
-            <article class="project" data-animate>
-              <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80" alt="Projet électricité" />
-              <div class="project-body">
-                <h3 data-i18n="project2_title">Observation des installations électriques</h3>
-                <p data-i18n="project2_text">Compréhension du raccordement, de la sécurité et de l’organisation des systèmes électriques dans le bâtiment et l’industrie.</p>
-                <div class="tag-row"><span class="tag">Électricité</span><span class="tag">Industrie</span><span class="tag">Sécurité</span></div>
-              </div>
-            </article>
-            <article class="project" data-animate>
-              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80" alt="Projet web" />
-              <div class="project-body">
-                <h3 data-i18n="project3_title">Développement de portfolios et de sites web</h3>
-                <p data-i18n="project3_text">Création de pages web modernes pour présenter un profil, une activité ou un projet technique avec un design professionnel.</p>
-                <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
-              </div>
-            </article>
-          </div>
-        </section>
+          </article>
+
+          <article class="project-card glass" data-anim data-delay="1">
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=85" alt="Installations électriques" loading="lazy" /></div>
+            <div class="project-body">
+              <h3 data-i18n="p2t">Schémas électriques</h3>
+              <p data-i18n="p2p">Conception de schémas pour installations domestiques.</p>
+              <div class="tags"><span class="tag">Électricité</span><span class="tag">Schéma</span></div>
+            </div>
+          </article>
+
+          <article class="project-card glass" data-anim data-delay="2">
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1000&q=85" alt="Développement web" loading="lazy" /></div>
+            <div class="project-body">
+              <h3 data-i18n="p3t">Portfolio web</h3>
+              <p data-i18n="p3p">Création de ce portfolio professionnel en autodidacte.</p>
+              <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="contact" class="page-section">
-      <div class="container">
-        <section class="contact">
-          <div class="contact-card" data-animate>
-            <h2 style="font-size:2rem;margin-bottom:10px;" data-i18n="contact_title">Contact</h2>
-            <p style="color:#e7efff;max-width:650px;" data-i18n="contact_text">Je suis disponible pour des opportunités de stage, des collaborations, des projets techniques ou toute discussion liée à l’énergie, à l’électricité, au solaire ou au développement web.</p>
-            <div class="contact-list">
-              <div class="contact-item"><strong data-i18n="contact_name">Nom</strong><span>Idriss Nassi</span></div>
-              <div class="contact-item"><strong>Email</strong><span>i.nassi9018@uca.ac.ma</span></div>
-              <div class="contact-item"><strong data-i18n="contact_phone">Téléphone / WhatsApp</strong><span>0606614127</span></div>
-              <div class="contact-item"><strong data-i18n="contact_city">Ville</strong><span>Safi / Maroc</span></div>
-            </div>
-            <div class="cta-bar">
-              <a class="btn btn-whatsapp" href="https://wa.me/212606614127" target="_blank" rel="noopener" data-i18n="whatsapp_message">Écrire sur WhatsApp</a>
-              <a class="btn btn-outline" href="mailto:i.nassi9018@uca.ac.ma">Email</a>
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="ct_lbl">Disponible</div>
+          <h2 class="section-title" data-i18n="ct_title">Contact</h2>
+          <p class="section-sub" data-i18n="ct_sub">N'hésitez pas à me contacter.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div data-anim>
+            <div class="glass card">
+              <h3 style="font-size:1.15rem;margin-bottom:6px" data-i18n="ct_info">Coordonnées</h3>
+              <p style="color:var(--muted);font-size:.88rem" data-i18n="ct_infosub">Disponible pour échanges et opportunités.</p>
+              <div class="contact-list">
+                <div class="contact-item"><div class="contact-icon">👤</div><div><div class="label" data-i18n="c_name">Nom</div><div class="value">Idriss Nassi</div></div></div>
+                <div class="contact-item"><div class="contact-icon">📧</div><div><div class="label">Email</div><div class="value">i.nassi9018@uca.ac.ma</div></div></div>
+                <div class="contact-item"><div class="contact-icon">📱</div><div><div class="label" data-i18n="c_phone">Téléphone</div><div class="value">06 06 61 41 27</div></div></div>
+                <div class="contact-item"><div class="contact-icon">📍</div><div><div class="label" data-i18n="c_city">Ville</div><div class="value">Youssoufia, Maroc</div></div></div>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+                <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener" data-i18n="c_wa">WhatsApp</a>
+                <a class="btn btn-ghost" href="mailto:i.nassi9018@uca.ac.ma">Email</a>
+              </div>
             </div>
           </div>
 
-          <div class="card" data-animate>
-            <h3 data-i18n="why_title">Pourquoi ce portfolio est meilleur</h3>
-            <p data-i18n="why_text">Ce site a été amélioré avec une vraie navigation multi-page dans un seul fichier, un bouton WhatsApp réel, des animations avancées et une version trilingue : français, anglais et arabe.</p>
+          <div data-anim data-delay="1">
+            <div class="glass card">
+              <h3 style="font-size:1.15rem;margin-bottom:5px" data-i18n="f_title">Message</h3>
+              <p style="color:var(--muted);font-size:.86rem;margin-bottom:16px" data-i18n="f_sub">Envoyez-moi un message.</p>
+              <div class="field"><label data-i18n="f_name">Votre nom</label><input id="fn" class="input" type="text" placeholder="Nom Prénom" /></div>
+              <div class="field"><label data-i18n="f_email">Email</label><input id="fe" class="input" type="email" placeholder="exemple@email.com" /></div>
+              <div class="field"><label data-i18n="f_msg">Message</label><textarea id="fm" class="textarea" placeholder="Votre message..."></textarea></div>
+              <button id="sbtn" class="btn btn-primary" style="width:100%" data-i18n="f_send">
+                <span>Envoyer →</span>
+                <span id="btn-spinner" class="loading-spinner" style="display:none;"></span>
+              </button>
+              <div id="fst" class="form-status"></div>
+            </div>
           </div>
-        </section>
+        </div>
       </div>
     </section>
   </main>
 
-  <a class="floating-whatsapp" href="https://wa.me/212606614127" target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
-
   <footer>
-    <div class="container">
-      <p data-i18n="footer">© 2026 Idriss Nassi — Portfolio professionnel en énergie, matériaux, électricité et développement web.</p>
-    </div>
+    <div class="container"><p data-i18n="footer">© 2026 Idriss Nassi · Portfolio · Énergie · Électricité · Web</p></div>
   </footer>
 
+  <a class="fab" href="https://wa.me/212606614127" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.553 4.103 1.522 5.83L0 24l6.341-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.937 0-3.742-.527-5.285-1.443l-.379-.225-3.926.926.975-3.823-.248-.392A9.825 9.825 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"></path>
+    </svg>
+  </a>
+
   <script>
-    const translations = {
-      fr: {
-        brand:'Idriss Nassi', nav_home:'Accueil', nav_about:'À propos', nav_education:'Formation', nav_experience:'Expériences', nav_skills:'Compétences', nav_projects:'Projets', nav_contact:'Contact',
-        contact_me:'Me contacter', eyebrow:'⚡ Portfolio professionnel • Énergie • Électricité • Solaire • Web', hello:'Bonjour, je suis', name:'Idriss Nassi',
-        hero_text:'Étudiant en physique, en énergie et en matériaux, passionné par les systèmes électriques, l’énergie solaire, les travaux pratiques en laboratoire et le développement web autodidacte. Je construis mon parcours autour d’une vision moderne : relier la science, la technique et le numérique dans des projets utiles et concrets.',
-        see_projects:'Voir mes projets', discover_journey:'Découvrir mon parcours', whatsapp_btn:'WhatsApp', stat1:'Baccalauréat STE', stat2:'DEUG Physique', stat3:'Licence Énergie et Matériaux',
-        main_domain:'Domaine principal', main_domain_text:'Électricité, énergie solaire et systèmes énergétiques', secondary_strength:'Atout complémentaire', secondary_strength_text:'Développement web autodidacte et maîtrise des outils informatiques',
-        about_title:'À propos de moi', about_sub:'Un profil polyvalent qui combine une base scientifique, une expérience de terrain, un fort intérêt pour l’énergie et une capacité d’apprentissage autonome.', profile_title:'Profil',
-        profile_text:'Je suis un jeune profil orienté vers les métiers de l’énergie, de l’électricité et des matériaux. Mon objectif est de développer une carrière solide dans les secteurs techniques et industriels, notamment dans les systèmes électriques, l’efficacité énergétique et les énergies renouvelables.',
-        goal_title:'Objectif professionnel', goal_text:'Rejoindre une structure professionnelle dans les domaines de l’électricité, de l’énergie ou de l’industrie afin de mettre en valeur mes acquis académiques, renforcer mes compétences de terrain et participer à des projets techniques à fort impact.',
-        education_title:'Formation', education_sub:'Un parcours orienté vers la science, l’électricité, l’énergie et les matériaux.', edu1_title:'Baccalauréat Science et Technologie Électrique', edu1_text:'Formation initiale qui a consolidé mes bases en électricité, en technologie et en raisonnement technique.', edu2_title:'DEUG en Physique', edu2_text:'Approfondissement des bases scientifiques : physique générale, thermodynamique, mécanique, électricité et méthodes de calcul.', edu3_title:'Licence en Énergie et Matériaux', edu3_text:'Spécialisation dans les systèmes énergétiques, les matériaux, la conversion d’énergie et les applications liées au secteur industriel.',
-        exp_title:'Expériences professionnelles', exp_sub:'Des expériences d’observation et de terrain qui renforcent ma compréhension des environnements techniques, industriels et énergétiques.', exp1_title:'Stage chez un électricien des bâtiments', field_exp:'Expérience terrain', exp1_text:'Découverte des installations électriques, des raccordements, de la maintenance et des bonnes pratiques liées à l’électricité des bâtiments.', exp2_title:'Stage d’observation chez OCP SA — Service électrique', industrial_env:'Milieu industriel', exp2_text:'Observation des équipements, des procédures et du rôle de l’électricité dans le fonctionnement des installations industrielles.', exp3_title:'Stage d’observation chez OCP SA — Service énergétique', energy_perf:'Énergie et performance', exp3_text:'Découverte des systèmes énergétiques, de l’organisation des services et de l’importance de la gestion de l’énergie en entreprise.', exp4_title:'Stage d’observation à la centrale thermique de Safi', power_prod:'Production d’énergie', exp4_text:'Observation du fonctionnement global d’une centrale thermique, de la chaîne énergétique et des enjeux liés à la production électrique.',
-        skills_title:'Compétences', skills_sub:'Un ensemble de compétences techniques, linguistiques et numériques adapté à un profil moderne dans les métiers de l’énergie.', tech_skills:'Compétences techniques', digital_skills:'Compétences numériques', lang_other:'Langues et autres', skill1:'Maîtrise du domaine électrique', skill2:'Maîtrise du domaine de l’énergie solaire', skill3:'Connaissances en systèmes énergétiques', skill4:'Travaux pratiques et manipulations en laboratoire', skill5:'Maîtrise des outils informatiques', skill6:'Développement web autodidacte', skill7:'Création de sites vitrines et de portfolios', skill8:'Apprentissage autonome rapide', skill9:'Français — C2', skill10:'Arabe — Courant', skill11:'Anglais — B1', skill12:'Permis de conduire B',
-        projects_title:'Projets', projects_sub:'Des projets académiques et techniques qui valorisent mon profil dans l’énergie, l’électricité et le web.', project1_title:'Étude d’un système solaire photovoltaïque', project1_text:'Analyse du potentiel solaire, du fonctionnement des panneaux et de l’intégration d’une solution énergétique durable.', project2_title:'Observation des installations électriques', project2_text:'Compréhension du raccordement, de la sécurité et de l’organisation des systèmes électriques dans le bâtiment et l’industrie.', project3_title:'Développement de portfolios et de sites web', project3_text:'Création de pages web modernes pour présenter un profil, une activité ou un projet technique avec un design professionnel.',
-        contact_title:'Contact', contact_text:'Je suis disponible pour des opportunités de stage, des collaborations, des projets techniques ou toute discussion liée à l’énergie, à l’électricité, au solaire ou au développement web.', contact_name:'Nom', contact_phone:'Téléphone / WhatsApp', contact_city:'Ville', whatsapp_message:'Écrire sur WhatsApp', why_title:'Pourquoi ce portfolio est meilleur', why_text:'Ce site a été amélioré avec une vraie navigation multi-page dans un seul fichier, un bouton WhatsApp réel, des animations avancées et une version trilingue : français, anglais et arabe.', footer:'© 2026 Idriss Nassi — Portfolio professionnel en énergie, matériaux, électricité et développement web.'
+    // Configuration Supabase - Vos identifiants
+    const SUPABASE_URL = 'https://qaiapgihigzzbpjclilz.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_CDjyYc8a9c8YQgq3HRzqEQ_FiCNKgha';
+
+    // Initialisation de Supabase
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const T = {
+      fr:{
+        brand:'Idriss Nassi',nav_home:'Accueil',nav_about:'À propos',nav_edu:'Formation',nav_exp:'Expériences',nav_skills:'Compétences',nav_proj:'Projets',nav_contact:'Contact',cta:'Me contacter',
+        eyebrow:'Portfolio professionnel • Énergie • Électricité • Solaire • Web',hello:'Bonjour, je suis',
+        hdesc:'Étudiant en physique, énergie et matériaux. Passionné par les systèmes électriques, l\'énergie solaire et le développement web. Je relie la science, la technique et le numérique dans des projets concrets et utiles.',
+        b_proj:'Voir mes projets',b_exp:'Mon parcours',s1:'Années d\'études',s2:'Domaines d\'expertise',s3:'Projets réalisés',s4:'Langues',
+        ov1:'Ingénierie & Énergie',ov2:'Maroc · Youssoufia · Disponible',pb1t:'Formation',pb1s:'Physique · Énergie · Matériaux',pb2t:'Compétences',pb2s:'Électricité · Solaire · Web',vis:'visiteurs',
+        ab_lbl:'À propos',ab_title:'Qui suis-je ?',ab_sub:'Un profil polyvalent alliant base scientifique solide et forte capacité d\'apprentissage.',
+        pr_title:'Mon profil',pr_text:'Je suis un jeune profil orienté vers les métiers de l\'énergie, de l\'électricité et des matériaux. Actuellement en formation, je développe des compétences solides dans les systèmes électriques et les énergies renouvelables.',
+        go_title:'Objectif professionnel',go_text:'Rejoindre une structure professionnelle dans les domaines de l\'électricité ou de l\'énergie afin de valoriser mes acquis académiques et contribuer à des projets techniques.',
+        v1t:'Électricité',v1p:'Bases solides en circuits et installations électriques.',
+        v2t:'Énergie solaire',v2p:'Analyse des systèmes PV et solutions solaires durables.',
+        v3t:'Physique & Matériaux',v3p:'Travaux pratiques en laboratoire et analyse de matériaux.',
+        v4t:'Développement web',v4p:'Création de sites modernes et portfolios professionnels.',
+        pg_lbl:'Galerie — Domaines de compétence',pg1:'Énergie Solaire — Systèmes PV',pg2:'Électricité Industrielle',pg3:'Laboratoire — Physique',
+        ed_lbl:'Parcours académique',ed_title:'Formation',ed_sub:'Un parcours orienté vers la science, l\'électricité et l\'énergie.',
+        e1tag:'Baccalauréat',e1t:'Baccalauréat Sciences et Technologies Électriques',e1p:'Formation initiale en électricité et technologie.',
+        e2tag:'DEUG',e2t:'DEUG en Physique',e2p:'Études fondamentales en physique, thermodynamique et électricité.',
+        e3tag:'Licence',e3t:'Licence en Énergie et Matériaux',e3p:'Spécialisation en cours dans les systèmes énergétiques et matériaux.',
+        ex_lbl:'Terrain',ex_title:'Expériences',ex_sub:'Expériences d\'observation et projets pratiques.',
+        x1tag:'Stage d\'observation',x1t:'Électricien des bâtiments',x1p:'Observation d\'installations électriques et maintenance.',
+        x2tag:'Visite industrielle',x2t:'OCP SA Youssoufia — Service électrique',x2p:'Découverte des équipements électriques industriels.',
+        x3tag:'Projet académique',x3t:'Étude de systèmes PV',x3p:'Analyse de panneaux solaires et rendement énergétique.',
+        x4tag:'Visite',x4t:'Centrale thermique — Safi',x4p:'Découverte du fonctionnement d\'une centrale thermique.',
+        sk_lbl:'Maîtrise',sk_title:'Compétences',sk_sub:'Compétences techniques et linguistiques.',
+        sk1h:'Techniques',sk1a:'Électricité générale',sk1b:'Énergie solaire',sk1c:'Thermodynamique',sk1d:'Travaux pratiques',
+        sk2h:'Numérique',sk2a:'Outils bureautiques',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomie',
+        sk3h:'Langues',lar:'Arabe',larl:'C2',sk3d:'🚗 Permis B',
+        pj_lbl:'Réalisations',pj_title:'Projets',pj_sub:'Projets académiques et personnels.',
+        p1t:'Étude photovoltaïque',p1p:'Analyse du potentiel solaire pour une installation résidentielle.',
+        p2t:'Schémas électriques',p2p:'Conception de schémas pour installations domestiques.',
+        p3t:'Portfolio web',p3p:'Création de ce portfolio professionnel en autodidacte.',
+        ct_lbl:'Disponible',ct_title:'Contact',ct_sub:'N\'hésitez pas à me contacter.',
+        ct_info:'Coordonnées',ct_infosub:'Disponible pour échanges et opportunités.',
+        c_name:'Nom',c_phone:'Téléphone',c_city:'Ville',c_wa:'WhatsApp',
+        f_title:'Message',f_sub:'Envoyez-moi un message.',f_name:'Votre nom',f_email:'Email',f_msg:'Message',f_send:'Envoyer →',
+        footer:'© 2026 Idriss Nassi · Portfolio · Énergie · Électricité · Web'
       },
-      en: {
-        brand:'Idriss Nassi', nav_home:'Home', nav_about:'About', nav_education:'Education', nav_experience:'Experience', nav_skills:'Skills', nav_projects:'Projects', nav_contact:'Contact',
-        contact_me:'Contact me', eyebrow:'⚡ Professional portfolio • Energy • Electricity • Solar • Web', hello:'Hello, I am', name:'Idriss Nassi', hero_text:'A student in physics, energy and materials, passionate about electrical systems, solar energy, laboratory practical work, and self-taught web development. I am building my path around a modern vision that connects science, technology and digital tools in useful and concrete projects.', see_projects:'View my projects', discover_journey:'Discover my journey', whatsapp_btn:'WhatsApp', stat1:'Electrical Science Baccalaureate', stat2:'DEUG in Physics', stat3:'Bachelor in Energy and Materials', main_domain:'Main field', main_domain_text:'Electricity, solar energy and energy systems', secondary_strength:'Additional strength', secondary_strength_text:'Self-taught web development and strong digital skills', about_title:'About me', about_sub:'A versatile profile combining a scientific background, field experience, strong interest in energy, and autonomous learning ability.', profile_title:'Profile', profile_text:'I am a young profile oriented toward energy, electricity and materials careers. My goal is to build a solid career in technical and industrial sectors, especially electrical systems, energy efficiency and renewable energy.', goal_title:'Professional goal', goal_text:'To join a professional structure in electricity, energy or industry, in order to apply my academic background, strengthen my field skills and contribute to impactful technical projects.', education_title:'Education', education_sub:'A path focused on science, electricity, energy and materials.', edu1_title:'Baccalaureate in Electrical Science and Technology', edu1_text:'Initial training that strengthened my foundations in electricity, technology and technical reasoning.', edu2_title:'DEUG in Physics', edu2_text:'Deepening scientific foundations: general physics, thermodynamics, mechanics, electricity and calculation methods.', edu3_title:'Bachelor in Energy and Materials', edu3_text:'Specialization in energy systems, materials, energy conversion and industrial applications.', exp_title:'Professional experience', exp_sub:'Observation and field experiences that strengthen my understanding of technical, industrial and energy environments.', exp1_title:'Internship with a building electrician', field_exp:'Field experience', exp1_text:'Discovery of electrical installations, connections, maintenance and best practices in building electricity.', exp2_title:'Observation internship at OCP SA — Electrical service', industrial_env:'Industrial environment', exp2_text:'Observation of equipment, procedures and the role of electricity in industrial installations.', exp3_title:'Observation internship at OCP SA — Energy service', energy_perf:'Energy and performance', exp3_text:'Discovery of energy systems, service organization and the importance of energy management in industry.', exp4_title:'Observation internship at Safi thermal power plant', power_prod:'Power generation', exp4_text:'Observation of the overall operation of a thermal power plant, the energy chain and electricity production challenges.', skills_title:'Skills', skills_sub:'A set of technical, language and digital skills suited to a modern profile in energy-related fields.', tech_skills:'Technical skills', digital_skills:'Digital skills', lang_other:'Languages and others', skill1:'Strong knowledge in electricity', skill2:'Strong knowledge in solar energy', skill3:'Knowledge of energy systems', skill4:'Laboratory practical work and experiments', skill5:'Strong command of digital tools', skill6:'Self-taught web development', skill7:'Creation of showcase websites and portfolios', skill8:'Fast autonomous learning', skill9:'French — C2', skill10:'Arabic — Fluent', skill11:'English — B1', skill12:'Driving license B', projects_title:'Projects', projects_sub:'Academic and technical projects that enhance my profile in energy, electricity and web.', project1_title:'Study of a photovoltaic solar system', project1_text:'Analysis of solar potential, panel operation and integration of a sustainable energy solution.', project2_title:'Observation of electrical installations', project2_text:'Understanding of wiring, safety and organization of electrical systems in buildings and industry.', project3_title:'Development of portfolios and websites', project3_text:'Creation of modern web pages to present a profile, activity or technical project with a professional design.', contact_title:'Contact', contact_text:'I am available for internships, collaborations, technical projects or any discussion related to energy, electricity, solar systems or web development.', contact_name:'Name', contact_phone:'Phone / WhatsApp', contact_city:'City', whatsapp_message:'Message on WhatsApp', why_title:'Why this portfolio is better', why_text:'This website has been improved with a real multi-page navigation inside a single file, a real WhatsApp button, advanced animations, and a trilingual version: French, English and Arabic.', footer:'© 2026 Idriss Nassi — Professional portfolio in energy, materials, electricity and web development.'
+      en:{
+        brand:'Idriss Nassi',nav_home:'Home',nav_about:'About',nav_edu:'Education',nav_exp:'Experience',nav_skills:'Skills',nav_proj:'Projects',nav_contact:'Contact',cta:'Contact me',
+        eyebrow:'Professional Portfolio • Energy • Electricity • Solar • Web',hello:'Hello, I am',
+        hdesc:'Student in physics, energy and materials. Passionate about electrical systems, solar energy and web development. I connect science, technology and digital in concrete projects.',
+        b_proj:'View projects',b_exp:'My journey',s1:'Study years',s2:'Expertise areas',s3:'Projects',s4:'Languages',
+        ov1:'Engineering & Energy',ov2:'Morocco · Youssoufia · Available',pb1t:'Education',pb1s:'Physics · Energy · Materials',pb2t:'Skills',pb2s:'Electricity · Solar · Web',vis:'visitors',
+        ab_lbl:'About',ab_title:'Who am I?',ab_sub:'A versatile profile combining scientific foundation and learning ability.',
+        pr_title:'My profile',pr_text:'I am a young profile oriented towards energy, electricity and materials. Currently in training, I develop solid skills in electrical systems and renewable energies.',
+        go_title:'Professional objective',go_text:'Join a professional structure in electricity or energy to enhance my academic achievements and contribute to technical projects.',
+        v1t:'Electricity',v1p:'Solid foundations in circuits and electrical installations.',
+        v2t:'Solar energy',v2p:'Analysis of PV systems and sustainable solar solutions.',
+        v3t:'Physics & Materials',v3p:'Laboratory work and materials analysis.',
+        v4t:'Web development',v4p:'Creation of modern websites and professional portfolios.',
+        pg_lbl:'Gallery — Expertise areas',pg1:'Solar Energy — PV Systems',pg2:'Industrial Electricity',pg3:'Laboratory — Physics',
+        ed_lbl:'Academic path',ed_title:'Education',ed_sub:'A path oriented towards science, electricity and energy.',
+        e1tag:'Baccalaureate',e1t:'Baccalaureate in Electrical Sciences',e1p:'Initial training in electricity and technology.',
+        e2tag:'DEUG',e2t:'DEUG in Physics',e2p:'Fundamental studies in physics, thermodynamics and electricity.',
+        e3tag:'Degree',e3t:'Degree in Energy and Materials',e3p:'Current specialization in energy systems and materials.',
+        ex_lbl:'Field',ex_title:'Experience',ex_sub:'Observation experiences and practical projects.',
+        x1tag:'Internship',x1t:'Building electrician',x1p:'Observation of electrical installations and maintenance.',
+        x2tag:'Industrial visit',x2t:'OCP SA Youssoufia — Electrical department',x2p:'Discovery of industrial electrical equipment.',
+        x3tag:'Academic project',x3t:'PV systems study',x3p:'Analysis of solar panels and energy efficiency.',
+        x4tag:'Visit',x4t:'Thermal power plant — Safi',x4p:'Discovery of thermal power plant operation.',
+        sk_lbl:'Mastery',sk_title:'Skills',sk_sub:'Technical and linguistic skills.',
+        sk1h:'Technical',sk1a:'General electricity',sk1b:'Solar energy',sk1c:'Thermodynamics',sk1d:'Practical work',
+        sk2h:'Digital',sk2a:'Office tools',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomy',
+        sk3h:'Languages',lar:'Arabic',larl:'C2',sk3d:'🚗 Driver license B',
+        pj_lbl:'Achievements',pj_title:'Projects',pj_sub:'Academic and personal projects.',
+        p1t:'Photovoltaic study',p1p:'Analysis of solar potential for residential installation.',
+        p2t:'Electrical diagrams',p2p:'Design of diagrams for domestic installations.',
+        p3t:'Web portfolio',p3p:'Creation of this professional portfolio as self-taught.',
+        ct_lbl:'Available',ct_title:'Contact',ct_sub:'Feel free to contact me.',
+        ct_info:'Contact information',ct_infosub:'Available for exchanges and opportunities.',
+        c_name:'Name',c_phone:'Phone',c_city:'City',c_wa:'WhatsApp',
+        f_title:'Message',f_sub:'Send me a message.',f_name:'Your name',f_email:'Email',f_msg:'Message',f_send:'Send →',
+        footer:'© 2026 Idriss Nassi · Portfolio · Energy · Electricity · Web'
       },
-      ar: {
-        brand:'إدريس ناصي', nav_home:'الرئيسية', nav_about:'من أنا', nav_education:'التكوين', nav_experience:'الخبرات', nav_skills:'المهارات', nav_projects:'المشاريع', nav_contact:'التواصل',
-        contact_me:'تواصل معي', eyebrow:'⚡ ملف مهني • الطاقة • الكهرباء • الطاقة الشمسية • الويب', hello:'مرحبًا، أنا', name:'إدريس ناصي', hero_text:'طالب في الفيزياء والطاقة والمواد، شغوف بالأنظمة الكهربائية والطاقة الشمسية والأعمال التطبيقية داخل المختبر، إضافة إلى تطوير الويب بشكل ذاتي. أبني مساري على رؤية حديثة تربط بين العلم والتقنية والرقمنة في مشاريع عملية ومفيدة.', see_projects:'عرض مشاريعي', discover_journey:'اكتشف مساري', whatsapp_btn:'واتساب', stat1:'بكالوريا علوم وتكنولوجيا كهربائية', stat2:'دبلوم DEUG في الفيزياء', stat3:'إجازة في الطاقة والمواد', main_domain:'المجال الرئيسي', main_domain_text:'الكهرباء والطاقة الشمسية والأنظمة الطاقية', secondary_strength:'ميزة إضافية', secondary_strength_text:'تطوير ويب ذاتي وإتقان الأدوات المعلوماتية', about_title:'من أنا', about_sub:'ملف متنوع يجمع بين قاعدة علمية وتجربة ميدانية واهتمام قوي بالطاقة وقدرة على التعلم الذاتي.', profile_title:'الملف الشخصي', profile_text:'أنا شاب مهتم بمهن الطاقة والكهرباء والمواد. هدفي هو بناء مسار مهني قوي في القطاعات التقنية والصناعية، خاصة في الأنظمة الكهربائية والنجاعة الطاقية والطاقات المتجددة.', goal_title:'الهدف المهني', goal_text:'الالتحاق بمؤسسة مهنية في مجالات الكهرباء أو الطاقة أو الصناعة من أجل توظيف مكتسباتي الأكاديمية، وتقوية مهاراتي الميدانية، والمساهمة في مشاريع تقنية ذات أثر قوي.', education_title:'التكوين', education_sub:'مسار موجّه نحو العلوم والكهرباء والطاقة والمواد.', edu1_title:'بكالوريا علوم وتكنولوجيا كهربائية', edu1_text:'تكوين أولي عزز أسسي في الكهرباء والتكنولوجيا والتفكير التقني.', edu2_title:'DEUG في الفيزياء', edu2_text:'تعميق الأسس العلمية: الفيزياء العامة، الديناميكا الحرارية، الميكانيك، الكهرباء وطرق الحساب.', edu3_title:'إجازة في الطاقة والمواد', edu3_text:'تخصص في الأنظمة الطاقية والمواد وتحويل الطاقة وتطبيقاتها الصناعية.', exp_title:'الخبرات المهنية', exp_sub:'تجارب ميدانية وملاحظات تقنية عززت فهمي للبيئات التقنية والصناعية والطاقية.', exp1_title:'تدريب لدى كهربائي المباني', field_exp:'خبرة ميدانية', exp1_text:'التعرف على التركيبات الكهربائية والربط والصيانة والممارسات الجيدة في كهرباء المباني.', exp2_title:'تدريب ملاحظة لدى OCP SA — مصلحة الكهرباء', industrial_env:'بيئة صناعية', exp2_text:'ملاحظة التجهيزات والإجراءات ودور الكهرباء في تشغيل المنشآت الصناعية.', exp3_title:'تدريب ملاحظة لدى OCP SA — مصلحة الطاقة', energy_perf:'الطاقة والأداء', exp3_text:'اكتشاف الأنظمة الطاقية وتنظيم المصالح وأهمية تدبير الطاقة داخل المؤسسة.', exp4_title:'تدريب ملاحظة بالمحطة الحرارية بآسفي', power_prod:'إنتاج الطاقة', exp4_text:'ملاحظة اشتغال المحطة الحرارية وسلسلة الطاقة وتحديات إنتاج الكهرباء.', skills_title:'المهارات', skills_sub:'مجموعة من المهارات التقنية واللغوية والرقمية المناسبة لملف حديث في مجالات الطاقة.', tech_skills:'المهارات التقنية', digital_skills:'المهارات الرقمية', lang_other:'اللغات ومهارات أخرى', skill1:'إتقان المجال الكهربائي', skill2:'إتقان مجال الطاقة الشمسية', skill3:'معرفة بالأنظمة الطاقية', skill4:'أعمال تطبيقية وتجارب مخبرية', skill5:'إتقان الأدوات المعلوماتية', skill6:'تطوير الويب بشكل ذاتي', skill7:'إنشاء مواقع تعريفية وملفات أعمال', skill8:'تعلم ذاتي سريع', skill9:'الفرنسية — C2', skill10:'العربية — بطلاقة', skill11:'الإنجليزية — B1', skill12:'رخصة السياقة B', projects_title:'المشاريع', projects_sub:'مشاريع أكاديمية وتقنية تعزز ملفي في الطاقة والكهرباء والويب.', project1_title:'دراسة نظام شمسي فوتوفولطي', project1_text:'تحليل الإمكانات الشمسية وعمل الألواح ودمج حل طاقي مستدام.', project2_title:'ملاحظة التركيبات الكهربائية', project2_text:'فهم الربط والسلامة وتنظيم الأنظمة الكهربائية في المباني والصناعة.', project3_title:'تطوير ملفات أعمال ومواقع ويب', project3_text:'إنشاء صفحات ويب حديثة لتقديم ملف شخصي أو نشاط أو مشروع تقني بتصميم احترافي.', contact_title:'التواصل', contact_text:'أنا متاح لفرص التدريب والتعاون والمشاريع التقنية أو أي نقاش متعلق بالطاقة أو الكهرباء أو الطاقة الشمسية أو تطوير الويب.', contact_name:'الاسم', contact_phone:'الهاتف / واتساب', contact_city:'المدينة', whatsapp_message:'راسلني على واتساب', why_title:'لماذا هذا الملف أفضل', why_text:'تم تحسين هذا الموقع عبر إضافة تنقل متعدد الصفحات داخل ملف واحد، وزر واتساب حقيقي، وحركات متقدمة، ونسخة بثلاث لغات: الفرنسية والإنجليزية والعربية.', footer:'© 2026 إدريس ناصي — ملف مهني في الطاقة والمواد والكهرباء وتطوير الويب.'
+      ar:{
+        brand:'إدريس ناسي',nav_home:'الرئيسية',nav_about:'من أنا',nav_edu:'التكوين',nav_exp:'الخبرات',nav_skills:'المهارات',nav_proj:'المشاريع',nav_contact:'اتصل',cta:'اتصل بي',
+        eyebrow:'محفظة مهنية • طاقة • كهرباء • شمسي • ويب',hello:'مرحبًا، أنا',
+        hdesc:'طالب في الفيزياء والطاقة والمواد. شغوف بالأنظمة الكهربائية والطاقة الشمسية وتطوير الويب.',
+        b_proj:'مشاريعي',b_exp:'مساري',s1:'سنوات الدراسة',s2:'مجالات الخبرة',s3:'المشاريع',s4:'اللغات',
+        ov1:'الهندسة والطاقة',ov2:'المغرب • اليوسفية • متاح',pb1t:'التكوين',pb1s:'فيزياء • طاقة • مواد',pb2t:'المهارات',pb2s:'كهرباء • شمسي • ويب',vis:'زائر',
+        ab_lbl:'من أنا',ab_title:'من أنا؟',ab_sub:'ملف متعدد المهارات يجمع بين قاعدة علمية وقدرة على التعلم.',
+        pr_title:'ملفي',pr_text:'أنا شاب موجه نحو مهن الطاقة والكهرباء والمواد. حالياً في تكوين، أطور مهارات في الأنظمة الكهربائية والطاقات المتجددة.',
+        go_title:'الهدف المهني',go_text:'الانضمام إلى هيكل مهني في الكهرباء أو الطاقة لتعزيز مكتسباتي والمساهمة في مشاريع تقنية.',
+        v1t:'الكهرباء',v1p:'أساسيات في الدوائر والتركيبات الكهربائية.',
+        v2t:'الطاقة الشمسية',v2p:'تحليل أنظمة الطاقة الشمسية.',
+        v3t:'الفيزياء والمواد',v3p:'أعمال مخبرية وتحليل المواد.',
+        v4t:'تطوير الويب',v4p:'إنشاء مواقع ومحافظ مهنية.',
+        pg_lbl:'معرض — مجالات الخبرة',pg1:'الطاقة الشمسية',pg2:'الكهرباء الصناعية',pg3:'المخبر — الفيزياء',
+        ed_lbl:'المسار الأكاديمي',ed_title:'التكوين',ed_sub:'مسار موجه نحو العلوم والكهرباء والطاقة.',
+        e1tag:'باكالوريا',e1t:'باكالوريا علوم وتكنولوجيا كهربائية',e1p:'تكوين أولي في الكهرباء والتكنولوجيا.',
+        e2tag:'ديوك',e2t:'ديوك في الفيزياء',e2p:'دراسات أساسية في الفيزياء والديناميكا الحرارية والكهرباء.',
+        e3tag:'إجازة',e3t:'إجازة في الطاقة والمواد',e3p:'تخصص في أنظمة الطاقة والمواد.',
+        ex_lbl:'الميدان',ex_title:'الخبرات',ex_sub:'تجارب ميدانية ومشاريع تطبيقية.',
+        x1tag:'تدريب',x1t:'كهربائي المباني',x1p:'ملاحظة التركيبات الكهربائية والصيانة.',
+        x2tag:'زيارة صناعية',x2t:'OCP SA اليوسفية — المصلحة الكهربائية',x2p:'اكتشاف المعدات الكهربائية الصناعية.',
+        x3tag:'مشروع أكاديمي',x3t:'دراسة أنظمة الطاقة الشمسية',x3p:'تحليل الألواح الشمسية والكفاءة الطاقوية.',
+        x4tag:'زيارة',x4t:'المحطة الحرارية — آسفي',x4p:'اكتشاف عمل محطة حرارية.',
+        sk_lbl:'الإتقان',sk_title:'المهارات',sk_sub:'مهارات تقنية ولغوية.',
+        sk1h:'تقنية',sk1a:'كهرباء عامة',sk1b:'طاقة شمسية',sk1c:'ديناميكا حرارية',sk1d:'أعمال تطبيقية',
+        sk2h:'رقمية',sk2a:'أدوات مكتبية',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'استقلالية',
+        sk3h:'اللغات',lar:'العربية',larl:'C2',sk3d:'🚗 رخصة السياقة B',
+        pj_lbl:'الإنجازات',pj_title:'المشاريع',pj_sub:'مشاريع أكاديمية وشخصية.',
+        p1t:'دراسة كهروضوئية',p1p:'تحليل الإمكانات الشمسية لتركيب سكني.',
+        p2t:'مخططات كهربائية',p2p:'تصميم مخططات للتركيبات المنزلية.',
+        p3t:'محفظة ويب',p3p:'إنشاء هذه المحفظة المهنية.',
+        ct_lbl:'متاح',ct_title:'اتصل',ct_sub:'لا تتردد في الاتصال بي.',
+        ct_info:'معلومات الاتصال',ct_infosub:'متاح للتبادل والفرص.',
+        c_name:'الاسم',c_phone:'الهاتف',c_city:'المدينة',c_wa:'واتساب',
+        f_title:'رسالة',f_sub:'أرسل لي رسالة.',f_name:'اسمك',f_email:'البريد الإلكتروني',f_msg:'الرسالة',f_send:'إرسال ←',
+        footer:'© 2026 إدريس ناسي · محفظة · طاقة · كهرباء · ويب'
       }
     };
 
-    const triggers = document.querySelectorAll('.nav-trigger');
-    const pages = document.querySelectorAll('.page-section');
-    const navLinks = document.querySelectorAll('.nav-links .nav-trigger');
-    const animatedEls = document.querySelectorAll('[data-animate]');
-    const langButtons = document.querySelectorAll('.lang-btn');
+    // Fonction pour le compteur de visiteurs
+    async function updateVisitorCount() {
+      const vcnt = document.getElementById('vcnt');
+      if (!vcnt) return;
 
-    function showPage(pageId) {
-      pages.forEach(page => page.classList.remove('active'));
-      const target = document.getElementById(pageId);
-      if (target) target.classList.add('active');
-      navLinks.forEach(link => link.classList.remove('active-link'));
-      navLinks.forEach(link => {
-        if (link.dataset.page === pageId) link.classList.add('active-link');
-      });
-      revealAnimations();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Vérifier si une entrée existe pour aujourd'hui
+        const { data: existingData, error: selectError } = await supabase
+          .from('visitors')
+          .select('*')
+          .eq('date', today)
+          .single();
+
+        if (selectError && selectError.code !== 'PGRST116') {
+          console.error('Erreur lors de la sélection:', selectError);
+        }
+
+        if (existingData) {
+          // Mise à jour du compteur existant
+          const { error: updateError } = await supabase
+            .from('visitors')
+            .update({ count: existingData.count + 1 })
+            .eq('date', today);
+
+          if (updateError) console.error('Erreur lors de la mise à jour:', updateError);
+        } else {
+          // Création d'une nouvelle entrée
+          const { error: insertError } = await supabase
+            .from('visitors')
+            .insert([{ date: today, count: 1 }]);
+
+          if (insertError) console.error('Erreur lors de l\'insertion:', insertError);
+        }
+
+        // Calculer le total des 30 derniers jours
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const { data: totalData, error: totalError } = await supabase
+          .from('visitors')
+          .select('count')
+          .gte('date', thirtyDaysAgo.toISOString().split('T')[0]);
+
+        if (totalError) {
+          console.error('Erreur lors du calcul total:', totalError);
+          vcnt.textContent = '42';
+        } else {
+          const total = totalData.reduce((acc, row) => acc + row.count, 0);
+          vcnt.textContent = total;
+        }
+      } catch (error) {
+        console.error('Erreur compteur:', error);
+        vcnt.textContent = '42';
+      }
     }
 
-    triggers.forEach(trigger => {
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        const pageId = trigger.dataset.page;
-        if (pageId) showPage(pageId);
-      });
-    });
+    // Fonction pour envoyer le message
+    async function sendMessage() {
+      const name = document.getElementById('fn').value.trim();
+      const email = document.getElementById('fe').value.trim();
+      const msg = document.getElementById('fm').value.trim();
+      const fst = document.getElementById('fst');
+      const btnSpinner = document.getElementById('btn-spinner');
+      const btnText = document.querySelector('#sbtn span:first-child');
+      
+      // Validation
+      if (!name || !email || !msg) {
+        fst.className = 'form-status err';
+        fst.textContent = 'Tous les champs sont requis.';
+        return false;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        fst.className = 'form-status err';
+        fst.textContent = 'Email invalide.';
+        return false;
+      }
 
-    function setLanguage(lang) {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-      document.body.classList.toggle('lang-ar', lang === 'ar');
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-          el.textContent = translations[lang][key];
+      // Afficher le spinner
+      btnSpinner.style.display = 'inline-block';
+      btnText.style.opacity = '0.7';
+      
+      try {
+        const { error } = await supabase
+          .from('messages')
+          .insert([
+            { 
+              name: name, 
+              email: email, 
+              message: msg,
+              created_at: new Date()
+            }
+          ]);
+
+        if (error) throw error;
+
+        fst.className = 'form-status ok';
+        fst.textContent = '✅ Message envoyé avec succès !';
+        
+        // Vider le formulaire
+        document.getElementById('fn').value = '';
+        document.getElementById('fe').value = '';
+        document.getElementById('fm').value = '';
+        
+        return true;
+      } catch (error) {
+        console.error('Erreur envoi:', error);
+        fst.className = 'form-status err';
+        fst.textContent = '❌ Erreur lors de l\'envoi. Veuillez réessayer.';
+        return false;
+      } finally {
+        // Cacher le spinner
+        btnSpinner.style.display = 'none';
+        btnText.style.opacity = '1';
+      }
+    }
+
+    // Navigation et initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('[data-page]');
+      const sections = document.querySelectorAll('.page-section');
+      
+      function showPage(pageId) {
+        sections.forEach(s => {
+          s.classList.remove('active');
+          if (s.id === pageId) s.classList.add('active');
+        });
+        
+        navLinks.forEach(l => {
+          l.classList.remove('active');
+          if (l.dataset.page === pageId) l.classList.add('active');
+        });
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = link.dataset.page;
+          if (page) showPage(page);
+        });
+      });
+
+      // Langue
+      document.querySelectorAll('[data-lang]').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.dataset.lang;
+          document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          document.body.className = lang === 'ar' ? 'lang-ar' : '';
+          
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (T[lang] && T[lang][key]) {
+              if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = T[lang][key];
+              } else {
+                el.textContent = T[lang][key];
+              }
+            }
+          });
+        });
+      });
+
+      // Topbar scroll
+      const topbar = document.getElementById('topbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) topbar.classList.add('scrolled');
+        else topbar.classList.remove('scrolled');
+      });
+
+      // Animations
+      const animElements = document.querySelectorAll('[data-anim]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+          }
+        });
+      }, { threshold: 0.15 });
+      animElements.forEach(el => observer.observe(el));
+
+      // Barres de langue
+      document.querySelectorAll('.lang-fill').forEach(bar => {
+        const width = bar.dataset.width;
+        if (width) {
+          setTimeout(() => {
+            bar.style.width = width + '%';
+          }, 300);
         }
       });
-      langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-    }
 
-    langButtons.forEach(btn => {
-      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+      // Formulaire
+      const formBtn = document.getElementById('sbtn');
+      if (formBtn) {
+        formBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          sendMessage();
+        });
+      }
+
+      // Initialisation
+      document.querySelector('[data-lang="fr"]').click();
+      document.querySelector('[data-page="home"]').classList.add('active');
+      
+      // Lancer le compteur de visiteurs
+      updateVisitorCount();
     });
-
-    function revealAnimations() {
-      animatedEls.forEach((el, index) => {
-        el.classList.remove('visible');
-        setTimeout(() => el.classList.add('visible'), 80 * (index % 8));
-      });
-    }
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.12 });
-
-    animatedEls.forEach(el => observer.observe(el));
-
-    setLanguage('fr');
-    revealAnimations();
   </script>
 </body>
 </html>
