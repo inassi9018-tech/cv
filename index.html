@@ -678,7 +678,7 @@
         sk_lbl:'Maîtrise',sk_title:'Compétences',sk_sub:'Compétences techniques et linguistiques.',
         sk1h:'Techniques',sk1a:'Électricité générale',sk1b:'Énergie solaire',sk1c:'Thermodynamique',sk1d:'Travaux pratiques',
         sk2h:'Numérique',sk2a:'Outils bureautiques',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomie',
-        sk3h:'Langues',lar:'Arabe',larl:'C2',sk3d:'🚗 Permis B',
+        sk3h:'Langues',lar:'Arabe',sk3d:'🚗 Permis B',
         pj_lbl:'Réalisations',pj_title:'Projets',pj_sub:'Projets académiques et personnels.',
         p1t:'Étude photovoltaïque',p1p:'Analyse du potentiel solaire pour une installation résidentielle.',
         p2t:'Schémas électriques',p2p:'Conception de schémas pour installations domestiques.',
@@ -715,7 +715,7 @@
         sk_lbl:'Mastery',sk_title:'Skills',sk_sub:'Technical and linguistic skills.',
         sk1h:'Technical',sk1a:'General electricity',sk1b:'Solar energy',sk1c:'Thermodynamics',sk1d:'Practical work',
         sk2h:'Digital',sk2a:'Office tools',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomy',
-        sk3h:'Languages',lar:'Arabic',larl:'C2',sk3d:'🚗 Driver license B',
+        sk3h:'Languages',lar:'Arabic',sk3d:'🚗 Driver license B',
         pj_lbl:'Achievements',pj_title:'Projects',pj_sub:'Academic and personal projects.',
         p1t:'Photovoltaic study',p1p:'Analysis of solar potential for residential installation.',
         p2t:'Electrical diagrams',p2p:'Design of diagrams for domestic installations.',
@@ -752,7 +752,7 @@
         sk_lbl:'الإتقان',sk_title:'المهارات',sk_sub:'مهارات تقنية ولغوية.',
         sk1h:'تقنية',sk1a:'كهرباء عامة',sk1b:'طاقة شمسية',sk1c:'ديناميكا حرارية',sk1d:'أعمال تطبيقية',
         sk2h:'رقمية',sk2a:'أدوات مكتبية',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'استقلالية',
-        sk3h:'اللغات',lar:'العربية',larl:'C2',sk3d:'🚗 رخصة السياقة B',
+        sk3h:'اللغات',lar:'العربية',sk3d:'🚗 رخصة السياقة B',
         pj_lbl:'الإنجازات',pj_title:'المشاريع',pj_sub:'مشاريع أكاديمية وشخصية.',
         p1t:'دراسة كهروضوئية',p1p:'تحليل الإمكانات الشمسية لتركيب سكني.',
         p2t:'مخططات كهربائية',p2p:'تصميم مخططات للتركيبات المنزلية.',
@@ -765,22 +765,25 @@
       }
     };
 
-    // Navigation
     document.addEventListener('DOMContentLoaded', function() {
+      const SUPABASE_URL = "https://xxcngbjrxbrnhlmzmbwv.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_uQKTSqlluGQOnkv9JugO7g_rX6qMEbv";
+      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
       const navLinks = document.querySelectorAll('[data-page]');
       const sections = document.querySelectorAll('.page-section');
-      
+
       function showPage(pageId) {
         sections.forEach(s => {
           s.classList.remove('active');
           if (s.id === pageId) s.classList.add('active');
         });
-        
+
         navLinks.forEach(l => {
           l.classList.remove('active');
           if (l.dataset.page === pageId) l.classList.add('active');
         });
-        
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
@@ -792,14 +795,13 @@
         });
       });
 
-      // Langue
       document.querySelectorAll('[data-lang]').forEach(btn => {
         btn.addEventListener('click', function() {
           const lang = this.dataset.lang;
           document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
           this.classList.add('active');
           document.body.className = lang === 'ar' ? 'lang-ar' : '';
-          
+
           document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.dataset.i18n;
             if (T[lang] && T[lang][key]) {
@@ -813,14 +815,12 @@
         });
       });
 
-      // Topbar scroll
       const topbar = document.getElementById('topbar');
       window.addEventListener('scroll', () => {
         if (window.scrollY > 20) topbar.classList.add('scrolled');
         else topbar.classList.remove('scrolled');
       });
 
-      // Animations
       const animElements = document.querySelectorAll('[data-anim]');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -831,7 +831,6 @@
       }, { threshold: 0.15 });
       animElements.forEach(el => observer.observe(el));
 
-      // Barres de langue
       document.querySelectorAll('.lang-fill').forEach(bar => {
         const width = bar.dataset.width;
         if (width) {
@@ -841,35 +840,65 @@
         }
       });
 
-      // Formulaire
       const formBtn = document.getElementById('sbtn');
       const fst = document.getElementById('fst');
+
       if (formBtn) {
-        formBtn.addEventListener('click', () => {
+        formBtn.addEventListener('click', async () => {
           const name = document.getElementById('fn').value.trim();
           const email = document.getElementById('fe').value.trim();
           const msg = document.getElementById('fm').value.trim();
-          
+
           if (!name || !email || !msg) {
             fst.className = 'form-status err';
             fst.textContent = 'Tous les champs sont requis.';
             return;
           }
+
           if (!email.includes('@') || !email.includes('.')) {
             fst.className = 'form-status err';
             fst.textContent = 'Email invalide.';
             return;
           }
-          
-          fst.className = 'form-status ok';
-          fst.textContent = '✅ Message envoyé (démo)';
-          document.getElementById('fn').value = '';
-          document.getElementById('fe').value = '';
-          document.getElementById('fm').value = '';
+
+          formBtn.disabled = true;
+          fst.className = 'form-status';
+          fst.textContent = '';
+
+          try {
+            const { error } = await supabaseClient
+              .from('messages')
+              .insert([
+                {
+                  name: name,
+                  email: email,
+                  message: msg
+                }
+              ]);
+
+            if (error) {
+              console.log('Supabase error:', error);
+              fst.className = 'form-status err';
+              fst.textContent = 'Erreur lors de l’envoi.';
+              return;
+            }
+
+            fst.className = 'form-status ok';
+            fst.textContent = '✅ Message envoyé avec succès';
+
+            document.getElementById('fn').value = '';
+            document.getElementById('fe').value = '';
+            document.getElementById('fm').value = '';
+          } catch (err) {
+            console.log('Connection error:', err);
+            fst.className = 'form-status err';
+            fst.textContent = 'Erreur de connexion à Supabase.';
+          } finally {
+            formBtn.disabled = false;
+          }
         });
       }
 
-      // Initialisation
       document.querySelector('[data-lang="fr"]').click();
       document.querySelector('[data-page="home"]').classList.add('active');
     });
