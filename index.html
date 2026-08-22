@@ -18,8 +18,8 @@
       --text:#eaf2ff;
       --muted:#8ea0c2;
       --line:rgba(255,255,255,.1);
-      --cyan:#00d4ff;
-      --violet:#8b5cf6;
+      --cyan:#f5a623;
+      --violet:#1e88e5;
       --emerald:#10e8a0;
       --amber:#f59e0b;
       --rose:#f43f5e;
@@ -38,8 +38,8 @@
     body{
       font-family:var(--ff);
       background:
-        radial-gradient(circle at top left, rgba(0,212,255,.12), transparent 30%),
-        radial-gradient(circle at top right, rgba(139,92,246,.10), transparent 28%),
+        radial-gradient(circle at top left, rgba(245,166,35,.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(30,136,229,.10), transparent 28%),
         linear-gradient(180deg, #07111f 0%, #040914 100%);
       color:var(--text);
       min-height:100vh;
@@ -49,7 +49,7 @@
     a{text-decoration:none;color:inherit;cursor:pointer}
     img{display:block;max-width:100%}
     button,input,textarea{font-family:inherit}
-    ::selection{background:rgba(0,212,255,.22);color:#fff}
+    ::selection{background:rgba(245,166,35,.22);color:#fff}
 
     #bg-grid{
       position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22;
@@ -64,8 +64,8 @@
       position:fixed;filter:blur(60px);border-radius:50%;pointer-events:none;z-index:0;opacity:.35;
       animation:floatBlob 16s ease-in-out infinite;
     }
-    .blob{width:260px;height:260px;background:rgba(0,212,255,.14);left:-60px;top:80px}
-    .blob-2{width:300px;height:300px;background:rgba(139,92,246,.13);right:-80px;bottom:30px;animation-delay:-6s}
+    .blob{width:260px;height:260px;background:rgba(245,166,35,.14);left:-60px;top:80px}
+    .blob-2{width:300px;height:300px;background:rgba(30,136,229,.13);right:-80px;bottom:30px;animation-delay:-6s}
     @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-25px) scale(1.05)}}
 
     .container{width:min(var(--max), calc(100% - 40px));margin:auto;position:relative;z-index:2}
@@ -79,7 +79,7 @@
     .logo{
       width:44px;height:44px;border-radius:14px;background:var(--grad-1);
       display:grid;place-items:center;font-family:var(--mono);font-size:.85rem;
-      box-shadow:0 0 26px rgba(0,212,255,.28);animation:pulseLogo 4.5s ease-in-out infinite;
+      box-shadow:0 0 26px rgba(245,166,35,.28);animation:pulseLogo 4.5s ease-in-out infinite;
     }
     @keyframes pulseLogo{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(3deg)}}
     .brand span{font-size:1rem}
@@ -105,8 +105,8 @@
       transition:transform .22s ease, box-shadow .22s ease, background .22s ease;position:relative;overflow:hidden
     }
     .btn:hover{transform:translateY(-3px)}
-    .btn-primary{background:var(--grad-1);color:#fff;box-shadow:0 12px 30px rgba(0,212,255,.22)}
-    .btn-primary:hover{box-shadow:0 18px 38px rgba(0,212,255,.34)}
+    .btn-primary{background:var(--grad-1);color:#fff;box-shadow:0 12px 30px rgba(245,166,35,.22)}
+    .btn-primary:hover{box-shadow:0 18px 38px rgba(245,166,35,.34)}
     .btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:#fff}
     .btn-wa{background:linear-gradient(135deg,#25D366,#19aa52);color:#fff;box-shadow:0 12px 30px rgba(37,211,102,.25)}
     .btn-small{padding:9px 15px;font-size:.82rem}
@@ -117,9 +117,31 @@
 
     .hero{padding:130px 0 72px}
     .hero-inner{display:grid;grid-template-columns:1.08fr .82fr;gap:36px;align-items:center}
+
+    .circuit-strip{display:block;width:180px;height:34px;margin-bottom:16px;opacity:.9}
+    .circuit-path{fill:none;stroke:var(--cyan);stroke-width:2;stroke-linecap:round;stroke-dasharray:6 7;animation:dashFlow 2.4s linear infinite}
+    .circuit-path.alt{stroke:var(--violet);animation-duration:3.1s;animation-direction:reverse}
+    @keyframes dashFlow{to{stroke-dashoffset:-130}}
+    .circuit-node{fill:var(--cyan);animation:nodePulse 2.2s ease-in-out infinite}
+    .circuit-node.alt{fill:var(--violet);animation-delay:.6s}
+    @keyframes nodePulse{0%,100%{opacity:.35;r:2.6}50%{opacity:1;r:4.4}}
+
+    .industrial-strip{margin-top:26px;overflow:hidden;padding:0}
+    .industrial-media{position:relative;border-radius:18px;overflow:hidden;height:230px}
+    .industrial-media img{width:100%;height:100%;object-fit:cover;filter:saturate(.82) brightness(.92)}
+    .industrial-scan{position:absolute;left:0;right:0;height:2px;top:0;
+      background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+      box-shadow:0 0 20px 3px rgba(245,166,35,.55);animation:scanMove 4s linear infinite}
+    @keyframes scanMove{0%{top:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:100%;opacity:0}}
+    .industrial-frame{position:absolute;inset:10px;border:1px solid rgba(245,166,35,.35);border-radius:12px;pointer-events:none}
+    .industrial-frame::before,.industrial-frame::after{content:'';position:absolute;width:14px;height:14px;border:2px solid var(--cyan)}
+    .industrial-frame::before{top:-2px;left:-2px;border-right:none;border-bottom:none}
+    .industrial-frame::after{bottom:-2px;right:-2px;border-left:none;border-top:none}
+    .industrial-overlay{position:absolute;left:0;right:0;bottom:0;padding:16px 20px;background:linear-gradient(to top, rgba(5,13,26,.95), transparent)}
+    .industrial-overlay .industrial-title{font-weight:800;font-size:1.06rem;margin-top:6px}
     .eyebrow{
       display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;
-      border:1px solid rgba(0,212,255,.18);background:rgba(0,212,255,.06);color:var(--cyan);
+      border:1px solid rgba(245,166,35,.18);background:rgba(245,166,35,.06);color:var(--cyan);
       font-size:.8rem;font-family:var(--mono);margin-bottom:20px
     }
     .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--emerald);animation:blink 1.5s infinite}
@@ -138,8 +160,8 @@
 
     .profile-card{padding:20px;position:relative;overflow:hidden}
     .profile-card::before,.profile-card::after{content:'';position:absolute;border-radius:50%;filter:blur(20px);opacity:.25}
-    .profile-card::before{width:160px;height:160px;background:rgba(0,212,255,.22);top:-50px;right:-40px}
-    .profile-card::after{width:150px;height:150px;background:rgba(139,92,246,.20);left:-40px;bottom:-40px}
+    .profile-card::before{width:160px;height:160px;background:rgba(245,166,35,.22);top:-50px;right:-40px}
+    .profile-card::after{width:150px;height:150px;background:rgba(30,136,229,.20);left:-40px;bottom:-40px}
     .profile-media{position:relative;border-radius:18px;overflow:hidden;margin-bottom:14px}
     .profile-media img{width:100%;height:470px;object-fit:cover;transition:transform .6s ease, filter .4s ease;filter:saturate(.9)}
     .profile-card:hover .profile-media img{transform:scale(1.04);filter:saturate(1.06)}
@@ -158,7 +180,7 @@
       border-radius:50%;
       border:3px solid var(--cyan);
       object-fit:cover;
-      box-shadow:0 0 20px rgba(0,212,255,.3);
+      box-shadow:0 0 20px rgba(245,166,35,.3);
     }
     .badge-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
     .badge-item{padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
@@ -198,17 +220,24 @@
     .timeline{display:grid;gap:8px}
     .timeline-item{display:grid;grid-template-columns:74px 1fr;gap:16px;align-items:start}
     .timeline-left{text-align:center;padding-top:4px}
-    .timeline-year{display:inline-block;padding:4px 8px;border-radius:8px;font-family:var(--mono);font-size:.76rem;color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);margin-bottom:8px}
-    .timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--grad-1);margin:0 auto;box-shadow:0 0 15px rgba(0,212,255,.7)}
-    .timeline-line{width:1px;height:calc(100% - 30px);margin:8px auto 0;background:linear-gradient(to bottom, rgba(0,212,255,.28), transparent)}
+    .timeline-year{display:inline-block;padding:4px 8px;border-radius:8px;font-family:var(--mono);font-size:.76rem;color:var(--cyan);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.16);margin-bottom:8px}
+    .timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--grad-1);margin:0 auto;box-shadow:0 0 15px rgba(245,166,35,.7)}
+    .timeline-line{width:1px;height:calc(100% - 30px);margin:8px auto 0;background:linear-gradient(to bottom, rgba(245,166,35,.28), transparent)}
     .timeline-box{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:.25s}
-    .timeline-box:hover{transform:translateX(4px);border-color:rgba(0,212,255,.18)}
+    .timeline-box:hover{transform:translateX(4px);border-color:rgba(245,166,35,.18)}
     .timeline-box h3{margin-bottom:6px;font-size:1.02rem}
     .mini-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:.74rem;font-family:var(--mono);margin-bottom:8px}
-    .tag-cyan{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);color:var(--cyan)}
-    .tag-violet{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.18);color:#bfacff}
+    .tag-cyan{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.16);color:var(--cyan)}
+    .tag-violet{background:rgba(30,136,229,.08);border:1px solid rgba(30,136,229,.18);color:#bfacff}
     .timeline-box p{color:var(--muted);line-height:1.68;font-size:.9rem}
 
+    .exp-feature{display:grid;grid-template-columns:.9fr 1.1fr;overflow:hidden;margin-bottom:22px}
+    .exp-feature-media{position:relative;min-height:240px}
+    .exp-feature-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;filter:saturate(.85) brightness(.94)}
+    .exp-feature-media::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(5,13,26,.55), transparent 55%)}
+    .exp-feature-body{padding:28px}
+    .exp-feature-body h3{font-size:1.35rem;margin-bottom:10px;letter-spacing:-.01em}
+    .exp-feature-body p{color:var(--muted);line-height:1.75;font-size:.95rem}
     .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     .exp-card{overflow:hidden;transition:.28s}
     .exp-card:hover{transform:translateY(-6px)}
@@ -241,12 +270,12 @@
     .project-body h3{margin-bottom:8px;font-size:1rem}
     .project-body p{color:var(--muted);font-size:.88rem;line-height:1.65;margin-bottom:12px}
     .tags{display:flex;flex-wrap:wrap;gap:7px}
-    .tag{padding:4px 9px;border-radius:999px;font-size:.75rem;font-family:var(--mono);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.16);color:var(--cyan)}
+    .tag{padding:4px 9px;border-radius:999px;font-size:.75rem;font-family:var(--mono);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.16);color:var(--cyan)}
 
     .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
     .contact-list{display:grid;gap:11px;margin-top:18px}
     .contact-item{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
-    .contact-icon{width:36px;height:36px;border-radius:11px;background:var(--grad-1);display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 20px rgba(0,212,255,.18)}
+    .contact-icon{width:36px;height:36px;border-radius:11px;background:var(--grad-1);display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 20px rgba(245,166,35,.18)}
     .contact-item .label{font-size:.79rem;color:var(--muted)}
     .contact-item .value{font-weight:700;font-size:.93rem}
 
@@ -257,7 +286,7 @@
       border:1px solid var(--line);outline:none;transition:border-color .2s, box-shadow .2s
     }
     .textarea{min-height:120px;resize:vertical}
-    .input:focus,.textarea:focus{border-color:rgba(0,212,255,.35);box-shadow:0 0 0 3px rgba(0,212,255,.08)}
+    .input:focus,.textarea:focus{border-color:rgba(245,166,35,.35);box-shadow:0 0 0 3px rgba(245,166,35,.08)}
     .form-status{display:none;padding:12px 14px;border-radius:12px;font-size:.88rem;margin-top:10px}
     .form-status.ok{display:block;background:rgba(16,232,160,.09);border:1px solid rgba(16,232,160,.22);color:var(--emerald)}
     .form-status.err{display:block;background:rgba(244,63,94,.09);border:1px solid rgba(244,63,94,.22);color:#ff8aa0}
@@ -339,6 +368,14 @@
       <div class="container hero">
         <div class="hero-inner">
           <div>
+            <svg class="circuit-strip" viewBox="0 0 180 34" aria-hidden="true">
+              <path class="circuit-path" d="M0 17 H30 L40 6 H70 L80 17 H110 L120 28 H150 L160 17 H180" />
+              <path class="circuit-path alt" d="M0 27 H20 L28 17 H55 L63 27 H95 L103 9 H135 L143 17 H180" />
+              <circle class="circuit-node" cx="40" cy="6" r="3.2" />
+              <circle class="circuit-node alt" cx="80" cy="17" r="3.2" />
+              <circle class="circuit-node" cx="120" cy="28" r="3.2" />
+              <circle class="circuit-node alt" cx="160" cy="17" r="3.2" />
+            </svg>
             <div class="eyebrow" data-anim><span data-i18n="eyebrow">Portfolio professionnel • Énergie • Électricité • Solaire • Web</span></div>
             <h1 class="hero-title" data-anim data-delay="1">
               <span data-i18n="hello">Bonjour, je suis</span>
@@ -367,7 +404,7 @@
               </div>
             </div>
             <div class="avatar-container">
-              <img src="https://ui-avatars.com/api/?name=Idriss+Nassi&size=100&background=00d4ff&color=fff&length=2&bold=true&font-size=0.50" alt="Avatar Idriss Nassi" class="avatar" />
+              <img src="https://ui-avatars.com/api/?name=Idriss+Nassi&size=100&background=f5a623&color=fff&length=2&bold=true&font-size=0.50" alt="Avatar Idriss Nassi" class="avatar" />
             </div>
             <div class="badge-grid">
               <div class="badge-item"><strong data-i18n="pb1t">Formation</strong><span data-i18n="pb1s">Physique · Énergie · Matériaux</span></div>
@@ -375,6 +412,18 @@
             </div>
             <div style="display:flex;justify-content:center">
               <div class="visit-chip"><span>👁</span><span id="vcnt">128</span><span data-i18n="vis">visiteurs</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="industrial-strip glass" data-anim data-delay="3">
+          <div class="industrial-media">
+            <img src="https://images.unsplash.com/photo-1755717706420-83d338718475?auto=format&fit=crop&w=1600&q=85" alt="Site industriel — extraction minière" loading="lazy" />
+            <div class="industrial-scan"></div>
+            <div class="industrial-frame"></div>
+            <div class="industrial-overlay">
+              <div class="mini-tag tag-cyan">⚙ <span data-i18n="ind_tag">Terrain industriel</span></div>
+              <div class="industrial-title" data-i18n="ind_title">Extraction & valorisation du phosphate — OCP Youssoufia</div>
             </div>
           </div>
         </div>
@@ -426,6 +475,17 @@
               </div>
             </div>
           </div>
+
+          <div class="photo-gallery" style="grid-template-columns:1fr 1fr;margin-top:12px">
+            <div class="gallery-sm glass" style="min-height:220px">
+              <img src="https://images.unsplash.com/photo-1526958097520-c34fe8c3c2a1?auto=format&fit=crop&w=1000&q=85" alt="Centrale thermique" loading="lazy" />
+              <div class="gallery-overlay" data-i18n="pg4">Centrale Thermique — Safi</div>
+            </div>
+            <div class="gallery-sm glass" style="min-height:220px">
+              <img src="https://images.unsplash.com/photo-1606050309588-741702cceb9b?auto=format&fit=crop&w=1000&q=85" alt="Centrale hydraulique" loading="lazy" />
+              <div class="gallery-overlay" data-i18n="pg5">Centrale Hydraulique — Barrage</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -475,40 +535,67 @@
           <p class="section-sub" data-i18n="ex_sub">Expériences d'observation et projets pratiques.</p>
         </div>
 
+        <article class="exp-feature glass" data-anim>
+          <div class="exp-feature-media"><img src="https://images.unsplash.com/photo-1755717706420-83d338718475?auto=format&fit=crop&w=1200&q=85" alt="Stage pratique OCP Youssoufia" loading="lazy" /></div>
+          <div class="exp-feature-body">
+            <div class="mini-tag tag-cyan">🏭 <span data-i18n="xf_tag">Stage pratique</span></div>
+            <h3 data-i18n="xf_t">Stage pratique — OCP Youssoufia, Usine de Séchage</h3>
+            <p data-i18n="xf_p">Immersion complète dans la chaîne de valorisation du phosphate : contrôle qualité en laboratoire, procédés de traitement et découverte des opérations d'extraction minière.</p>
+          </div>
+        </article>
+
         <div class="exp-grid">
           <article class="exp-card glass" data-anim>
-            <div class="exp-media"><img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=1000&q=85" alt="Électricité bâtiment" loading="lazy" /></div>
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=1000&q=85" alt="Analyses laboratoire" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-cyan">🏗️ <span data-i18n="x1tag">Stage d'observation</span></div>
-              <h3 data-i18n="x1t">Électricien des bâtiments</h3>
-              <p data-i18n="x1p">Observation d'installations électriques et maintenance.</p>
+              <div class="mini-tag tag-cyan">🧪 <span data-i18n="x1tag">Laboratoire</span></div>
+              <h3 data-i18n="x1t">Analyses BPL, Cadmium et Silice</h3>
+              <p data-i18n="x1p">Réalisation d'analyses de contrôle qualité sur les échantillons de phosphate : teneur en BPL, dosage du cadmium et de la silice.</p>
             </div>
           </article>
 
           <article class="exp-card glass" data-anim data-delay="1">
-            <div class="exp-media"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1000&q=85" alt="Milieu industriel" loading="lazy" /></div>
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1000&q=85" alt="Traitement du phosphate" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-violet">🏭 <span data-i18n="x2tag">Visite industrielle</span></div>
-              <h3 data-i18n="x2t">OCP SA Youssoufia — Service électrique</h3>
-              <p data-i18n="x2p">Découverte des équipements électriques industriels.</p>
+              <div class="mini-tag tag-violet">⚙️ <span data-i18n="x2tag">Procédé</span></div>
+              <h3 data-i18n="x2t">Traitement et valorisation du phosphate</h3>
+              <p data-i18n="x2p">Suivi des étapes de traitement du minerai brut jusqu'au produit valorisé, prêt pour la transformation industrielle.</p>
             </div>
           </article>
 
           <article class="exp-card glass" data-anim data-delay="2">
-            <div class="exp-media"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1000&q=85" alt="Systèmes énergétiques" loading="lazy" /></div>
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1000&q=85" alt="Usine de calcination" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-cyan">⚡ <span data-i18n="x3tag">Projet académique</span></div>
-              <h3 data-i18n="x3t">Étude de systèmes PV</h3>
-              <p data-i18n="x3p">Analyse de panneaux solaires et rendement énergétique.</p>
+              <div class="mini-tag tag-cyan">🔥 <span data-i18n="x3tag">Usine</span></div>
+              <h3 data-i18n="x3t">Usine de calcination</h3>
+              <p data-i18n="x3p">Visite de l'unité de calcination et observation du traitement thermique du phosphate.</p>
             </div>
           </article>
 
           <article class="exp-card glass" data-anim data-delay="3">
-            <div class="exp-media"><img src="https://images.unsplash.com/photo-1526958097520-c34fe8c3c2a1?auto=format&fit=crop&w=1000&q=85" alt="Centrale thermique Safi" loading="lazy" /></div>
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1606050309588-741702cceb9b?auto=format&fit=crop&w=1000&q=85" alt="Laverie du minerai" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-violet">🔥 <span data-i18n="x4tag">Visite</span></div>
-              <h3 data-i18n="x4t">Centrale thermique — Safi</h3>
-              <p data-i18n="x4p">Découverte du fonctionnement d'une centrale thermique.</p>
+              <div class="mini-tag tag-violet">💧 <span data-i18n="x4tag">Laverie</span></div>
+              <h3 data-i18n="x4t">Laverie — Lavage du minerai</h3>
+              <p data-i18n="x4p">Découverte du procédé de lavage et de séparation du minerai extrait.</p>
+            </div>
+          </article>
+
+          <article class="exp-card glass" data-anim data-delay="4">
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1755717706420-83d338718475?auto=format&fit=crop&w=1000&q=85" alt="Mine d'extraction — engins lourds" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-cyan">🚛 <span data-i18n="x5tag">Mine</span></div>
+              <h3 data-i18n="x5t">Mine d'extraction — Engins lourds</h3>
+              <p data-i18n="x5p">Visite du site d'extraction et observation des engins miniers : camions Komatsu, bulldozers CAT D11 et D12, niveleuse et pelles Poclain.</p>
+            </div>
+          </article>
+
+          <article class="exp-card glass" data-anim data-delay="1">
+            <div class="exp-media"><img src="https://images.unsplash.com/photo-1652303518379-c0ef1c9fb2b1?auto=format&fit=crop&w=1000&q=85" alt="Formation HSE" loading="lazy" /></div>
+            <div class="exp-body">
+              <div class="mini-tag tag-violet">🦺 <span data-i18n="x6tag">HSE</span></div>
+              <h3 data-i18n="x6t">Formation HSE — Usine de séchage</h3>
+              <p data-i18n="x6p">Formation en hygiène, sécurité et environnement, avec sensibilisation aux règles de sécurité sur site industriel.</p>
             </div>
           </article>
         </div>
@@ -525,7 +612,7 @@
 
         <div class="grid-3">
           <div class="skill-card glass" data-anim>
-            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(0,212,255,.16),rgba(0,212,255,.05))">⚡</div>
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(245,166,35,.16),rgba(245,166,35,.05))">⚡</div>
             <h3 data-i18n="sk1h">Techniques</h3>
             <div class="skill-points">
               <div class="skill-point" data-i18n="sk1a">Électricité générale</div>
@@ -536,7 +623,7 @@
           </div>
 
           <div class="skill-card glass" data-anim data-delay="1">
-            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(139,92,246,.05))">💻</div>
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(30,136,229,.16),rgba(30,136,229,.05))">💻</div>
             <h3 data-i18n="sk2h">Numérique</h3>
             <div class="skill-points">
               <div class="skill-point" data-i18n="sk2a">Outils bureautiques</div>
@@ -665,16 +752,20 @@
         v2t:'Énergie solaire',v2p:'Analyse des systèmes PV et solutions solaires durables.',
         v3t:'Physique & Matériaux',v3p:'Travaux pratiques en laboratoire et analyse de matériaux.',
         v4t:'Développement web',v4p:'Création de sites modernes et portfolios professionnels.',
-        pg_lbl:'Galerie — Domaines de compétence',pg1:'Énergie Solaire — Systèmes PV',pg2:'Électricité Industrielle',pg3:'Laboratoire — Physique',
+        pg_lbl:'Galerie — Domaines de compétence',pg1:'Énergie Solaire — Systèmes PV',pg2:'Électricité Industrielle',pg3:'Laboratoire — Physique',pg4:'Centrale Thermique — Safi',pg5:'Centrale Hydraulique — Barrage',
+        ind_tag:'Terrain industriel',ind_title:'Extraction & valorisation du phosphate — OCP Youssoufia',
         ed_lbl:'Parcours académique',ed_title:'Formation',ed_sub:'Un parcours orienté vers la science, l\'électricité et l\'énergie.',
         e1tag:'Baccalauréat',e1t:'Baccalauréat Sciences et Technologies Électriques',e1p:'Formation initiale en électricité et technologie.',
         e2tag:'DEUG',e2t:'DEUG en Physique',e2p:'Études fondamentales en physique, thermodynamique et électricité.',
         e3tag:'Licence',e3t:'Licence en Énergie et Matériaux',e3p:'Spécialisation en cours dans les systèmes énergétiques et matériaux.',
-        ex_lbl:'Terrain',ex_title:'Expériences',ex_sub:'Expériences d\'observation et projets pratiques.',
-        x1tag:'Stage d\'observation',x1t:'Électricien des bâtiments',x1p:'Observation d\'installations électriques et maintenance.',
-        x2tag:'Visite industrielle',x2t:'OCP SA Youssoufia — Service électrique',x2p:'Découverte des équipements électriques industriels.',
-        x3tag:'Projet académique',x3t:'Étude de systèmes PV',x3p:'Analyse de panneaux solaires et rendement énergétique.',
-        x4tag:'Visite',x4t:'Centrale thermique — Safi',x4p:'Découverte du fonctionnement d\'une centrale thermique.',
+        ex_lbl:'Terrain',ex_title:'Expériences',ex_sub:'Stage pratique chez OCP Youssoufia — de l\'analyse en laboratoire à l\'extraction en mine.',
+        xf_tag:'Stage pratique',xf_t:'Stage pratique — OCP Youssoufia, Usine de Séchage',xf_p:'Immersion complète dans la chaîne de valorisation du phosphate : contrôle qualité en laboratoire, procédés de traitement et découverte des opérations d\'extraction minière.',
+        x1tag:'Laboratoire',x1t:'Analyses BPL, Cadmium et Silice',x1p:'Réalisation d\'analyses de contrôle qualité sur les échantillons de phosphate : teneur en BPL, dosage du cadmium et de la silice.',
+        x2tag:'Procédé',x2t:'Traitement et valorisation du phosphate',x2p:'Suivi des étapes de traitement du minerai brut jusqu\'au produit valorisé, prêt pour la transformation industrielle.',
+        x3tag:'Usine',x3t:'Usine de calcination',x3p:'Visite de l\'unité de calcination et observation du traitement thermique du phosphate.',
+        x4tag:'Laverie',x4t:'Laverie — Lavage du minerai',x4p:'Découverte du procédé de lavage et de séparation du minerai extrait.',
+        x5tag:'Mine',x5t:'Mine d\'extraction — Engins lourds',x5p:'Visite du site d\'extraction et observation des engins miniers : camions Komatsu, bulldozers CAT D11 et D12, niveleuse et pelles Poclain.',
+        x6tag:'HSE',x6t:'Formation HSE — Usine de séchage',x6p:'Formation en hygiène, sécurité et environnement, avec sensibilisation aux règles de sécurité sur site industriel.',
         sk_lbl:'Maîtrise',sk_title:'Compétences',sk_sub:'Compétences techniques et linguistiques.',
         sk1h:'Techniques',sk1a:'Électricité générale',sk1b:'Énergie solaire',sk1c:'Thermodynamique',sk1d:'Travaux pratiques',
         sk2h:'Numérique',sk2a:'Outils bureautiques',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomie',
@@ -702,16 +793,20 @@
         v2t:'Solar energy',v2p:'Analysis of PV systems and sustainable solar solutions.',
         v3t:'Physics & Materials',v3p:'Laboratory work and materials analysis.',
         v4t:'Web development',v4p:'Creation of modern websites and professional portfolios.',
-        pg_lbl:'Gallery — Expertise areas',pg1:'Solar Energy — PV Systems',pg2:'Industrial Electricity',pg3:'Laboratory — Physics',
+        pg_lbl:'Gallery — Expertise areas',pg1:'Solar Energy — PV Systems',pg2:'Industrial Electricity',pg3:'Laboratory — Physics',pg4:'Thermal Power Plant — Safi',pg5:'Hydraulic Power Plant — Dam',
+        ind_tag:'Industrial field',ind_title:'Phosphate extraction & valorization — OCP Youssoufia',
         ed_lbl:'Academic path',ed_title:'Education',ed_sub:'A path oriented towards science, electricity and energy.',
         e1tag:'Baccalaureate',e1t:'Baccalaureate in Electrical Sciences',e1p:'Initial training in electricity and technology.',
         e2tag:'DEUG',e2t:'DEUG in Physics',e2p:'Fundamental studies in physics, thermodynamics and electricity.',
         e3tag:'Degree',e3t:'Degree in Energy and Materials',e3p:'Current specialization in energy systems and materials.',
-        ex_lbl:'Field',ex_title:'Experience',ex_sub:'Observation experiences and practical projects.',
-        x1tag:'Internship',x1t:'Building electrician',x1p:'Observation of electrical installations and maintenance.',
-        x2tag:'Industrial visit',x2t:'OCP SA Youssoufia — Electrical department',x2p:'Discovery of industrial electrical equipment.',
-        x3tag:'Academic project',x3t:'PV systems study',x3p:'Analysis of solar panels and energy efficiency.',
-        x4tag:'Visit',x4t:'Thermal power plant — Safi',x4p:'Discovery of thermal power plant operation.',
+        ex_lbl:'Field',ex_title:'Experience',ex_sub:'Practical internship at OCP Youssoufia — from laboratory analysis to mine extraction.',
+        xf_tag:'Practical internship',xf_t:'Practical internship — OCP Youssoufia, Drying Plant',xf_p:'Full immersion in the phosphate valorization chain: laboratory quality control, processing steps, and discovery of mining operations.',
+        x1tag:'Laboratory',x1t:'BPL, Cadmium and Silica analysis',x1p:'Quality control analyses on phosphate samples: BPL content, cadmium and silica measurement.',
+        x2tag:'Process',x2t:'Phosphate treatment and valorization',x2p:'Following the treatment steps from raw ore to valorized product, ready for industrial transformation.',
+        x3tag:'Plant',x3t:'Calcination plant',x3p:'Visit of the calcination unit and observation of the thermal treatment of phosphate.',
+        x4tag:'Washing plant',x4t:'Washing plant — Ore washing',x4p:'Discovery of the washing and separation process of the extracted ore.',
+        x5tag:'Mine',x5t:'Extraction mine — Heavy equipment',x5p:'Visit of the extraction site and observation of mining equipment: Komatsu trucks, CAT D11 and D12 bulldozers, grader and Poclain excavators.',
+        x6tag:'HSE',x6t:'HSE training — Drying plant',x6p:'Health, safety and environment training, with awareness of safety rules on industrial sites.',
         sk_lbl:'Mastery',sk_title:'Skills',sk_sub:'Technical and linguistic skills.',
         sk1h:'Technical',sk1a:'General electricity',sk1b:'Solar energy',sk1c:'Thermodynamics',sk1d:'Practical work',
         sk2h:'Digital',sk2a:'Office tools',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomy',
@@ -739,16 +834,20 @@
         v2t:'الطاقة الشمسية',v2p:'تحليل أنظمة الطاقة الشمسية.',
         v3t:'الفيزياء والمواد',v3p:'أعمال مخبرية وتحليل المواد.',
         v4t:'تطوير الويب',v4p:'إنشاء مواقع ومحافظ مهنية.',
-        pg_lbl:'معرض — مجالات الخبرة',pg1:'الطاقة الشمسية',pg2:'الكهرباء الصناعية',pg3:'المخبر — الفيزياء',
+        pg_lbl:'معرض — مجالات الخبرة',pg1:'الطاقة الشمسية',pg2:'الكهرباء الصناعية',pg3:'المخبر — الفيزياء',pg4:'المحطة الحرارية — آسفي',pg5:'المحطة الهيدروليكية — السد',
+        ind_tag:'ميدان صناعي',ind_title:'استخراج وتثمين الفوسفاط — OCP اليوسفية',
         ed_lbl:'المسار الأكاديمي',ed_title:'التكوين',ed_sub:'مسار موجه نحو العلوم والكهرباء والطاقة.',
         e1tag:'باكالوريا',e1t:'باكالوريا علوم وتكنولوجيا كهربائية',e1p:'تكوين أولي في الكهرباء والتكنولوجيا.',
         e2tag:'ديوك',e2t:'ديوك في الفيزياء',e2p:'دراسات أساسية في الفيزياء والديناميكا الحرارية والكهرباء.',
         e3tag:'إجازة',e3t:'إجازة في الطاقة والمواد',e3p:'تخصص في أنظمة الطاقة والمواد.',
-        ex_lbl:'الميدان',ex_title:'الخبرات',ex_sub:'تجارب ميدانية ومشاريع تطبيقية.',
-        x1tag:'تدريب',x1t:'كهربائي المباني',x1p:'ملاحظة التركيبات الكهربائية والصيانة.',
-        x2tag:'زيارة صناعية',x2t:'OCP SA اليوسفية — المصلحة الكهربائية',x2p:'اكتشاف المعدات الكهربائية الصناعية.',
-        x3tag:'مشروع أكاديمي',x3t:'دراسة أنظمة الطاقة الشمسية',x3p:'تحليل الألواح الشمسية والكفاءة الطاقوية.',
-        x4tag:'زيارة',x4t:'المحطة الحرارية — آسفي',x4p:'اكتشاف عمل محطة حرارية.',
+        ex_lbl:'الميدان',ex_title:'الخبرات',ex_sub:'تدريب عملي في OCP اليوسفية — من التحليل المخبري إلى استخراج المنجم.',
+        xf_tag:'تدريب عملي',xf_t:'تدريب عملي — OCP اليوسفية، معمل التجفيف',xf_p:'انغماس كامل في سلسلة تثمين الفوسفاط: مراقبة الجودة بالمخبر، مراحل المعالجة، واكتشاف عمليات الاستخراج المنجمي.',
+        x1tag:'المخبر',x1t:'تحليل BPL والكادميوم والسيليس',x1p:'إجراء تحاليل مراقبة الجودة على عينات الفوسفاط: نسبة BPL، قياس الكادميوم والسيليس.',
+        x2tag:'المعالجة',x2t:'معالجة وتثمين الفوسفاط',x2p:'متابعة مراحل معالجة الخام حتى المنتج المثمَّن الجاهز للتحويل الصناعي.',
+        x3tag:'المعمل',x3t:'معمل التكليس',x3p:'زيارة وحدة التكليس ومراقبة المعالجة الحرارية للفوسفاط.',
+        x4tag:'مغسلة',x4t:'مغسلة — غسل الخام',x4p:'اكتشاف عملية غسل وفصل الخام المستخرج.',
+        x5tag:'المنجم',x5t:'منجم الاستخراج — آليات ثقيلة',x5p:'زيارة موقع الاستخراج ومشاهدة آليات التعدين: شاحنات كوماتسو، جرافات كاتربيلر D11 وD12، المسوية ومجارف بوكلان.',
+        x6tag:'السلامة',x6t:'تكوين HSE — معمل التجفيف',x6p:'تكوين في الصحة والسلامة والبيئة، مع التوعية بقواعد السلامة داخل الموقع الصناعي.',
         sk_lbl:'الإتقان',sk_title:'المهارات',sk_sub:'مهارات تقنية ولغوية.',
         sk1h:'تقنية',sk1a:'كهرباء عامة',sk1b:'طاقة شمسية',sk1c:'ديناميكا حرارية',sk1d:'أعمال تطبيقية',
         sk2h:'رقمية',sk2a:'أدوات مكتبية',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'استقلالية',
