@@ -3,12 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Idriss Nassi — Portfolio Professionnel</title>
-  <meta name="description" content="Portfolio professionnel d'Idriss Nassi — énergie, électricité, solaire, matériaux et développement web au Maroc." />
+  <title>Idriss Nassi — Étudiant Énergie & Matériaux | Électricité · Solaire · Industrie</title>
+  <meta name="description" content="Portfolio professionnel d'Idriss Nassi, étudiant en Énergie et Matériaux au Maroc. Électricité, énergie solaire, contrôle qualité industriel et développement web — stage pratique chez OCP Youssoufia." />
+  <meta name="theme-color" content="#06101f" />
+  <link rel="canonical" href="https://idriss-nassi-portfolio.example/" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f5a623'/%3E%3Cstop offset='1' stop-color='%231e88e5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='24' height='24' rx='6' fill='%2306101f'/%3E%3Cpath d='M13 2 4 14h6l-1 8 9-12h-6z' fill='url(%23g)'/%3E%3C/svg%3E" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Idriss Nassi — Portfolio Énergie, Électricité & Industrie" />
+  <meta property="og:description" content="Étudiant en Énergie et Matériaux — électricité, solaire, industrie et développement web. Stage pratique chez OCP Youssoufia." />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Idriss Nassi — Portfolio Énergie & Électricité" />
+  <meta name="twitter:description" content="Étudiant en Énergie et Matériaux — électricité, solaire, industrie et développement web." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Idriss Nassi",
+    "jobTitle": "Étudiant en Énergie et Matériaux",
+    "email": "mailto:i.nassi9018@uca.ac.ma",
+    "telephone": "+212606614127",
+    "address": { "@type": "PostalAddress", "addressLocality": "Youssoufia", "addressCountry": "MA" },
+    "knowsAbout": ["Électricité", "Énergie solaire", "Matériaux", "Contrôle qualité industriel", "Développement web"]
+  }
+  </script>
   <style>
     :root{
       --bg:#06101f;
@@ -33,8 +55,20 @@
       --mono:'Space Mono',monospace;
     }
 
+    /* === RESET & ACCESSIBILITY === */
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
+    .skip-link{
+      position:absolute;left:12px;top:-60px;z-index:1000;padding:10px 16px;border-radius:10px;
+      background:var(--grad-1);color:#06101f;font-weight:800;font-size:.85rem;transition:top .2s ease
+    }
+    .skip-link:focus{top:12px}
+    a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+      outline:2px solid var(--cyan);outline-offset:3px;border-radius:8px
+    }
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+    }
     body{
       font-family:var(--ff);
       background:
@@ -93,6 +127,14 @@
     .nav-links a:hover,.nav-links a.active{color:#fff}
     .nav-links a:hover::after,.nav-links a.active::after{width:100%}
     .nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .hamburger{
+      display:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);
+      flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer
+    }
+    .hamburger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:transform .25s ease, opacity .25s ease}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
     .lang-switch{display:flex;gap:6px}
     .lang-btn{
       border:1px solid var(--line);background:transparent;padding:9px 11px;border-radius:10px;color:var(--muted)
@@ -148,7 +190,8 @@
     @keyframes blink{50%{opacity:.2}}
     .hero-title{font-size:clamp(2.8rem, 5vw, 5.4rem);line-height:.95;letter-spacing:-.04em;margin-bottom:18px}
     .hero-title .line-name{display:block;background:var(--grad-1);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .hero-desc{max-width:640px;color:var(--muted);font-size:1.03rem;line-height:1.8;margin-bottom:28px}
+    .hero-desc{max-width:640px;color:var(--muted);font-size:1.03rem;line-height:1.8;margin-bottom:14px}
+    .hero-tagline{max-width:600px;color:var(--cyan);font-size:.92rem;font-style:italic;line-height:1.7;margin-bottom:26px;padding-left:14px;border-left:2px solid rgba(245,166,35,.4)}
     .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
     .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
     .stat{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line);position:relative;overflow:hidden}
@@ -251,7 +294,8 @@
 
     .skill-card{padding:22px}
     .skill-icon{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;margin-bottom:14px}
-    .skill-card h3{margin-bottom:12px}
+    .skill-card h3{margin-bottom:4px}
+    .skill-card .skill-sub{color:var(--muted);font-size:.8rem;margin-bottom:14px}
     .skill-points{display:grid;gap:8px}
     .skill-point{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:.84rem;display:flex;align-items:center;gap:8px}
     .skill-point::before{content:'▸';color:var(--cyan);font-size:.72rem}
@@ -271,6 +315,22 @@
     .project-body p{color:var(--muted);font-size:.88rem;line-height:1.65;margin-bottom:12px}
     .tags{display:flex;flex-wrap:wrap;gap:7px}
     .tag{padding:4px 9px;border-radius:999px;font-size:.75rem;font-family:var(--mono);background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.16);color:var(--cyan)}
+    .project-skills{color:var(--muted);font-size:.8rem;margin:10px 0 14px;line-height:1.6}
+    .project-skills strong{color:var(--text)}
+    .project-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn-disabled{opacity:.55;cursor:not-allowed;pointer-events:none}
+
+    /* === EDUCATION META === */
+    .edu-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;font-size:.8rem;color:var(--muted)}
+    .edu-meta span{padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+    .edu-skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .edu-skills .tag{font-size:.7rem}
+
+    /* === CV SECTION === */
+    .cv-hero{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+    .cv-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+    .cv-note{margin-top:14px;font-size:.82rem;color:var(--muted)}
+    @media (max-width:860px){.cv-hero{grid-template-columns:1fr}}
 
     .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
     .contact-list{display:grid;gap:11px;margin-top:18px}
@@ -313,7 +373,15 @@
     }
     @media (max-width:860px){
       #cur-d,#cur-r{display:none}
-      .nav-links{display:none}
+      .hamburger{display:flex}
+      .nav-links{
+        display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;
+        max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease, opacity .25s ease;
+        order:5;padding:0
+      }
+      .nav-links.open{max-height:420px;opacity:1;padding:10px 0}
+      .nav-links a{width:100%;padding:12px 4px;border-bottom:1px solid var(--line)}
+      .nav-links a::after{display:none}
       .hero-inner,.grid-2,.exp-grid,.contact-grid,.photo-gallery{grid-template-columns:1fr}
       .gallery-col{grid-template-columns:1fr 1fr;display:grid}
       .grid-3{grid-template-columns:1fr}
@@ -331,40 +399,50 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link" data-i18n="skip_link">Aller au contenu</a>
   <div id="bg-grid"></div>
   <div class="blob"></div>
   <div class="blob-2"></div>
 
   <header class="topbar" id="topbar">
     <div class="container nav">
-      <div class="brand" data-page="home">
-        <div class="logo">IN</div>
+      <a class="brand" data-page="home" href="#home" aria-label="Idriss Nassi — Accueil">
+        <div class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="#06101f"/>
+          </svg>
+        </div>
         <span data-i18n="brand">Idriss Nassi</span>
-      </div>
+      </a>
 
-      <nav class="nav-links">
-        <a class="nav-link active" data-page="home" data-i18n="nav_home">Accueil</a>
-        <a class="nav-link" data-page="about" data-i18n="nav_about">À propos</a>
-        <a class="nav-link" data-page="education" data-i18n="nav_edu">Formation</a>
-        <a class="nav-link" data-page="experience" data-i18n="nav_exp">Expériences</a>
-        <a class="nav-link" data-page="skills" data-i18n="nav_skills">Compétences</a>
-        <a class="nav-link" data-page="projects" data-i18n="nav_proj">Projets</a>
-        <a class="nav-link" data-page="contact" data-i18n="nav_contact">Contact</a>
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
+        <a class="nav-link active" data-page="home" href="#home" aria-current="page" data-i18n="nav_home">Accueil</a>
+        <a class="nav-link" data-page="about" href="#about" data-i18n="nav_about">À propos</a>
+        <a class="nav-link" data-page="education" href="#education" data-i18n="nav_edu">Formation</a>
+        <a class="nav-link" data-page="experience" href="#experience" data-i18n="nav_exp">Expériences</a>
+        <a class="nav-link" data-page="skills" href="#skills" data-i18n="nav_skills">Compétences</a>
+        <a class="nav-link" data-page="projects" href="#projects" data-i18n="nav_proj">Projets</a>
+        <a class="nav-link" data-page="cv" href="#cv" data-i18n="nav_cv">CV</a>
+        <a class="nav-link" data-page="contact" href="#contact" data-i18n="nav_contact">Contact</a>
       </nav>
 
       <div class="nav-right">
-        <div class="lang-switch">
-          <button class="lang-btn active" data-lang="fr">FR</button>
-          <button class="lang-btn" data-lang="en">EN</button>
-          <button class="lang-btn" data-lang="ar">AR</button>
+        <div class="lang-switch" role="group" aria-label="Choix de la langue">
+          <button class="lang-btn active" data-lang="fr" aria-pressed="true">FR</button>
+          <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button class="lang-btn" data-lang="ar" aria-pressed="false">AR</button>
         </div>
         <button class="btn btn-primary btn-small" data-page="contact" data-i18n="cta">Me contacter</button>
       </div>
     </div>
   </header>
 
-  <main>
-    <section id="home" class="page-section active">
+  <main id="main-content">
+    <section id="home" class="page-section active" aria-labelledby="home-h1">
       <div class="container hero">
         <div class="hero-inner">
           <div>
@@ -377,21 +455,23 @@
               <circle class="circuit-node alt" cx="160" cy="17" r="3.2" />
             </svg>
             <div class="eyebrow" data-anim><span data-i18n="eyebrow">Portfolio professionnel • Énergie • Électricité • Solaire • Web</span></div>
-            <h1 class="hero-title" data-anim data-delay="1">
+            <h1 class="hero-title" id="home-h1" data-anim data-delay="1">
               <span data-i18n="hello">Bonjour, je suis</span>
               <span class="line-name">Idriss Nassi</span>
             </h1>
-            <p class="hero-desc" data-anim data-delay="2" data-i18n="hdesc">Étudiant en physique, énergie et matériaux. Passionné par les systèmes électriques, l'énergie solaire et le développement web. Je relie la science, la technique et le numérique dans des projets concrets et utiles.</p>
+            <p class="hero-desc" data-anim data-delay="2" data-i18n="hdesc">Étudiant en Énergie & Matériaux, orientation Électricité · Énergie · Solaire · Industrie. Je relie la science, la technique et le numérique dans des projets concrets et utiles.</p>
+            <p class="hero-tagline" data-anim data-delay="2" data-i18n="htag">« Je développe des compétences à l'intersection de l'énergie, de l'électricité, des matériaux et du numérique. »</p>
             <div class="hero-actions" data-anim data-delay="3">
-              <button class="btn btn-primary" data-page="projects" data-i18n="b_proj">Voir mes projets</button>
-              <button class="btn btn-ghost" data-page="experience" data-i18n="b_exp">Mon parcours</button>
+              <button class="btn btn-primary" data-page="experience" data-i18n="b_exp">Voir mon parcours</button>
+              <a class="btn btn-ghost" href="assets/cv/Idriss-Nassi-CV.pdf" download data-i18n="b_cv">Télécharger mon CV</a>
               <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn btn-ghost" href="mailto:i.nassi9018@uca.ac.ma" data-i18n="b_mail">Email</a>
             </div>
             <div class="hero-stats" data-anim data-delay="4">
-              <div class="stat"><strong>3</strong><span data-i18n="s1">Années d'études</span></div>
-              <div class="stat"><strong>4</strong><span data-i18n="s2">Domaines d'expertise</span></div>
-              <div class="stat"><strong>+5</strong><span data-i18n="s3">Projets réalisés</span></div>
-              <div class="stat"><strong>3</strong><span data-i18n="s4">Langues</span></div>
+              <div class="stat"><strong>3+</strong><span data-i18n="s1">Ans de formation scientifique</span></div>
+              <div class="stat"><strong>1</strong><span data-i18n="s2">Stage pratique industriel (OCP)</span></div>
+              <div class="stat"><strong>3</strong><span data-i18n="s3">Domaines : Électricité · Énergie · Matériaux</span></div>
+              <div class="stat"><strong>3</strong><span data-i18n="s4">Langues parlées</span></div>
             </div>
           </div>
 
@@ -504,7 +584,9 @@
             <div class="timeline-box">
               <div class="mini-tag tag-cyan">⚡ <span data-i18n="e1tag">Baccalauréat</span></div>
               <h3 data-i18n="e1t">Baccalauréat Sciences et Technologies Électriques</h3>
+              <div class="edu-meta"><span data-i18n="e1inst">Établissement : [À COMPLÉTER]</span><span data-i18n="e1per">2023</span></div>
               <p data-i18n="e1p">Formation initiale en électricité et technologie.</p>
+              <div class="edu-skills"><span class="tag" data-i18n="e1s1">Circuits électriques</span><span class="tag" data-i18n="e1s2">Technologie</span><span class="tag" data-i18n="e1s3">Bases scientifiques</span></div>
             </div>
           </div>
           <div class="timeline-item" data-anim data-delay="1">
@@ -512,7 +594,9 @@
             <div class="timeline-box">
               <div class="mini-tag tag-violet">🔭 <span data-i18n="e2tag">DEUG</span></div>
               <h3 data-i18n="e2t">DEUG en Physique</h3>
+              <div class="edu-meta"><span data-i18n="e2inst">Faculté des Sciences — Établissement : [À COMPLÉTER]</span><span data-i18n="e2per">2024 – 2026</span></div>
               <p data-i18n="e2p">Études fondamentales en physique, thermodynamique et électricité.</p>
+              <div class="edu-skills"><span class="tag" data-i18n="e2s1">Physique générale</span><span class="tag" data-i18n="e2s2">Thermodynamique</span><span class="tag" data-i18n="e2s3">Travaux pratiques</span></div>
             </div>
           </div>
           <div class="timeline-item" data-anim data-delay="2">
@@ -520,7 +604,9 @@
             <div class="timeline-box">
               <div class="mini-tag tag-cyan">🔋 <span data-i18n="e3tag">Licence</span></div>
               <h3 data-i18n="e3t">Licence en Énergie et Matériaux</h3>
+              <div class="edu-meta"><span data-i18n="e3inst">Établissement : [À COMPLÉTER]</span><span data-i18n="e3per">En cours — 2026</span></div>
               <p data-i18n="e3p">Spécialisation en cours dans les systèmes énergétiques et matériaux.</p>
+              <div class="edu-skills"><span class="tag" data-i18n="e3s1">Systèmes énergétiques</span><span class="tag" data-i18n="e3s2">Science des matériaux</span><span class="tag" data-i18n="e3s3">Énergies renouvelables</span></div>
             </div>
           </div>
         </div>
@@ -548,7 +634,7 @@
           <article class="exp-card glass" data-anim>
             <div class="exp-media"><img src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=1000&q=85" alt="Analyses laboratoire" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-cyan">🧪 <span data-i18n="x1tag">Laboratoire</span></div>
+              <div class="mini-tag tag-cyan">🧪 <span data-i18n="x1tag">Expérience pratique</span></div>
               <h3 data-i18n="x1t">Analyses BPL, Cadmium et Silice</h3>
               <p data-i18n="x1p">Réalisation d'analyses de contrôle qualité sur les échantillons de phosphate : teneur en BPL, dosage du cadmium et de la silice.</p>
             </div>
@@ -557,7 +643,7 @@
           <article class="exp-card glass" data-anim data-delay="1">
             <div class="exp-media"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1000&q=85" alt="Traitement du phosphate" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-violet">⚙️ <span data-i18n="x2tag">Procédé</span></div>
+              <div class="mini-tag tag-violet">⚙️ <span data-i18n="x2tag">Observation</span></div>
               <h3 data-i18n="x2t">Traitement et valorisation du phosphate</h3>
               <p data-i18n="x2p">Suivi des étapes de traitement du minerai brut jusqu'au produit valorisé, prêt pour la transformation industrielle.</p>
             </div>
@@ -566,7 +652,7 @@
           <article class="exp-card glass" data-anim data-delay="2">
             <div class="exp-media"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1000&q=85" alt="Usine de calcination" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-cyan">🔥 <span data-i18n="x3tag">Usine</span></div>
+              <div class="mini-tag tag-cyan">🔥 <span data-i18n="x3tag">Visite industrielle</span></div>
               <h3 data-i18n="x3t">Usine de calcination</h3>
               <p data-i18n="x3p">Visite de l'unité de calcination et observation du traitement thermique du phosphate.</p>
             </div>
@@ -575,7 +661,7 @@
           <article class="exp-card glass" data-anim data-delay="3">
             <div class="exp-media"><img src="https://images.unsplash.com/photo-1606050309588-741702cceb9b?auto=format&fit=crop&w=1000&q=85" alt="Laverie du minerai" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-violet">💧 <span data-i18n="x4tag">Laverie</span></div>
+              <div class="mini-tag tag-violet">💧 <span data-i18n="x4tag">Visite industrielle</span></div>
               <h3 data-i18n="x4t">Laverie — Lavage du minerai</h3>
               <p data-i18n="x4p">Découverte du procédé de lavage et de séparation du minerai extrait.</p>
             </div>
@@ -584,7 +670,7 @@
           <article class="exp-card glass" data-anim data-delay="4">
             <div class="exp-media"><img src="https://images.unsplash.com/photo-1755717706420-83d338718475?auto=format&fit=crop&w=1000&q=85" alt="Mine d'extraction — engins lourds" loading="lazy" /></div>
             <div class="exp-body">
-              <div class="mini-tag tag-cyan">🚛 <span data-i18n="x5tag">Mine</span></div>
+              <div class="mini-tag tag-cyan">🚛 <span data-i18n="x5tag">Visite industrielle</span></div>
               <h3 data-i18n="x5t">Mine d'extraction — Engins lourds</h3>
               <p data-i18n="x5p">Visite du site d'extraction et observation des engins miniers : camions Komatsu, bulldozers CAT D11 et D12, niveleuse et pelles Poclain.</p>
             </div>
@@ -610,37 +696,68 @@
           <p class="section-sub" data-i18n="sk_sub">Compétences techniques et linguistiques.</p>
         </div>
 
-        <div class="grid-3">
+        <div class="grid-2" style="margin-bottom:18px">
           <div class="skill-card glass" data-anim>
             <div class="skill-icon" style="background:linear-gradient(135deg,rgba(245,166,35,.16),rgba(245,166,35,.05))">⚡</div>
-            <h3 data-i18n="sk1h">Techniques</h3>
+            <h3 data-i18n="sk1h">Électricité & Énergie</h3>
+            <div class="skill-sub" data-i18n="sk1sub">Bases techniques et notions appliquées</div>
             <div class="skill-points">
               <div class="skill-point" data-i18n="sk1a">Électricité générale</div>
-              <div class="skill-point" data-i18n="sk1b">Énergie solaire</div>
-              <div class="skill-point" data-i18n="sk1c">Thermodynamique</div>
-              <div class="skill-point" data-i18n="sk1d">Travaux pratiques</div>
+              <div class="skill-point" data-i18n="sk1b">Installations électriques</div>
+              <div class="skill-point" data-i18n="sk1c">Énergie solaire</div>
+              <div class="skill-point" data-i18n="sk1d">Systèmes photovoltaïques</div>
+              <div class="skill-point" data-i18n="sk1e">Bases en électrotechnique</div>
             </div>
           </div>
 
           <div class="skill-card glass" data-anim data-delay="1">
-            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(30,136,229,.16),rgba(30,136,229,.05))">💻</div>
-            <h3 data-i18n="sk2h">Numérique</h3>
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(30,136,229,.16),rgba(30,136,229,.05))">🔬</div>
+            <h3 data-i18n="sk2h">Physique & Matériaux</h3>
+            <div class="skill-sub" data-i18n="sk2sub">Formation académique et laboratoire</div>
             <div class="skill-points">
-              <div class="skill-point" data-i18n="sk2a">Outils bureautiques</div>
-              <div class="skill-point" data-i18n="sk2b">HTML/CSS</div>
-              <div class="skill-point" data-i18n="sk2c">JavaScript</div>
-              <div class="skill-point" data-i18n="sk2d">Autonomie</div>
+              <div class="skill-point" data-i18n="sk2a">Physique</div>
+              <div class="skill-point" data-i18n="sk2b">Thermodynamique</div>
+              <div class="skill-point" data-i18n="sk2c">Science des matériaux</div>
+              <div class="skill-point" data-i18n="sk2d">Travaux pratiques</div>
+              <div class="skill-point" data-i18n="sk2e">Analyse en laboratoire</div>
             </div>
           </div>
 
           <div class="skill-card glass" data-anim data-delay="2">
-            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(16,232,160,.16),rgba(16,232,160,.05))">🌐</div>
-            <h3 data-i18n="sk3h">Langues</h3>
-            <div class="lang-item"><div class="lang-meta"><span>Français</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="96"></div></div></div>
-            <div class="lang-item"><div class="lang-meta"><span data-i18n="lar">Arabe</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="98"></div></div></div>
-            <div class="lang-item"><div class="lang-meta"><span>English</span><span style="color:var(--cyan);font-family:var(--mono)">B1</span></div><div class="lang-bar"><div class="lang-fill" data-width="60"></div></div></div>
-            <div class="skill-point" style="margin-top:12px" data-i18n="sk3d">🚗 Permis B</div>
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(16,232,160,.16),rgba(16,232,160,.05))">🏭</div>
+            <h3 data-i18n="sk3h">Industrie</h3>
+            <div class="skill-sub" data-i18n="sk3sub">Acquis lors du stage pratique chez OCP</div>
+            <div class="skill-points">
+              <div class="skill-point" data-i18n="sk3a">Contrôle qualité</div>
+              <div class="skill-point" data-i18n="sk3b">Procédés industriels</div>
+              <div class="skill-point" data-i18n="sk3c">Traitement du phosphate</div>
+              <div class="skill-point" data-i18n="sk3d">HSE — Hygiène, Sécurité, Environnement</div>
+            </div>
           </div>
+
+          <div class="skill-card glass" data-anim data-delay="3">
+            <div class="skill-icon" style="background:linear-gradient(135deg,rgba(139,92,246,.16),rgba(139,92,246,.05))">💻</div>
+            <h3 data-i18n="sk4h">Numérique</h3>
+            <div class="skill-sub" data-i18n="sk4sub">Outils bureautiques et développement web</div>
+            <div class="skill-points">
+              <div class="skill-point">HTML</div>
+              <div class="skill-point">CSS</div>
+              <div class="skill-point">JavaScript</div>
+              <div class="skill-point">Excel</div>
+              <div class="skill-point">Word</div>
+              <div class="skill-point">PowerPoint</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card glass" data-anim data-delay="4" style="max-width:520px">
+          <div class="skill-icon" style="background:linear-gradient(135deg,rgba(16,232,160,.16),rgba(16,232,160,.05))">🌐</div>
+          <h3 data-i18n="sk5h">Langues</h3>
+          <div class="skill-sub" data-i18n="sk5sub">Niveaux auto-évalués (cadre CECR)</div>
+          <div class="lang-item"><div class="lang-meta"><span>Français</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="96"></div></div></div>
+          <div class="lang-item"><div class="lang-meta"><span data-i18n="lar">Arabe</span><span style="color:var(--cyan);font-family:var(--mono)">C2</span></div><div class="lang-bar"><div class="lang-fill" data-width="98"></div></div></div>
+          <div class="lang-item"><div class="lang-meta"><span>English</span><span style="color:var(--cyan);font-family:var(--mono)">B1</span></div><div class="lang-bar"><div class="lang-fill" data-width="60"></div></div></div>
+          <div class="skill-point" style="margin-top:12px" data-i18n="sk_permis">🚗 Permis B</div>
         </div>
       </div>
     </section>
@@ -655,31 +772,72 @@
 
         <div class="grid-3">
           <article class="project-card glass" data-anim>
-            <div class="project-media"><img src="https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?auto=format&fit=crop&w=1000&q=85" alt="Projet photovoltaïque" loading="lazy" /></div>
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?auto=format&fit=crop&w=1000&q=85" alt="Étude photovoltaïque" loading="lazy" decoding="async" /></div>
             <div class="project-body">
               <h3 data-i18n="p1t">Étude photovoltaïque</h3>
               <p data-i18n="p1p">Analyse du potentiel solaire pour une installation résidentielle.</p>
-              <div class="tags"><span class="tag">Solaire</span><span class="tag">PV</span></div>
+              <div class="tags"><span class="tag">Solaire</span><span class="tag">PV</span><span class="tag">Excel</span></div>
+              <div class="project-skills"><strong data-i18n="proj_skills_lbl">Compétences :</strong> <span data-i18n="p1skills">énergie solaire, calcul de rendement, analyse de données</span></div>
+              <div class="project-actions">
+                <span class="btn btn-ghost btn-small btn-disabled" title="Lien à ajouter" data-i18n="b_view_proj">Voir le projet</span>
+              </div>
             </div>
           </article>
 
           <article class="project-card glass" data-anim data-delay="1">
-            <div class="project-media"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=85" alt="Installations électriques" loading="lazy" /></div>
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=85" alt="Schémas électriques" loading="lazy" decoding="async" /></div>
             <div class="project-body">
               <h3 data-i18n="p2t">Schémas électriques</h3>
               <p data-i18n="p2p">Conception de schémas pour installations domestiques.</p>
               <div class="tags"><span class="tag">Électricité</span><span class="tag">Schéma</span></div>
+              <div class="project-skills"><strong data-i18n="proj_skills_lbl">Compétences :</strong> <span data-i18n="p2skills">lecture de plans, normes électriques de base, conception de schémas</span></div>
+              <div class="project-actions">
+                <span class="btn btn-ghost btn-small btn-disabled" title="Lien à ajouter" data-i18n="b_view_proj">Voir le projet</span>
+              </div>
             </div>
           </article>
 
           <article class="project-card glass" data-anim data-delay="2">
-            <div class="project-media"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1000&q=85" alt="Développement web" loading="lazy" /></div>
+            <div class="project-media"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1000&q=85" alt="Portfolio web" loading="lazy" decoding="async" /></div>
             <div class="project-body">
               <h3 data-i18n="p3t">Portfolio web</h3>
               <p data-i18n="p3p">Création de ce portfolio professionnel en autodidacte.</p>
               <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JS</span></div>
+              <div class="project-skills"><strong data-i18n="proj_skills_lbl">Compétences :</strong> <span data-i18n="p3skills">développement front-end, design responsive, autonomie</span></div>
+              <div class="project-actions">
+                <button class="btn btn-primary btn-small" data-page="contact" data-i18n="b_view_proj">Voir le projet</button>
+                <span class="btn btn-ghost btn-small btn-disabled" title="Lien à ajouter">GitHub</span>
+              </div>
             </div>
           </article>
+        </div>
+        <p class="section-sub" style="margin-top:18px" data-i18n="pj_more">D'autres projets seront ajoutés au fur et à mesure de ma formation.</p>
+      </div>
+    </section>
+
+    <section id="cv" class="page-section">
+      <div class="container section-wrap">
+        <div class="section-head" data-anim>
+          <div class="section-label" data-i18n="cv_lbl">Document</div>
+          <h2 class="section-title" data-i18n="cv_title">Mon CV</h2>
+          <p class="section-sub" data-i18n="cv_sub">Téléchargez ou consultez mon curriculum vitae au format PDF.</p>
+        </div>
+
+        <div class="cv-hero glass card" data-anim>
+          <div>
+            <div class="mini-tag tag-cyan">📄 <span data-i18n="cv_tag">Curriculum Vitae</span></div>
+            <h3 style="font-size:1.3rem;margin:10px 0" data-i18n="cv_h">Idriss Nassi — Énergie & Matériaux</h3>
+            <p style="color:var(--muted);line-height:1.8" data-i18n="cv_p">Retrouvez en un document mon parcours académique, mon stage pratique chez OCP Youssoufia, mes compétences techniques et mes langues.</p>
+            <div class="cv-actions">
+              <a class="btn btn-primary" href="assets/cv/Idriss-Nassi-CV.pdf" download data-i18n="b_cv">Télécharger mon CV</a>
+              <a class="btn btn-ghost" href="assets/cv/Idriss-Nassi-CV.pdf" target="_blank" rel="noopener" data-i18n="b_view_cv">Voir mon CV</a>
+            </div>
+            <p class="cv-note" data-i18n="cv_note">Le fichier PDF doit être ajouté à l'emplacement assets/cv/Idriss-Nassi-CV.pdf.</p>
+          </div>
+          <div class="badge-grid">
+            <div class="badge-item"><strong data-i18n="pb1t">Formation</strong><span data-i18n="pb1s">Physique · Énergie · Matériaux</span></div>
+            <div class="badge-item"><strong data-i18n="pb2t">Compétences</strong><span data-i18n="pb2s">Électricité · Solaire · Web</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -702,6 +860,8 @@
                 <div class="contact-item"><div class="contact-icon">📧</div><div><div class="label">Email</div><div class="value">i.nassi9018@uca.ac.ma</div></div></div>
                 <div class="contact-item"><div class="contact-icon">📱</div><div><div class="label" data-i18n="c_phone">Téléphone</div><div class="value">06 06 61 41 27</div></div></div>
                 <div class="contact-item"><div class="contact-icon">📍</div><div><div class="label" data-i18n="c_city">Ville</div><div class="value">Youssoufia, Maroc</div></div></div>
+                <div class="contact-item"><div class="contact-icon">💼</div><div><div class="label">LinkedIn</div><div class="value" data-i18n="c_placeholder">[À COMPLÉTER]</div></div></div>
+                <div class="contact-item"><div class="contact-icon">🖥️</div><div><div class="label">GitHub</div><div class="value" data-i18n="c_placeholder">[À COMPLÉTER]</div></div></div>
               </div>
               <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
                 <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener" data-i18n="c_wa">WhatsApp</a>
@@ -714,11 +874,11 @@
             <div class="glass card">
               <h3 style="font-size:1.15rem;margin-bottom:5px" data-i18n="f_title">Message</h3>
               <p style="color:var(--muted);font-size:.86rem;margin-bottom:16px" data-i18n="f_sub">Envoyez-moi un message.</p>
-              <div class="field"><label data-i18n="f_name">Votre nom</label><input id="fn" class="input" type="text" placeholder="Nom Prénom" /></div>
-              <div class="field"><label data-i18n="f_email">Email</label><input id="fe" class="input" type="email" placeholder="exemple@email.com" /></div>
-              <div class="field"><label data-i18n="f_msg">Message</label><textarea id="fm" class="textarea" placeholder="Votre message..."></textarea></div>
+              <div class="field"><label for="fn" data-i18n="f_name">Votre nom</label><input id="fn" name="name" class="input" type="text" placeholder="Nom Prénom" autocomplete="name" required /></div>
+              <div class="field"><label for="fe" data-i18n="f_email">Email</label><input id="fe" name="email" class="input" type="email" placeholder="exemple@email.com" autocomplete="email" required /></div>
+              <div class="field"><label for="fm" data-i18n="f_msg">Message</label><textarea id="fm" name="message" class="textarea" placeholder="Votre message..." required></textarea></div>
               <button id="sbtn" class="btn btn-primary" style="width:100%" data-i18n="f_send">Envoyer →</button>
-              <div id="fst" class="form-status"></div>
+              <div id="fst" class="form-status" role="status" aria-live="polite"></div>
             </div>
           </div>
         </div>
@@ -740,10 +900,13 @@
   <script>
     const T = {
       fr:{
-        brand:'Idriss Nassi',nav_home:'Accueil',nav_about:'À propos',nav_edu:'Formation',nav_exp:'Expériences',nav_skills:'Compétences',nav_proj:'Projets',nav_contact:'Contact',cta:'Me contacter',
+        skip_link:'Aller au contenu',
+        brand:'Idriss Nassi',nav_home:'Accueil',nav_about:'À propos',nav_edu:'Formation',nav_exp:'Expériences',nav_skills:'Compétences',nav_proj:'Projets',nav_cv:'CV',nav_contact:'Contact',cta:'Me contacter',
         eyebrow:'Portfolio professionnel • Énergie • Électricité • Solaire • Web',hello:'Bonjour, je suis',
-        hdesc:'Étudiant en physique, énergie et matériaux. Passionné par les systèmes électriques, l\'énergie solaire et le développement web. Je relie la science, la technique et le numérique dans des projets concrets et utiles.',
-        b_proj:'Voir mes projets',b_exp:'Mon parcours',s1:'Années d\'études',s2:'Domaines d\'expertise',s3:'Projets réalisés',s4:'Langues',
+        hdesc:'Étudiant en Énergie & Matériaux, orientation Électricité · Énergie · Solaire · Industrie. Je relie la science, la technique et le numérique dans des projets concrets et utiles.',
+        htag:'« Je développe des compétences à l\'intersection de l\'énergie, de l\'électricité, des matériaux et du numérique. »',
+        b_proj:'Voir mes projets',b_exp:'Voir mon parcours',b_cv:'Télécharger mon CV',b_mail:'Email',b_view_cv:'Voir mon CV',b_view_proj:'Voir le projet',
+        s1:'Ans de formation scientifique',s2:'Stage pratique industriel (OCP)',s3:'Domaines : Électricité · Énergie · Matériaux',s4:'Langues parlées',
         ov1:'Ingénierie & Énergie',ov2:'Maroc · Youssoufia · Disponible',pb1t:'Formation',pb1s:'Physique · Énergie · Matériaux',pb2t:'Compétences',pb2s:'Électricité · Solaire · Web',vis:'visiteurs',
         ab_lbl:'À propos',ab_title:'Qui suis-je ?',ab_sub:'Un profil polyvalent alliant base scientifique solide et forte capacité d\'apprentissage.',
         pr_title:'Mon profil',pr_text:'Je suis un jeune profil orienté vers les métiers de l\'énergie, de l\'électricité et des matériaux. Actuellement en formation, je développe des compétences solides dans les systèmes électriques et les énergies renouvelables.',
@@ -755,36 +918,48 @@
         pg_lbl:'Galerie — Domaines de compétence',pg1:'Énergie Solaire — Systèmes PV',pg2:'Électricité Industrielle',pg3:'Laboratoire — Physique',pg4:'Centrale Thermique — Safi',pg5:'Centrale Hydraulique — Barrage',
         ind_tag:'Terrain industriel',ind_title:'Extraction & valorisation du phosphate — OCP Youssoufia',
         ed_lbl:'Parcours académique',ed_title:'Formation',ed_sub:'Un parcours orienté vers la science, l\'électricité et l\'énergie.',
-        e1tag:'Baccalauréat',e1t:'Baccalauréat Sciences et Technologies Électriques',e1p:'Formation initiale en électricité et technologie.',
-        e2tag:'DEUG',e2t:'DEUG en Physique',e2p:'Études fondamentales en physique, thermodynamique et électricité.',
-        e3tag:'Licence',e3t:'Licence en Énergie et Matériaux',e3p:'Spécialisation en cours dans les systèmes énergétiques et matériaux.',
+        e1tag:'Baccalauréat',e1t:'Baccalauréat Sciences et Technologies Électriques',e1inst:'Établissement : [À COMPLÉTER]',e1per:'2023',e1p:'Formation initiale en électricité et technologie.',
+        e1s1:'Circuits électriques',e1s2:'Technologie',e1s3:'Bases scientifiques',
+        e2tag:'DEUG',e2t:'DEUG en Physique',e2inst:'Faculté des Sciences — Établissement : [À COMPLÉTER]',e2per:'2024 – 2026',e2p:'Études fondamentales en physique, thermodynamique et électricité.',
+        e2s1:'Physique générale',e2s2:'Thermodynamique',e2s3:'Travaux pratiques',
+        e3tag:'Licence',e3t:'Licence en Énergie et Matériaux',e3inst:'Établissement : [À COMPLÉTER]',e3per:'En cours — 2026',e3p:'Spécialisation en cours dans les systèmes énergétiques et matériaux.',
+        e3s1:'Systèmes énergétiques',e3s2:'Science des matériaux',e3s3:'Énergies renouvelables',
         ex_lbl:'Terrain',ex_title:'Expériences',ex_sub:'Stage pratique chez OCP Youssoufia — de l\'analyse en laboratoire à l\'extraction en mine.',
         xf_tag:'Stage pratique',xf_t:'Stage pratique — OCP Youssoufia, Usine de Séchage',xf_p:'Immersion complète dans la chaîne de valorisation du phosphate : contrôle qualité en laboratoire, procédés de traitement et découverte des opérations d\'extraction minière.',
-        x1tag:'Laboratoire',x1t:'Analyses BPL, Cadmium et Silice',x1p:'Réalisation d\'analyses de contrôle qualité sur les échantillons de phosphate : teneur en BPL, dosage du cadmium et de la silice.',
-        x2tag:'Procédé',x2t:'Traitement et valorisation du phosphate',x2p:'Suivi des étapes de traitement du minerai brut jusqu\'au produit valorisé, prêt pour la transformation industrielle.',
-        x3tag:'Usine',x3t:'Usine de calcination',x3p:'Visite de l\'unité de calcination et observation du traitement thermique du phosphate.',
-        x4tag:'Laverie',x4t:'Laverie — Lavage du minerai',x4p:'Découverte du procédé de lavage et de séparation du minerai extrait.',
-        x5tag:'Mine',x5t:'Mine d\'extraction — Engins lourds',x5p:'Visite du site d\'extraction et observation des engins miniers : camions Komatsu, bulldozers CAT D11 et D12, niveleuse et pelles Poclain.',
-        x6tag:'HSE',x6t:'Formation HSE — Usine de séchage',x6p:'Formation en hygiène, sécurité et environnement, avec sensibilisation aux règles de sécurité sur site industriel.',
+        x1tag:'Expérience pratique',x1t:'Analyses BPL, Cadmium et Silice',x1p:'Réalisation d\'analyses de contrôle qualité sur les échantillons de phosphate : teneur en BPL, dosage du cadmium et de la silice.',
+        x2tag:'Observation',x2t:'Traitement et valorisation du phosphate',x2p:'Suivi des étapes de traitement du minerai brut jusqu\'au produit valorisé, prêt pour la transformation industrielle.',
+        x3tag:'Visite industrielle',x3t:'Usine de calcination',x3p:'Visite de l\'unité de calcination et observation du traitement thermique du phosphate.',
+        x4tag:'Visite industrielle',x4t:'Laverie — Lavage du minerai',x4p:'Découverte du procédé de lavage et de séparation du minerai extrait.',
+        x5tag:'Visite industrielle',x5t:'Mine d\'extraction — Engins lourds',x5p:'Visite du site d\'extraction et observation des engins miniers : camions Komatsu, bulldozers CAT D11 et D12, niveleuse et pelles Poclain.',
+        x6tag:'Formation',x6t:'Formation HSE — Usine de séchage',x6p:'Formation en hygiène, sécurité et environnement, avec sensibilisation aux règles de sécurité sur site industriel.',
         sk_lbl:'Maîtrise',sk_title:'Compétences',sk_sub:'Compétences techniques et linguistiques.',
-        sk1h:'Techniques',sk1a:'Électricité générale',sk1b:'Énergie solaire',sk1c:'Thermodynamique',sk1d:'Travaux pratiques',
-        sk2h:'Numérique',sk2a:'Outils bureautiques',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomie',
-        sk3h:'Langues',lar:'Arabe',sk3d:'🚗 Permis B',
-        pj_lbl:'Réalisations',pj_title:'Projets',pj_sub:'Projets académiques et personnels.',
-        p1t:'Étude photovoltaïque',p1p:'Analyse du potentiel solaire pour une installation résidentielle.',
-        p2t:'Schémas électriques',p2p:'Conception de schémas pour installations domestiques.',
-        p3t:'Portfolio web',p3p:'Création de ce portfolio professionnel en autodidacte.',
+        sk1h:'Électricité & Énergie',sk1sub:'Bases techniques et notions appliquées',sk1a:'Électricité générale',sk1b:'Installations électriques',sk1c:'Énergie solaire',sk1d:'Systèmes photovoltaïques',sk1e:'Bases en électrotechnique',
+        sk2h:'Physique & Matériaux',sk2sub:'Formation académique et laboratoire',sk2a:'Physique',sk2b:'Thermodynamique',sk2c:'Science des matériaux',sk2d:'Travaux pratiques',sk2e:'Analyse en laboratoire',
+        sk3h:'Industrie',sk3sub:'Acquis lors du stage pratique chez OCP',sk3a:'Contrôle qualité',sk3b:'Procédés industriels',sk3c:'Traitement du phosphate',sk3d:'HSE — Hygiène, Sécurité, Environnement',
+        sk4h:'Numérique',sk4sub:'Outils bureautiques et développement web',
+        sk5h:'Langues',sk5sub:'Niveaux auto-évalués (cadre CECR)',lar:'Arabe',sk_permis:'🚗 Permis B',
+        pj_lbl:'Réalisations',pj_title:'Projets',pj_sub:'Projets académiques et personnels.',pj_more:'D\'autres projets seront ajoutés au fur et à mesure de ma formation.',proj_skills_lbl:'Compétences :',
+        p1t:'Étude photovoltaïque',p1p:'Analyse du potentiel solaire pour une installation résidentielle.',p1skills:'énergie solaire, calcul de rendement, analyse de données',
+        p2t:'Schémas électriques',p2p:'Conception de schémas pour installations domestiques.',p2skills:'lecture de plans, normes électriques de base, conception de schémas',
+        p3t:'Portfolio web',p3p:'Création de ce portfolio professionnel en autodidacte.',p3skills:'développement front-end, design responsive, autonomie',
+        cv_lbl:'Document',cv_title:'Mon CV',cv_sub:'Téléchargez ou consultez mon curriculum vitae au format PDF.',
+        cv_tag:'Curriculum Vitae',cv_h:'Idriss Nassi — Énergie & Matériaux',cv_p:'Retrouvez en un document mon parcours académique, mon stage pratique chez OCP Youssoufia, mes compétences techniques et mes langues.',
+        cv_note:'Le fichier PDF doit être ajouté à l\'emplacement assets/cv/Idriss-Nassi-CV.pdf.',
         ct_lbl:'Disponible',ct_title:'Contact',ct_sub:'N\'hésitez pas à me contacter.',
         ct_info:'Coordonnées',ct_infosub:'Disponible pour échanges et opportunités.',
-        c_name:'Nom',c_phone:'Téléphone',c_city:'Ville',c_wa:'WhatsApp',
+        c_name:'Nom',c_phone:'Téléphone',c_city:'Ville',c_wa:'WhatsApp',c_placeholder:'[À COMPLÉTER]',
         f_title:'Message',f_sub:'Envoyez-moi un message.',f_name:'Votre nom',f_email:'Email',f_msg:'Message',f_send:'Envoyer →',
+        f_err_required:'Tous les champs sont requis.',f_err_email:'Email invalide.',f_err_send:'Erreur lors de l\'envoi.',f_err_conn:'Erreur de connexion. Réessayez plus tard.',f_ok:'Message envoyé avec succès',
         footer:'© 2026 Idriss Nassi · Portfolio · Énergie · Électricité · Web'
       },
       en:{
-        brand:'Idriss Nassi',nav_home:'Home',nav_about:'About',nav_edu:'Education',nav_exp:'Experience',nav_skills:'Skills',nav_proj:'Projects',nav_contact:'Contact',cta:'Contact me',
+        skip_link:'Skip to content',
+        brand:'Idriss Nassi',nav_home:'Home',nav_about:'About',nav_edu:'Education',nav_exp:'Experience',nav_skills:'Skills',nav_proj:'Projects',nav_cv:'CV',nav_contact:'Contact',cta:'Contact me',
         eyebrow:'Professional Portfolio • Energy • Electricity • Solar • Web',hello:'Hello, I am',
-        hdesc:'Student in physics, energy and materials. Passionate about electrical systems, solar energy and web development. I connect science, technology and digital in concrete projects.',
-        b_proj:'View projects',b_exp:'My journey',s1:'Study years',s2:'Expertise areas',s3:'Projects',s4:'Languages',
+        hdesc:'Student in Energy & Materials, focused on Electricity · Energy · Solar · Industry. I connect science, technology and digital in concrete, useful projects.',
+        htag:'"I am building skills at the intersection of energy, electricity, materials and digital technology."',
+        b_proj:'View projects',b_exp:'View my journey',b_cv:'Download my CV',b_mail:'Email',b_view_cv:'View my CV',b_view_proj:'View project',
+        s1:'Years of scientific training',s2:'Industrial internship (OCP)',s3:'Fields: Electricity · Energy · Materials',s4:'Languages spoken',
         ov1:'Engineering & Energy',ov2:'Morocco · Youssoufia · Available',pb1t:'Education',pb1s:'Physics · Energy · Materials',pb2t:'Skills',pb2s:'Electricity · Solar · Web',vis:'visitors',
         ab_lbl:'About',ab_title:'Who am I?',ab_sub:'A versatile profile combining scientific foundation and learning ability.',
         pr_title:'My profile',pr_text:'I am a young profile oriented towards energy, electricity and materials. Currently in training, I develop solid skills in electrical systems and renewable energies.',
@@ -796,36 +971,48 @@
         pg_lbl:'Gallery — Expertise areas',pg1:'Solar Energy — PV Systems',pg2:'Industrial Electricity',pg3:'Laboratory — Physics',pg4:'Thermal Power Plant — Safi',pg5:'Hydraulic Power Plant — Dam',
         ind_tag:'Industrial field',ind_title:'Phosphate extraction & valorization — OCP Youssoufia',
         ed_lbl:'Academic path',ed_title:'Education',ed_sub:'A path oriented towards science, electricity and energy.',
-        e1tag:'Baccalaureate',e1t:'Baccalaureate in Electrical Sciences',e1p:'Initial training in electricity and technology.',
-        e2tag:'DEUG',e2t:'DEUG in Physics',e2p:'Fundamental studies in physics, thermodynamics and electricity.',
-        e3tag:'Degree',e3t:'Degree in Energy and Materials',e3p:'Current specialization in energy systems and materials.',
+        e1tag:'Baccalaureate',e1t:'Baccalaureate in Electrical Sciences',e1inst:'Institution: [TO BE COMPLETED]',e1per:'2023',e1p:'Initial training in electricity and technology.',
+        e1s1:'Electrical circuits',e1s2:'Technology',e1s3:'Scientific foundations',
+        e2tag:'DEUG',e2t:'DEUG in Physics',e2inst:'Faculty of Sciences — Institution: [TO BE COMPLETED]',e2per:'2024 – 2026',e2p:'Fundamental studies in physics, thermodynamics and electricity.',
+        e2s1:'General physics',e2s2:'Thermodynamics',e2s3:'Practical work',
+        e3tag:'Degree',e3t:'Degree in Energy and Materials',e3inst:'Institution: [TO BE COMPLETED]',e3per:'Ongoing — 2026',e3p:'Current specialization in energy systems and materials.',
+        e3s1:'Energy systems',e3s2:'Materials science',e3s3:'Renewable energy',
         ex_lbl:'Field',ex_title:'Experience',ex_sub:'Practical internship at OCP Youssoufia — from laboratory analysis to mine extraction.',
         xf_tag:'Practical internship',xf_t:'Practical internship — OCP Youssoufia, Drying Plant',xf_p:'Full immersion in the phosphate valorization chain: laboratory quality control, processing steps, and discovery of mining operations.',
-        x1tag:'Laboratory',x1t:'BPL, Cadmium and Silica analysis',x1p:'Quality control analyses on phosphate samples: BPL content, cadmium and silica measurement.',
-        x2tag:'Process',x2t:'Phosphate treatment and valorization',x2p:'Following the treatment steps from raw ore to valorized product, ready for industrial transformation.',
-        x3tag:'Plant',x3t:'Calcination plant',x3p:'Visit of the calcination unit and observation of the thermal treatment of phosphate.',
-        x4tag:'Washing plant',x4t:'Washing plant — Ore washing',x4p:'Discovery of the washing and separation process of the extracted ore.',
-        x5tag:'Mine',x5t:'Extraction mine — Heavy equipment',x5p:'Visit of the extraction site and observation of mining equipment: Komatsu trucks, CAT D11 and D12 bulldozers, grader and Poclain excavators.',
-        x6tag:'HSE',x6t:'HSE training — Drying plant',x6p:'Health, safety and environment training, with awareness of safety rules on industrial sites.',
+        x1tag:'Practical experience',x1t:'BPL, Cadmium and Silica analysis',x1p:'Quality control analyses on phosphate samples: BPL content, cadmium and silica measurement.',
+        x2tag:'Observation',x2t:'Phosphate treatment and valorization',x2p:'Following the treatment steps from raw ore to valorized product, ready for industrial transformation.',
+        x3tag:'Industrial visit',x3t:'Calcination plant',x3p:'Visit of the calcination unit and observation of the thermal treatment of phosphate.',
+        x4tag:'Industrial visit',x4t:'Washing plant — Ore washing',x4p:'Discovery of the washing and separation process of the extracted ore.',
+        x5tag:'Industrial visit',x5t:'Extraction mine — Heavy equipment',x5p:'Visit of the extraction site and observation of mining equipment: Komatsu trucks, CAT D11 and D12 bulldozers, grader and Poclain excavators.',
+        x6tag:'Training',x6t:'HSE training — Drying plant',x6p:'Health, safety and environment training, with awareness of safety rules on industrial sites.',
         sk_lbl:'Mastery',sk_title:'Skills',sk_sub:'Technical and linguistic skills.',
-        sk1h:'Technical',sk1a:'General electricity',sk1b:'Solar energy',sk1c:'Thermodynamics',sk1d:'Practical work',
-        sk2h:'Digital',sk2a:'Office tools',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'Autonomy',
-        sk3h:'Languages',lar:'Arabic',sk3d:'🚗 Driver license B',
-        pj_lbl:'Achievements',pj_title:'Projects',pj_sub:'Academic and personal projects.',
-        p1t:'Photovoltaic study',p1p:'Analysis of solar potential for residential installation.',
-        p2t:'Electrical diagrams',p2p:'Design of diagrams for domestic installations.',
-        p3t:'Web portfolio',p3p:'Creation of this professional portfolio as self-taught.',
+        sk1h:'Electricity & Energy',sk1sub:'Technical foundations and applied notions',sk1a:'General electricity',sk1b:'Electrical installations',sk1c:'Solar energy',sk1d:'Photovoltaic systems',sk1e:'Electrotechnical foundations',
+        sk2h:'Physics & Materials',sk2sub:'Academic training and laboratory',sk2a:'Physics',sk2b:'Thermodynamics',sk2c:'Materials science',sk2d:'Practical work',sk2e:'Laboratory analysis',
+        sk3h:'Industry',sk3sub:'Acquired during the practical internship at OCP',sk3a:'Quality control',sk3b:'Industrial processes',sk3c:'Phosphate treatment',sk3d:'HSE — Health, Safety, Environment',
+        sk4h:'Digital',sk4sub:'Office tools and web development',
+        sk5h:'Languages',sk5sub:'Self-assessed levels (CEFR framework)',lar:'Arabic',sk_permis:'🚗 Driver license B',
+        pj_lbl:'Achievements',pj_title:'Projects',pj_sub:'Academic and personal projects.',pj_more:'More projects will be added as my training progresses.',proj_skills_lbl:'Skills:',
+        p1t:'Photovoltaic study',p1p:'Analysis of solar potential for residential installation.',p1skills:'solar energy, efficiency calculation, data analysis',
+        p2t:'Electrical diagrams',p2p:'Design of diagrams for domestic installations.',p2skills:'reading plans, basic electrical standards, diagram design',
+        p3t:'Web portfolio',p3p:'Creation of this professional portfolio as self-taught.',p3skills:'front-end development, responsive design, autonomy',
+        cv_lbl:'Document',cv_title:'My CV',cv_sub:'Download or view my curriculum vitae in PDF format.',
+        cv_tag:'Curriculum Vitae',cv_h:'Idriss Nassi — Energy & Materials',cv_p:'Find in one document my academic path, my practical internship at OCP Youssoufia, my technical skills and languages.',
+        cv_note:'The PDF file needs to be added at assets/cv/Idriss-Nassi-CV.pdf.',
         ct_lbl:'Available',ct_title:'Contact',ct_sub:'Feel free to contact me.',
         ct_info:'Contact information',ct_infosub:'Available for exchanges and opportunities.',
-        c_name:'Name',c_phone:'Phone',c_city:'City',c_wa:'WhatsApp',
+        c_name:'Name',c_phone:'Phone',c_city:'City',c_wa:'WhatsApp',c_placeholder:'[TO BE COMPLETED]',
         f_title:'Message',f_sub:'Send me a message.',f_name:'Your name',f_email:'Email',f_msg:'Message',f_send:'Send →',
+        f_err_required:'All fields are required.',f_err_email:'Invalid email.',f_err_send:'Error while sending.',f_err_conn:'Connection error. Please try again later.',f_ok:'Message sent successfully',
         footer:'© 2026 Idriss Nassi · Portfolio · Energy · Electricity · Web'
       },
       ar:{
-        brand:'إدريس ناسي',nav_home:'الرئيسية',nav_about:'من أنا',nav_edu:'التكوين',nav_exp:'الخبرات',nav_skills:'المهارات',nav_proj:'المشاريع',nav_contact:'اتصل',cta:'اتصل بي',
+        skip_link:'الانتقال إلى المحتوى',
+        brand:'إدريس ناسي',nav_home:'الرئيسية',nav_about:'من أنا',nav_edu:'التكوين',nav_exp:'الخبرات',nav_skills:'المهارات',nav_proj:'المشاريع',nav_cv:'السيرة الذاتية',nav_contact:'اتصل',cta:'اتصل بي',
         eyebrow:'محفظة مهنية • طاقة • كهرباء • شمسي • ويب',hello:'مرحبًا، أنا',
-        hdesc:'طالب في الفيزياء والطاقة والمواد. شغوف بالأنظمة الكهربائية والطاقة الشمسية وتطوير الويب.',
-        b_proj:'مشاريعي',b_exp:'مساري',s1:'سنوات الدراسة',s2:'مجالات الخبرة',s3:'المشاريع',s4:'اللغات',
+        hdesc:'طالب في الطاقة والمواد، توجه كهرباء • طاقة • شمسي • صناعة. أربط بين العلم والتقنية والرقمنة في مشاريع ملموسة ومفيدة.',
+        htag:'"أطور مهارات في تقاطع الطاقة والكهرباء والمواد والرقمنة."',
+        b_proj:'مشاريعي',b_exp:'مساري المهني',b_cv:'تحميل سيرتي الذاتية',b_mail:'البريد الإلكتروني',b_view_cv:'عرض سيرتي الذاتية',b_view_proj:'عرض المشروع',
+        s1:'سنوات التكوين العلمي',s2:'تدريب عملي صناعي (OCP)',s3:'مجالات: كهرباء • طاقة • مواد',s4:'اللغات المتحدثة',
         ov1:'الهندسة والطاقة',ov2:'المغرب • اليوسفية • متاح',pb1t:'التكوين',pb1s:'فيزياء • طاقة • مواد',pb2t:'المهارات',pb2s:'كهرباء • شمسي • ويب',vis:'زائر',
         ab_lbl:'من أنا',ab_title:'من أنا؟',ab_sub:'ملف متعدد المهارات يجمع بين قاعدة علمية وقدرة على التعلم.',
         pr_title:'ملفي',pr_text:'أنا شاب موجه نحو مهن الطاقة والكهرباء والمواد. حالياً في تكوين، أطور مهارات في الأنظمة الكهربائية والطاقات المتجددة.',
@@ -837,40 +1024,54 @@
         pg_lbl:'معرض — مجالات الخبرة',pg1:'الطاقة الشمسية',pg2:'الكهرباء الصناعية',pg3:'المخبر — الفيزياء',pg4:'المحطة الحرارية — آسفي',pg5:'المحطة الهيدروليكية — السد',
         ind_tag:'ميدان صناعي',ind_title:'استخراج وتثمين الفوسفاط — OCP اليوسفية',
         ed_lbl:'المسار الأكاديمي',ed_title:'التكوين',ed_sub:'مسار موجه نحو العلوم والكهرباء والطاقة.',
-        e1tag:'باكالوريا',e1t:'باكالوريا علوم وتكنولوجيا كهربائية',e1p:'تكوين أولي في الكهرباء والتكنولوجيا.',
-        e2tag:'ديوك',e2t:'ديوك في الفيزياء',e2p:'دراسات أساسية في الفيزياء والديناميكا الحرارية والكهرباء.',
-        e3tag:'إجازة',e3t:'إجازة في الطاقة والمواد',e3p:'تخصص في أنظمة الطاقة والمواد.',
+        e1tag:'باكالوريا',e1t:'باكالوريا علوم وتكنولوجيا كهربائية',e1inst:'المؤسسة: [يُستكمل لاحقًا]',e1per:'2023',e1p:'تكوين أولي في الكهرباء والتكنولوجيا.',
+        e1s1:'دوائر كهربائية',e1s2:'تكنولوجيا',e1s3:'أسس علمية',
+        e2tag:'ديوك',e2t:'ديوك في الفيزياء',e2inst:'كلية العلوم — المؤسسة: [يُستكمل لاحقًا]',e2per:'2024 – 2026',e2p:'دراسات أساسية في الفيزياء والديناميكا الحرارية والكهرباء.',
+        e2s1:'فيزياء عامة',e2s2:'ديناميكا حرارية',e2s3:'أعمال تطبيقية',
+        e3tag:'إجازة',e3t:'إجازة في الطاقة والمواد',e3inst:'المؤسسة: [يُستكمل لاحقًا]',e3per:'جارٍ — 2026',e3p:'تخصص في أنظمة الطاقة والمواد.',
+        e3s1:'أنظمة الطاقة',e3s2:'علم المواد',e3s3:'الطاقات المتجددة',
         ex_lbl:'الميدان',ex_title:'الخبرات',ex_sub:'تدريب عملي في OCP اليوسفية — من التحليل المخبري إلى استخراج المنجم.',
         xf_tag:'تدريب عملي',xf_t:'تدريب عملي — OCP اليوسفية، معمل التجفيف',xf_p:'انغماس كامل في سلسلة تثمين الفوسفاط: مراقبة الجودة بالمخبر، مراحل المعالجة، واكتشاف عمليات الاستخراج المنجمي.',
-        x1tag:'المخبر',x1t:'تحليل BPL والكادميوم والسيليس',x1p:'إجراء تحاليل مراقبة الجودة على عينات الفوسفاط: نسبة BPL، قياس الكادميوم والسيليس.',
-        x2tag:'المعالجة',x2t:'معالجة وتثمين الفوسفاط',x2p:'متابعة مراحل معالجة الخام حتى المنتج المثمَّن الجاهز للتحويل الصناعي.',
-        x3tag:'المعمل',x3t:'معمل التكليس',x3p:'زيارة وحدة التكليس ومراقبة المعالجة الحرارية للفوسفاط.',
-        x4tag:'مغسلة',x4t:'مغسلة — غسل الخام',x4p:'اكتشاف عملية غسل وفصل الخام المستخرج.',
-        x5tag:'المنجم',x5t:'منجم الاستخراج — آليات ثقيلة',x5p:'زيارة موقع الاستخراج ومشاهدة آليات التعدين: شاحنات كوماتسو، جرافات كاتربيلر D11 وD12، المسوية ومجارف بوكلان.',
-        x6tag:'السلامة',x6t:'تكوين HSE — معمل التجفيف',x6p:'تكوين في الصحة والسلامة والبيئة، مع التوعية بقواعد السلامة داخل الموقع الصناعي.',
+        x1tag:'تدريب عملي',x1t:'تحليل BPL والكادميوم والسيليس',x1p:'إجراء تحاليل مراقبة الجودة على عينات الفوسفاط: نسبة BPL، قياس الكادميوم والسيليس.',
+        x2tag:'ملاحظة',x2t:'معالجة وتثمين الفوسفاط',x2p:'متابعة مراحل معالجة الخام حتى المنتج المثمَّن الجاهز للتحويل الصناعي.',
+        x3tag:'زيارة صناعية',x3t:'معمل التكليس',x3p:'زيارة وحدة التكليس ومراقبة المعالجة الحرارية للفوسفاط.',
+        x4tag:'زيارة صناعية',x4t:'مغسلة — غسل الخام',x4p:'اكتشاف عملية غسل وفصل الخام المستخرج.',
+        x5tag:'زيارة صناعية',x5t:'منجم الاستخراج — آليات ثقيلة',x5p:'زيارة موقع الاستخراج ومشاهدة آليات التعدين: شاحنات كوماتسو، جرافات كاتربيلر D11 وD12، المسوية ومجارف بوكلان.',
+        x6tag:'تكوين',x6t:'تكوين HSE — معمل التجفيف',x6p:'تكوين في الصحة والسلامة والبيئة، مع التوعية بقواعد السلامة داخل الموقع الصناعي.',
         sk_lbl:'الإتقان',sk_title:'المهارات',sk_sub:'مهارات تقنية ولغوية.',
-        sk1h:'تقنية',sk1a:'كهرباء عامة',sk1b:'طاقة شمسية',sk1c:'ديناميكا حرارية',sk1d:'أعمال تطبيقية',
-        sk2h:'رقمية',sk2a:'أدوات مكتبية',sk2b:'HTML/CSS',sk2c:'JavaScript',sk2d:'استقلالية',
-        sk3h:'اللغات',lar:'العربية',sk3d:'🚗 رخصة السياقة B',
-        pj_lbl:'الإنجازات',pj_title:'المشاريع',pj_sub:'مشاريع أكاديمية وشخصية.',
-        p1t:'دراسة كهروضوئية',p1p:'تحليل الإمكانات الشمسية لتركيب سكني.',
-        p2t:'مخططات كهربائية',p2p:'تصميم مخططات للتركيبات المنزلية.',
-        p3t:'محفظة ويب',p3p:'إنشاء هذه المحفظة المهنية.',
+        sk1h:'الكهرباء والطاقة',sk1sub:'أسس تقنية ومفاهيم تطبيقية',sk1a:'كهرباء عامة',sk1b:'تركيبات كهربائية',sk1c:'طاقة شمسية',sk1d:'أنظمة كهروضوئية',sk1e:'أسس في الهندسة الكهربائية',
+        sk2h:'الفيزياء والمواد',sk2sub:'تكوين أكاديمي ومخبري',sk2a:'فيزياء',sk2b:'ديناميكا حرارية',sk2c:'علم المواد',sk2d:'أعمال تطبيقية',sk2e:'تحليل مخبري',
+        sk3h:'الصناعة',sk3sub:'مكتسبة خلال التدريب العملي بـ OCP',sk3a:'مراقبة الجودة',sk3b:'مسارات صناعية',sk3c:'معالجة الفوسفاط',sk3d:'HSE — الصحة والسلامة والبيئة',
+        sk4h:'رقمية',sk4sub:'أدوات مكتبية وتطوير الويب',
+        sk5h:'اللغات',sk5sub:'مستويات مقيَّمة ذاتيًا (إطار CECR)',lar:'العربية',sk_permis:'🚗 رخصة السياقة B',
+        pj_lbl:'الإنجازات',pj_title:'المشاريع',pj_sub:'مشاريع أكاديمية وشخصية.',pj_more:'ستُضاف مشاريع أخرى مع تقدم تكويني.',proj_skills_lbl:'المهارات:',
+        p1t:'دراسة كهروضوئية',p1p:'تحليل الإمكانات الشمسية لتركيب سكني.',p1skills:'طاقة شمسية، حساب المردودية، تحليل البيانات',
+        p2t:'مخططات كهربائية',p2p:'تصميم مخططات للتركيبات المنزلية.',p2skills:'قراءة المخططات، معايير كهربائية أساسية، تصميم المخططات',
+        p3t:'محفظة ويب',p3p:'إنشاء هذه المحفظة المهنية.',p3skills:'تطوير الواجهات الأمامية، تصميم متجاوب، استقلالية',
+        cv_lbl:'وثيقة',cv_title:'سيرتي الذاتية',cv_sub:'حمّل أو اطّلع على سيرتي الذاتية بصيغة PDF.',
+        cv_tag:'السيرة الذاتية',cv_h:'إدريس ناسي — الطاقة والمواد',cv_p:'اطّلع في وثيقة واحدة على مساري الأكاديمي، تدريبي العملي بـ OCP اليوسفية، مهاراتي التقنية ولغاتي.',
+        cv_note:'يجب إضافة ملف PDF في المسار assets/cv/Idriss-Nassi-CV.pdf.',
         ct_lbl:'متاح',ct_title:'اتصل',ct_sub:'لا تتردد في الاتصال بي.',
         ct_info:'معلومات الاتصال',ct_infosub:'متاح للتبادل والفرص.',
-        c_name:'الاسم',c_phone:'الهاتف',c_city:'المدينة',c_wa:'واتساب',
+        c_name:'الاسم',c_phone:'الهاتف',c_city:'المدينة',c_wa:'واتساب',c_placeholder:'[يُستكمل لاحقًا]',
         f_title:'رسالة',f_sub:'أرسل لي رسالة.',f_name:'اسمك',f_email:'البريد الإلكتروني',f_msg:'الرسالة',f_send:'إرسال ←',
+        f_err_required:'جميع الحقول مطلوبة.',f_err_email:'بريد إلكتروني غير صالح.',f_err_send:'خطأ أثناء الإرسال.',f_err_conn:'خطأ في الاتصال. حاول لاحقًا.',f_ok:'تم إرسال الرسالة بنجاح',
         footer:'© 2026 إدريس ناسي · محفظة · طاقة · كهرباء · ويب'
       }
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+      // Sécurité : ceci est la clé publique ("publishable") Supabase, conçue pour être exposée
+      // côté client. La clé secrète/service-role ne doit jamais figurer dans ce fichier.
       const SUPABASE_URL = "https://xxcngbjrxbrnhlmzmbwv.supabase.co";
       const SUPABASE_ANON_KEY = "sb_publishable_uQKTSqlluGQOnkv9JugO7g_rX6qMEbv";
       const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
       const navLinks = document.querySelectorAll('[data-page]');
       const sections = document.querySelectorAll('.page-section');
+      const navLinksPanel = document.getElementById('navLinks');
+      const hamburger = document.getElementById('hamburger');
+      let currentLang = 'fr';
 
       function showPage(pageId) {
         sections.forEach(s => {
@@ -880,26 +1081,59 @@
 
         navLinks.forEach(l => {
           l.classList.remove('active');
-          if (l.dataset.page === pageId) l.classList.add('active');
+          l.removeAttribute('aria-current');
+          if (l.dataset.page === pageId) {
+            l.classList.add('active');
+            l.setAttribute('aria-current', 'page');
+          }
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const page = link.dataset.page;
-          if (page) showPage(page);
+      function closeMobileMenu() {
+        if (!navLinksPanel || !hamburger) return;
+        navLinksPanel.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+
+      function initMobileMenu() {
+        if (!hamburger || !navLinksPanel) return;
+        hamburger.addEventListener('click', () => {
+          const isOpen = navLinksPanel.classList.toggle('open');
+          hamburger.classList.toggle('open', isOpen);
+          hamburger.setAttribute('aria-expanded', String(isOpen));
         });
-      });
+      }
+
+      function initNav() {
+        navLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = link.dataset.page;
+            if (page) showPage(page);
+            closeMobileMenu();
+          });
+        });
+      }
+
+      initMobileMenu();
+      initNav();
 
       document.querySelectorAll('[data-lang]').forEach(btn => {
         btn.addEventListener('click', function() {
           const lang = this.dataset.lang;
-          document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.lang-btn').forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
           this.classList.add('active');
+          this.setAttribute('aria-pressed', 'true');
+          document.documentElement.setAttribute('lang', lang);
+          document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
           document.body.className = lang === 'ar' ? 'lang-ar' : '';
+          currentLang = lang;
 
           document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.dataset.i18n;
@@ -948,15 +1182,17 @@
           const email = document.getElementById('fe').value.trim();
           const msg = document.getElementById('fm').value.trim();
 
+          const msgs = T[currentLang] || T.fr;
+
           if (!name || !email || !msg) {
             fst.className = 'form-status err';
-            fst.textContent = 'Tous les champs sont requis.';
+            fst.textContent = msgs.f_err_required;
             return;
           }
 
-          if (!email.includes('@') || !email.includes('.')) {
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             fst.className = 'form-status err';
-            fst.textContent = 'Email invalide.';
+            fst.textContent = msgs.f_err_email;
             return;
           }
 
@@ -978,12 +1214,12 @@
             if (error) {
               console.log('Supabase error:', error);
               fst.className = 'form-status err';
-              fst.textContent = 'Erreur lors de l’envoi.';
+              fst.textContent = msgs.f_err_send;
               return;
             }
 
             fst.className = 'form-status ok';
-            fst.textContent = '✅ Message envoyé avec succès';
+            fst.textContent = '✅ ' + msgs.f_ok;
 
             document.getElementById('fn').value = '';
             document.getElementById('fe').value = '';
@@ -991,7 +1227,7 @@
           } catch (err) {
             console.log('Connection error:', err);
             fst.className = 'form-status err';
-            fst.textContent = 'Erreur de connexion à Supabase.';
+            fst.textContent = msgs.f_err_conn;
           } finally {
             formBtn.disabled = false;
           }
@@ -999,7 +1235,7 @@
       }
 
       document.querySelector('[data-lang="fr"]').click();
-      document.querySelector('[data-page="home"]').classList.add('active');
+      showPage('home');
     });
   </script>
 </body>
