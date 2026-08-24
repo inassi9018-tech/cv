@@ -974,11 +974,13 @@
             <div class="glass card">
               <h3 style="font-size:1.15rem;margin-bottom:5px" data-i18n="f_title">Message</h3>
               <p style="color:var(--muted);font-size:.86rem;margin-bottom:16px" data-i18n="f_sub">Envoyez-moi un message.</p>
-              <div class="field"><label for="fn" data-i18n="f_name">Votre nom</label><input id="fn" name="name" class="input" type="text" placeholder="Nom Prénom" autocomplete="name" required /></div>
-              <div class="field"><label for="fe" data-i18n="f_email">Email</label><input id="fe" name="email" class="input" type="email" placeholder="exemple@email.com" autocomplete="email" required /></div>
-              <div class="field"><label for="fm" data-i18n="f_msg">Message</label><textarea id="fm" name="message" class="textarea" placeholder="Votre message..." required></textarea></div>
-              <button id="sbtn" class="btn btn-primary" style="width:100%" data-i18n="f_send">Envoyer →</button>
-              <div id="fst" class="form-status" role="status" aria-live="polite"></div>
+              <form id="contact-form" novalidate>
+                <div class="field"><label for="fn" data-i18n="f_name">Votre nom</label><input id="fn" name="name" class="input" type="text" placeholder="Nom Prénom" autocomplete="name" required /></div>
+                <div class="field"><label for="fe" data-i18n="f_email">Email</label><input id="fe" name="email" class="input" type="email" placeholder="exemple@email.com" autocomplete="email" required /></div>
+                <div class="field"><label for="fm" data-i18n="f_msg">Message</label><textarea id="fm" name="message" class="textarea" placeholder="Votre message..." required></textarea></div>
+                <button id="sbtn" class="btn btn-primary" type="submit" style="width:100%" data-i18n="f_send">Envoyer →</button>
+                <div id="fst" class="form-status" role="status" aria-live="polite"></div>
+              </form>
             </div>
           </div>
         </div>
@@ -1174,17 +1176,24 @@
       // Protection : si le script Supabase (chargé depuis un CDN externe) ne se charge pas
       // — bloqueur de pub, réseau restreint, CDN indisponible — cela ne doit JAMAIS empêcher
       // le reste du site (menu, langue, animations) de fonctionner.
-      const SUPABASE_URL = "https://xxcngbjrxbrnhlmzmbwv.supabase.co";
-      const SUPABASE_ANON_KEY = "sb_publishable_uQKTSqlluGQOnkv9JugO7g_rX6qMEbv";
-      let supabaseClient = null;
-      try {
-        if (window.supabase && typeof window.supabase.createClient === 'function') {
-          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } else {
-          console.warn('Supabase indisponible : le formulaire de contact restera désactivé, mais le reste du site fonctionne normalement.');
+      const SUPABASE_URL = "https://lnvhllbhwptwzbyxmxjh.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_lQtVyCatqxiTgHLuM7ts2A_Sf1EIv1n";
+
+      async function sendContactToSupabase(name, email, message) {
+        const response = await fetch(SUPABASE_URL + '/rest/v1/messages', {
+          method: 'POST',
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            Prefer: 'return=minimal'
+          },
+          body: JSON.stringify({ name: name, email: email, message: message })
+        });
+        if (!response.ok) {
+          const details = await response.text();
+          throw new Error(details || ('HTTP ' + response.status));
         }
-      } catch (err) {
-        console.warn('Erreur d\'initialisation Supabase (non bloquante) :', err);
       }
 
       const navLinks = document.querySelectorAll('[data-page]');
@@ -1341,11 +1350,13 @@
         }
       });
 
+      const contactForm = document.getElementById('contact-form');
       const formBtn = document.getElementById('sbtn');
       const fst = document.getElementById('fst');
 
-      if (formBtn) {
-        formBtn.addEventListener('click', async () => {
+      if (contactForm && formBtn) {
+        contactForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
           const name = document.getElementById('fn').value.trim();
           const email = document.getElementById('fe').value.trim();
           const msg = document.getElementById('fm').value.trim();
@@ -1369,36 +1380,14 @@
           fst.textContent = '';
 
           try {
-            if (!supabaseClient) {
-              throw new Error('Supabase client unavailable');
-            }
-            const { error } = await supabaseClient
-              .from('messages')
-              .insert([
-                {
-                  name: name,
-                  email: email,
-                  message: msg
-                }
-              ]);
-
-            if (error) {
-              console.log('Supabase error:', error);
-              fst.className = 'form-status err';
-              fst.textContent = msgs.f_err_send;
-              return;
-            }
-
+            await sendContactToSupabase(name, email, msg);
             fst.className = 'form-status ok';
             fst.textContent = '✅ ' + msgs.f_ok;
-
-            document.getElementById('fn').value = '';
-            document.getElementById('fe').value = '';
-            document.getElementById('fm').value = '';
+            contactForm.reset();
           } catch (err) {
             console.log('Connection error:', err);
             fst.className = 'form-status err';
-            fst.textContent = msgs.f_err_conn;
+            fst.textContent = msgs.f_err_send;
           } finally {
             formBtn.disabled = false;
           }
