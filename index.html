@@ -27,6 +27,8 @@
     "jobTitle": "Étudiant en Énergie et Matériaux",
     "email": "mailto:i.nassi9018@uca.ac.ma",
     "telephone": "+212606614127",
+    "url": "https://github.com/inassi9018-tech",
+    "sameAs": ["https://github.com/inassi9018-tech"],
     "address": { "@type": "PostalAddress", "addressLocality": "Youssoufia", "addressCountry": "MA" },
     "knowsAbout": ["Électricité", "Énergie solaire", "Matériaux", "Contrôle qualité industriel", "Développement web"]
   }
@@ -339,10 +341,38 @@
 
     .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
     .contact-list{display:grid;gap:11px;margin-top:18px}
-    .contact-item{display:flex;gap:12px;align-items:center;padding:14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
-    .contact-icon{width:36px;height:36px;border-radius:11px;background:var(--grad-1);display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 20px rgba(245,166,35,.18)}
+    .contact-item{
+      display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;
+      background:rgba(255,255,255,.04);border:1px solid var(--line);
+      transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease
+    }
+    a.contact-item{color:inherit}
+    a.contact-item:hover,a.contact-item:focus-visible{
+      transform:translateY(-4px);
+      background:rgba(255,255,255,.08);
+      border-color:rgba(245,166,35,.38);
+      box-shadow:0 16px 40px rgba(0,0,0,.32)
+    }
+    a.contact-item.wa:hover,a.contact-item.wa:focus-visible{border-color:rgba(37,211,102,.45);box-shadow:0 16px 40px rgba(37,211,102,.16)}
+    a.contact-item.gh:hover,a.contact-item.gh:focus-visible{border-color:rgba(30,136,229,.45);box-shadow:0 16px 40px rgba(30,136,229,.16)}
+    a.contact-item.mail:hover,a.contact-item.mail:focus-visible{border-color:rgba(245,166,35,.5)}
+    .contact-icon{
+      width:40px;height:40px;border-radius:12px;background:var(--grad-1);color:#06101f;
+      display:grid;place-items:center;flex-shrink:0;box-shadow:0 8px 20px rgba(245,166,35,.18);
+      transition:transform .25s ease, box-shadow .25s ease
+    }
+    .contact-icon svg{width:18px;height:18px;display:block}
+    a.contact-item:hover .contact-icon{transform:translateY(-2px) scale(1.08)}
+    .contact-icon.wa{background:linear-gradient(135deg,#25D366,#19aa52);box-shadow:0 8px 20px rgba(37,211,102,.28);color:#fff}
+    .contact-icon.gh{background:linear-gradient(135deg,#1e88e5,#0d47a1);box-shadow:0 8px 20px rgba(30,136,229,.28);color:#fff}
+    .contact-icon.mail{background:var(--grad-1);color:#06101f}
+    .contact-icon.pin{background:linear-gradient(135deg,#1e88e5,#10e8a0);color:#06101f}
     .contact-item .label{font-size:.79rem;color:var(--muted)}
     .contact-item .value{font-weight:700;font-size:.93rem}
+    .contact-item .hint{font-size:.72rem;color:var(--muted);margin-top:2px}
+    .btn-gh{background:linear-gradient(135deg,#1e88e5,#0d47a1);color:#fff;box-shadow:0 12px 30px rgba(30,136,229,.25)}
+    .btn-gh:hover{box-shadow:0 18px 38px rgba(30,136,229,.38)}
+    .btn svg{flex-shrink:0}
 
     .field{margin-bottom:14px}
     .field label{display:block;font-size:.83rem;color:var(--muted);margin-bottom:6px}
@@ -482,7 +512,7 @@
             <div class="hero-actions" data-anim data-delay="3">
               <button class="btn btn-primary" data-page="experience" data-i18n="b_exp">Voir mon parcours</button>
               <a class="btn btn-ghost cv-link" href="#" data-cv-mode="download" data-i18n="b_cv">Télécharger mon CV</a>
-              <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener noreferrer">WhatsApp</a>
               <a class="btn btn-ghost" href="mailto:i.nassi9018@uca.ac.ma" data-i18n="b_mail">Email</a>
             </div>
             <div class="hero-stats" data-anim data-delay="4">
@@ -874,16 +904,68 @@
               <h3 style="font-size:1.15rem;margin-bottom:6px" data-i18n="ct_info">Coordonnées</h3>
               <p style="color:var(--muted);font-size:.88rem" data-i18n="ct_infosub">Disponible pour échanges et opportunités.</p>
               <div class="contact-list">
-                <div class="contact-item"><div class="contact-icon">👤</div><div><div class="label" data-i18n="c_name">Nom</div><div class="value">Idriss Nassi</div></div></div>
-                <div class="contact-item"><div class="contact-icon">📧</div><div><div class="label">Email</div><div class="value">i.nassi9018@uca.ac.ma</div></div></div>
-                <div class="contact-item"><div class="contact-icon">📱</div><div><div class="label" data-i18n="c_phone">Téléphone</div><div class="value">06 06 61 41 27</div></div></div>
-                <div class="contact-item"><div class="contact-icon">📍</div><div><div class="label" data-i18n="c_city">Ville</div><div class="value">Youssoufia, Maroc</div></div></div>
-                <div class="contact-item"><div class="contact-icon">💼</div><div><div class="label">LinkedIn</div><div class="value" data-i18n="c_placeholder">[À COMPLÉTER]</div></div></div>
-                <div class="contact-item"><div class="contact-icon">🖥️</div><div><div class="label">GitHub</div><div class="value" data-i18n="c_placeholder">[À COMPLÉTER]</div></div></div>
+                <div class="contact-item">
+                  <div class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+                  </div>
+                  <div><div class="label" data-i18n="c_name">Nom</div><div class="value">Idriss Nassi</div></div>
+                </div>
+                <a class="contact-item mail" href="mailto:i.nassi9018@uca.ac.ma" aria-label="Envoyer un email à i.nassi9018@uca.ac.ma">
+                  <div class="contact-icon mail" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5z"/></svg>
+                  </div>
+                  <div>
+                    <div class="label" data-i18n="c_email">Email</div>
+                    <div class="value">i.nassi9018@uca.ac.ma</div>
+                    <div class="hint" data-i18n="c_mail_hint">Ouvrir l'application mail</div>
+                  </div>
+                </a>
+                <a class="contact-item wa" href="https://wa.me/212606614127" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir WhatsApp avec le 06 06 61 41 27">
+                  <div class="contact-icon wa" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.553 4.103 1.522 5.83L0 24l6.341-1.496A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.937 0-3.742-.527-5.285-1.443l-.379-.225-3.926.926.975-3.823-.248-.392A9.825 9.825 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+                  </div>
+                  <div>
+                    <div class="label" data-i18n="c_phone">Téléphone / WhatsApp</div>
+                    <div class="value">06 06 61 41 27</div>
+                    <div class="hint" data-i18n="c_wa_hint">Ouvrir une conversation WhatsApp</div>
+                  </div>
+                </a>
+                <a class="contact-item gh" href="https://github.com/inassi9018-tech" target="_blank" rel="noopener noreferrer" aria-label="Profil GitHub inassi9018-tech">
+                  <div class="contact-icon gh" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  </div>
+                  <div>
+                    <div class="label">GitHub</div>
+                    <div class="value">inassi9018-tech</div>
+                    <div class="hint" data-i18n="c_gh_hint">Ouvrir le profil GitHub</div>
+                  </div>
+                </a>
+                <div class="contact-item">
+                  <div class="contact-icon pin" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
+                  </div>
+                  <div><div class="label" data-i18n="c_city">Ville</div><div class="value">Youssoufia, Maroc</div></div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452z"/></svg>
+                  </div>
+                  <div><div class="label">LinkedIn</div><div class="value" data-i18n="c_placeholder">[À COMPLÉTER]</div></div>
+                </div>
               </div>
               <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-                <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener" data-i18n="c_wa">WhatsApp</a>
-                <a class="btn btn-ghost" href="mailto:i.nassi9018@uca.ac.ma">Email</a>
+                <a class="btn btn-wa" href="https://wa.me/212606614127" target="_blank" rel="noopener noreferrer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                  <span data-i18n="c_wa">WhatsApp</span>
+                </a>
+                <a class="btn btn-ghost" href="mailto:i.nassi9018@uca.ac.ma">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5z"/></svg>
+                  Email
+                </a>
+                <a class="btn btn-gh" href="https://github.com/inassi9018-tech" target="_blank" rel="noopener noreferrer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  GitHub
+                </a>
               </div>
             </div>
           </div>
@@ -908,7 +990,7 @@
     <div class="container"><p data-i18n="footer">© 2026 Idriss Nassi · Portfolio · Énergie · Électricité · Web</p></div>
   </footer>
 
-  <a class="fab" href="https://wa.me/212606614127" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <a class="fab" href="https://wa.me/212606614127" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path>
       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.553 4.103 1.522 5.83L0 24l6.341-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.937 0-3.742-.527-5.285-1.443l-.379-.225-3.926.926.975-3.823-.248-.392A9.825 9.825 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"></path>
@@ -970,7 +1052,8 @@
         cv_note:'Format PDF · Mise à jour régulière.',
         ct_lbl:'Disponible',ct_title:'Contact',ct_sub:'N\'hésitez pas à me contacter.',
         ct_info:'Coordonnées',ct_infosub:'Disponible pour échanges et opportunités.',
-        c_name:'Nom',c_phone:'Téléphone',c_city:'Ville',c_wa:'WhatsApp',c_placeholder:'[À COMPLÉTER]',
+        c_name:'Nom',c_phone:'Téléphone / WhatsApp',c_city:'Ville',c_email:'Email',c_wa:'WhatsApp',c_placeholder:'[À COMPLÉTER]',
+        c_mail_hint:'Ouvrir l\'application mail',c_wa_hint:'Ouvrir une conversation WhatsApp',c_gh_hint:'Ouvrir le profil GitHub',
         f_title:'Message',f_sub:'Envoyez-moi un message.',f_name:'Votre nom',f_email:'Email',f_msg:'Message',f_send:'Envoyer →',
         f_err_required:'Tous les champs sont requis.',f_err_email:'Email invalide.',f_err_send:'Erreur lors de l\'envoi.',f_err_conn:'Erreur de connexion. Réessayez plus tard.',f_ok:'Message envoyé avec succès',
         footer:'© 2026 Idriss Nassi · Portfolio · Énergie · Électricité · Web'
@@ -1023,7 +1106,8 @@
         cv_note:'PDF format · Regularly updated.',
         ct_lbl:'Available',ct_title:'Contact',ct_sub:'Feel free to contact me.',
         ct_info:'Contact information',ct_infosub:'Available for exchanges and opportunities.',
-        c_name:'Name',c_phone:'Phone',c_city:'City',c_wa:'WhatsApp',c_placeholder:'[TO BE COMPLETED]',
+        c_name:'Name',c_phone:'Phone / WhatsApp',c_city:'City',c_email:'Email',c_wa:'WhatsApp',c_placeholder:'[TO BE COMPLETED]',
+        c_mail_hint:'Open the mail app',c_wa_hint:'Open a WhatsApp chat',c_gh_hint:'Open GitHub profile',
         f_title:'Message',f_sub:'Send me a message.',f_name:'Your name',f_email:'Email',f_msg:'Message',f_send:'Send →',
         f_err_required:'All fields are required.',f_err_email:'Invalid email.',f_err_send:'Error while sending.',f_err_conn:'Connection error. Please try again later.',f_ok:'Message sent successfully',
         footer:'© 2026 Idriss Nassi · Portfolio · Energy · Electricity · Web'
@@ -1076,7 +1160,8 @@
         cv_note:'صيغة PDF · يتم تحديثها بانتظام.',
         ct_lbl:'متاح',ct_title:'اتصل',ct_sub:'لا تتردد في الاتصال بي.',
         ct_info:'معلومات الاتصال',ct_infosub:'متاح للتبادل والفرص.',
-        c_name:'الاسم',c_phone:'الهاتف',c_city:'المدينة',c_wa:'واتساب',c_placeholder:'[يُستكمل لاحقًا]',
+        c_name:'الاسم',c_phone:'الهاتف / واتساب',c_city:'المدينة',c_email:'البريد الإلكتروني',c_wa:'واتساب',c_placeholder:'[يُستكمل لاحقًا]',
+        c_mail_hint:'فتح تطبيق البريد',c_wa_hint:'فتح محادثة واتساب',c_gh_hint:'فتح ملف GitHub',
         f_title:'رسالة',f_sub:'أرسل لي رسالة.',f_name:'اسمك',f_email:'البريد الإلكتروني',f_msg:'الرسالة',f_send:'إرسال ←',
         f_err_required:'جميع الحقول مطلوبة.',f_err_email:'بريد إلكتروني غير صالح.',f_err_send:'خطأ أثناء الإرسال.',f_err_conn:'خطأ في الاتصال. حاول لاحقًا.',f_ok:'تم إرسال الرسالة بنجاح',
         footer:'© 2026 إدريس ناسي · محفظة · طاقة · كهرباء · ويب'
